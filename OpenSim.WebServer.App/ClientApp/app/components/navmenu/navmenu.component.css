@@ -1,3 +1,5 @@
+@import url("../../theme/opensim-theme.css");
+
 li .glyphicon {
     margin-right: 10px;
 }
@@ -9,6 +11,15 @@ li.link-active a:focus {
     background-color: #4189C7;
     color: white;
 }
+
+<!--TODO-->
+.navbar
+.main-nav
+.navbar-collapse
+.navbar-header {
+    background: var(--theme-background-color)
+}
+    
 
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
@@ -55,5 +66,6 @@ li.link-active a:focus {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: var(--theme-text-color)
     }
 }
