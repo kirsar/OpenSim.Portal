@@ -1,7 +1,13 @@
-@import url("../../theme/opensim-theme.css");
+/* @import url(../../theme/opensim-theme.css); */
+/* TODO resolve webpack post css issue with some postcss library to enable :root css varables*/
 
 li .glyphicon {
     margin-right: 10px;
+}
+
+/* Customizing default bootstrap colors*/
+.navbar-custom {
+    background-color: #0d0846;
 }
 
 /* Highlighting rules for nav menu items */
@@ -11,15 +17,6 @@ li.link-active a:focus {
     background-color: #4189C7;
     color: white;
 }
-
-<!--TODO-->
-.navbar
-.main-nav
-.navbar-collapse
-.navbar-header {
-    background: var(--theme-background-color)
-}
-    
 
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
@@ -66,6 +63,6 @@ li.link-active a:focus {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: var(--theme-text-color)
+        color: #d8cb82;
     }
 }

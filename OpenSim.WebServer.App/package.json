@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "test": "karma start ClientApp/test/karma.conf.js"
+    "test": "karma start ClientApp/test/karma.conf.js",
+    "build": "webpack",
+    "build-original": "webpack --devtool eval-source-map"
   },
   "devDependencies": {
     "@angular/animations": "4.2.5",
