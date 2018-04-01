@@ -14,7 +14,7 @@ li .glyphicon {
 li.link-active a,
 li.link-active a:hover,
 li.link-active a:focus {
-    background-color: #4189C7;
+    background-color: rgba(169, 201, 241, 0.14);
     color: white;
 }
 
@@ -55,7 +55,6 @@ li.link-active a:focus {
     }
     .navbar li a {
         padding: 10px 16px;
-        border-radius: 4px;
     }
     .navbar a {
         /* If a menu item's text is too long, truncate it */
@@ -63,6 +62,6 @@ li.link-active a:focus {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: #d8cb82;
+        color: #b4b4ca;
     }
 }
