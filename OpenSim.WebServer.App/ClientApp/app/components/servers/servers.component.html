@@ -1,18 +1,25 @@
+<!--TODO use https://github.com/valor-software/ngx-bootstrap to avoid jQuery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <h1>List of servers</h1>
-
 <p *ngIf="!servers"><em>Loading...</em></p>
-
-<table class='table' *ngIf="servers">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let server of servers">
-            <td>{{ server.name }}</td>
-            <td>{{ server.description }}</td>
-        </tr>
-    </tbody>
-</table>
+<ul *ngIf="servers">
+    <li *ngFor="let server of servers">
+        <div class="dropdown" dropdown (onOpen)="printOpening()" (onClose)="printClosing()">
+            <button class="btn btn-primary" dropdown-open>
+                <p> {{ server.name }} </p>
+                <p> {{ server.description }} </p>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let simulation of server.simulations">
+                        <a href="#"> {{ simulation.name }} </a>
+                    </li>
+                    <li *ngFor="let presentation of server.presentations">
+                        <a href="#"> {{ presentation.name }} </a>
+                    </li>
+                </ul>
+            </button>
+        </div>
+    </li>
+</ul>
