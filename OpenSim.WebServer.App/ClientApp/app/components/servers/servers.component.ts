@@ -9,7 +9,7 @@ export class ServersComponent {
     public servers: Server[];
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
-        http.get(baseUrl + 'api/server').subscribe(result => {
+        http.get(baseUrl + 'api/v1/server').subscribe(result => {
             this.servers = result.json() as Server[];
         }, error => console.error(error));
     }

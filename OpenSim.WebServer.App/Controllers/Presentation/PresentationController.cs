@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OpenSim.WebServer.App.Controllers.Presentation
 {
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class PresentationController : Controller
     {
         private readonly IPresentationRepository repo;

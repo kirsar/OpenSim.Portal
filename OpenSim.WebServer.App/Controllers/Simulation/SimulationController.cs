@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OpenSim.WebServer.App.Controllers.Simulation
 {
+    [ApiVersion("1.0")]
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class SimulationController : Controller
     {
         private readonly ISimulationRepository repo;
