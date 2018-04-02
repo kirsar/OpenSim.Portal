@@ -33,21 +33,4 @@ namespace OpenSim.WebServer.App.Controllers.Server
 
         public void Update(Server server) => servers[server.Id] = server;
     }
-
-    public static class ServerRepositoryConfiguration
-    {
-        public static void Seed(this IServerRepository repo)
-        {
-            repo.Add(new Server
-            {
-                Name = "Just some server",
-                Description = "Server to have some data available to test portal front-end"
-            });
-            repo.Add(new Server
-            {
-                Name = "Another test serfer",
-                Description = "One more entry to test portal front-end"
-            });
-        }
-    }
 }
