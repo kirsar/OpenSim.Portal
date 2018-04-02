@@ -5,7 +5,7 @@ namespace OpenSim.WebServer.App.Controllers.Server
 {
     public class ServerRepository : IServerRepository
     {
-        private ConcurrentDictionary<int, Server> servers = new ConcurrentDictionary<int, Server>();
+        private ConcurrentDictionary<long, Server> servers = new ConcurrentDictionary<long, Server>();
         private int currentId;
 
         private int GetId() => currentId++;
@@ -17,20 +17,37 @@ namespace OpenSim.WebServer.App.Controllers.Server
             servers[id] = server;
         }
 
-        public Server Find(int id)
+        public Server Get(long id)
         {
-            servers.TryGetValue(id, out Server server);
-            return servers[id];
+            servers.TryGetValue(id, out var server);
+            return server;
         }
 
         public IEnumerable<Server> GetAll() => servers.Values;
 
-        public Server Remove(int id)
+        public Server Remove(long id)
         {
-            servers.TryRemove(id, out Server server);
+            servers.TryRemove(id, out var server);
             return server;
         }
 
         public void Update(Server server) => servers[server.Id] = server;
+    }
+
+    public static class ServerRepositoryConfiguration
+    {
+        public static void Seed(this IServerRepository repo)
+        {
+            repo.Add(new Server
+            {
+                Name = "Just some server",
+                Description = "Server to have some data available to test portal front-end"
+            });
+            repo.Add(new Server
+            {
+                Name = "Another test serfer",
+                Description = "One more entry to test portal front-end"
+            });
+        }
     }
 }

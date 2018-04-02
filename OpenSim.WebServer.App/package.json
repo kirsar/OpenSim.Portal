@@ -1,11 +1,12 @@
 {
-  "name": "OpenSim.WebServer.App",
+  "name": "opensim.portal",
   "private": true,
   "version": "0.0.0",
   "scripts": {
     "test": "karma start ClientApp/test/karma.conf.js",
-    "build": "webpack",
-    "build-original": "webpack --devtool eval-source-map"
+    "build": "webpack --config webpack.config.js",
+    "profile": "webpack --profile --json > webpack-stats.json",
+    "build-full-sources": "webpack --devtool eval-source-map"
   },
   "devDependencies": {
     "@angular/animations": "4.2.5",

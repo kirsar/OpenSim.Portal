@@ -1,1 +1,6 @@
-.gitignore per solution
+1   gitignore per solution
+5   generic handling of api version
+10  why signletone is reconstructed after accessed before WebHost.Build() is called?
+20  clean unneeded asp and npm references
+50  ensure I'm selfhost and why I need OWIN then?
+100 post css for webpack

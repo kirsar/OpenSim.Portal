@@ -1,10 +1,14 @@
-﻿namespace OpenSim.WebServer.App.Controllers.Server
+﻿using System.Collections.Generic;
+
+namespace OpenSim.WebServer.App.Controllers.Server
 {
     public class Server
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public long OwnedId { get; set; }
+        public User.User Author { get; set; }
+        public IEnumerable<Simulation.Simulation> Simulations { get; set; }
+        public IEnumerable<Presentation.Presentation> Presentations { get; set; }
     }
 }

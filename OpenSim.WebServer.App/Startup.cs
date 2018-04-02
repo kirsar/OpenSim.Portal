@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using OpenSim.WebServer.App.Controllers.Presentation;
 using OpenSim.WebServer.App.Controllers.Server;
+using OpenSim.WebServer.App.Controllers.Simulation;
+using OpenSim.WebServer.App.Controllers.User;
 
 namespace OpenSim.WebServer.App
 {
@@ -22,7 +24,10 @@ namespace OpenSim.WebServer.App
         {
             services.AddMvc();
 
+            services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IServerRepository, ServerRepository>();
+            services.AddSingleton<ISimulationRepository, SimulationRepository>();
+            services.AddSingleton<IPresentationRepository, PresentationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

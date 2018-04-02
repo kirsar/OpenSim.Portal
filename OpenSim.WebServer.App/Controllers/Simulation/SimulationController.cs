@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OpenSim.WebServer.App.Controllers.Server
+namespace OpenSim.WebServer.App.Controllers.Simulation
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ServerController : Controller
+    public class SimulationController : Controller
     {
-        private readonly IServerRepository repo;
+        private readonly ISimulationRepository repo;
 
-        public ServerController(IServerRepository repo)
+        public SimulationController(ISimulationRepository repo)
         {
             this.repo = repo;
         }
 
-        // GET: api/Server
+        // GET: api/Simulation
         [HttpGet]
-        public IEnumerable<Server> Get() => repo.GetAll();
+        public IEnumerable<Simulation> Get() => repo.GetAll();
 
-        // GET: api/Server/5
+        // GET: api/Simulation/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -29,10 +29,10 @@ namespace OpenSim.WebServer.App.Controllers.Server
 
             return new ObjectResult(server);
         }
-        
-        // POST: api/Server
+
+        // POST: api/Simulation
         [HttpPost]
-        public IActionResult Post([FromBody]Server server)
+        public IActionResult Post([FromBody]Simulation server)
         {
             if (server == null)
                 return BadRequest();
@@ -41,10 +41,10 @@ namespace OpenSim.WebServer.App.Controllers.Server
 
             return CreatedAtRoute("Get", new { id = server.Id }, server);
         }
-        
-        // PUT: api/Server/5
+
+        // PUT: api/Simulation/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Server server)
+        public IActionResult Put(int id, [FromBody]Simulation server)
         {
             if (server == null || server.Id != id)
                 return BadRequest();
@@ -56,13 +56,12 @@ namespace OpenSim.WebServer.App.Controllers.Server
             repo.Update(server);
             return new NoContentResult();
         }
-        
-        // DELETE: api/ApiWithActions/5
+
+        // DELETE: api/ApiWithAction/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var sever = repo.Get(id);
-            if (repo == null)
+            if (repo.Get(id) == null)
                 return NotFound();
             
             repo.Remove(id);

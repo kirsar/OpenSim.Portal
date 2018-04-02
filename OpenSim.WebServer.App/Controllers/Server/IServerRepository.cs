@@ -6,8 +6,8 @@ namespace OpenSim.WebServer.App.Controllers.Server
     {
         void Add(Server server);
         IEnumerable<Server> GetAll();
-        Server Find(int id);
-        Server Remove(int id);
+        Server Get(long id);
+        Server Remove(long id);
         void Update(Server server);
     }
 }
