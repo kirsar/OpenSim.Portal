@@ -1,12 +1,11 @@
 import { Component, Inject, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { Http } from "@angular/http";
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-import { DropdownModule } from "ngx-dropdown";
 
 @Component({
     selector: 'servers',
-    templateUrl: './servers.component.html'
+    templateUrl: './servers.component.html',
+    styleUrls: ['./servers.component.css']
 })
 export class ServersComponent {
     public servers: Server[];
@@ -16,35 +15,7 @@ export class ServersComponent {
             this.servers = result.json() as Server[];
         }, error => console.error(error));
     }
-
-    printOpening() {
-        debugger;
-        console.log("opened!");
-    }
-
-    printClosing() {
-        debugger;
-        console.log("closed!");
-    }
 }
-
-@NgModule({
-    imports: [
-        BrowserModule,
-        DropdownModule
-    ],
-    declarations: [
-        ServersComponent
-    ],
-    bootstrap: [
-        ServersComponent
-    ]
-})
-
-export class ServerModule {
-}
-
-platformBrowserDynamic().bootstrapModule(ServerModule);
 
 interface Server {
     id: number;

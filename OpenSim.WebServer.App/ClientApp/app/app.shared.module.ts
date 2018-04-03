@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
+import { ExpandableListModule } from 'angular2-expandable-list';
+
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
@@ -23,6 +25,7 @@ import { CounterComponent } from './components/counter/counter.component';
         CommonModule,
         HttpModule,
         FormsModule,
+        ExpandableListModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
@@ -30,7 +33,8 @@ import { CounterComponent } from './components/counter/counter.component';
             { path: 'server', component: ServersComponent },
             { path: '**', redirectTo: 'home' }
         ])
-    ]
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModuleShared {
 }
