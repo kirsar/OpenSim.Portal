@@ -8,6 +8,9 @@ using OpenSim.WebServer.App.Controllers.Presentation;
 using OpenSim.WebServer.App.Controllers.Server;
 using OpenSim.WebServer.App.Controllers.Simulation;
 using OpenSim.WebServer.App.Controllers.User;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using PartialResponse.Extensions.DependencyInjection;
+using PartialResponse.AspNetCore.Mvc;
 
 namespace OpenSim.WebServer.App
 {
@@ -23,7 +26,10 @@ namespace OpenSim.WebServer.App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services
+                .AddMvc(options => options.OutputFormatters.RemoveType<JsonOutputFormatter>())
+                .AddPartialJsonFormatters()
+                .AddPartialJsonOptions(options => options.IgnoreCase = true);
 
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IServerRepository, ServerRepository>();
