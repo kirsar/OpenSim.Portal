@@ -4,15 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using PartialResponse.Extensions.DependencyInjection;
 using OpenSim.WebServer.App.Controllers.Presentation;
 using OpenSim.WebServer.App.Controllers.Server;
 using OpenSim.WebServer.App.Controllers.Simulation;
 using OpenSim.WebServer.App.Controllers.User;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using PartialResponse.Extensions.DependencyInjection;
-using PartialResponse.AspNetCore.Mvc;
 
-namespace OpenSim.WebServer.App
+namespace OpenSim.WebServer.App.Startup
 {
     public class Startup
     {
@@ -30,6 +31,7 @@ namespace OpenSim.WebServer.App
                 .AddMvc(options => options.OutputFormatters.RemoveType<JsonOutputFormatter>())
                 .AddPartialJsonFormatters()
                 .AddPartialJsonOptions(options => options.IgnoreCase = true);
+                //.AddJsonHalFormatterServices();
 
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IServerRepository, ServerRepository>();

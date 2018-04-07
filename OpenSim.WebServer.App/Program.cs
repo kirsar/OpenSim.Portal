@@ -14,7 +14,7 @@ namespace OpenSim.WebServer.App
         public static IWebHost BuildWebHost(string[] args)
         {
             var host = WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+                .UseStartup<Startup.Startup>()
                 .Build();
 
             new RepositoryConfiguration(host.Services).Seed();

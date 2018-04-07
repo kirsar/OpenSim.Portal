@@ -41,7 +41,7 @@ namespace OpenSim.WebServer.App.Controllers
                 Description = "Simulation of simple ship without any mechanics or hydrodynamics. " +
                               "Can be used to emulate far distance traffic" + DummyText,
                 Author = user,
-                SupprotedSimulations = new [] {seaCurrent}
+                SupportedSimulations = new [] {seaCurrent}
             };
 
             var experinemtalBuoy = new Simulation.Simulation

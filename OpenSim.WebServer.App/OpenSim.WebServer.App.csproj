@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="PartialResponse.AspNetCore.Mvc.Formatters.Json" Version="3.0.0" />
+    <PackageReference Include="WebApi.Hal" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
