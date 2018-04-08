@@ -1,15 +1,19 @@
-<h1>List of servers</h1>
 <p *ngIf="!servers"><em>Loading...</em></p>
 
 <ul class="server-list" *ngIf="servers">
     <li *ngFor="let server of servers">
         <expandable-list>
             <expandable-list-item>
-                <span title>{{ server.name }}</span>
-                    
-                    <a class="simulation" item *ngFor="let simulation of server.simulations" href="http://www.goo.gl">{{ simulation.name }}</a>
-                    <a class="presentation" item *ngFor="let presentation of server.presentations" href="http://www.goo.gl">{{ presentation.name }}</a>
-                
+                <div title>
+                    <span>{{ server.name }}</span>
+                    <span id="server-item-running" *ngIf="server.isRunning" class="glyphicon glyphicon-play"></span>
+                    <span id="server-item-stopped" *ngIf="!server.isRunning" class="glyphicon glyphicon-stop"></span>
+                    <span id="server-item-author">{{ server.author.name }}</span>
+                </div>
+
+                <a class="simulation item" item *ngFor="let simulation of server.simulations" href="http://www.goo.gl">{{ simulation.name }}</a>
+                <a class="presentation item" item *ngFor="let presentation of server.presentations" href="http://www.goo.gl">{{ presentation.name }}</a>
+
             </expandable-list-item>
         </expandable-list>
     </li>

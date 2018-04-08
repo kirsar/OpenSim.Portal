@@ -1,6 +1,37 @@
+.server-list {
+    width: 50%;
+    min-width: 300px;
+    margin-top: 20px;
+}
+
+.server-list li {
+    list-style-type: none;
+    margin-bottom: 12px;
+}
+
 .server-list expandable-list-item {
-    background-color: #47b720;
-    border-radius: 6px
+    background-color: rgba(71, 183, 32, 0.13);
+    border-radius: 6px;
+}
+
+.expandable-list-item__dropdown {
+    display: none;
+}
+
+.item {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 6px;
+}
+
+#server-item-running {
+    color: #317a13;
+}
+
+#server-item-stopped {
+    color: #ef4e38;
 }
 
 .simulation {

@@ -12,7 +12,8 @@ export class ServersComponent {
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string) {
         http.get(baseUrl + 'api/v1/server?fields=' +
-            'name,description,' +
+            'name,description,isRunning,' +
+                'author(name),' +
                 'simulations(name),' +
                 'presentations(name)').subscribe(result => {
             this.servers = result.json() as Server[];
@@ -24,8 +25,13 @@ interface Server {
     id: number;
     name: string;
     description: string;
+    isRunning: boolean;
     simulations: Simulation[];
     presentations: Presentation[];
+}
+
+interface Author {
+    name: string;
 }
 
 interface Simulation {

@@ -27,12 +27,20 @@ namespace OpenSim.WebServer.App.Controllers
                 Password = "pwd"
             };
 
+            var corporation = new User.User
+            {
+                Name = "Umbrella corp.",
+                Description = "Huge vendor of maritime simulators",
+                Login = "umbrella",
+                Password = "umbrella"
+            };
+
             var seaCurrent = new Simulation.Simulation
             {
                 Name = "Sea Current",
                 Description = "Engine to provide sea current effects, applied to floating objects, " +
                               "such as drifting or" + DummyText,
-                Author = user
+                Author = corporation
             };
 
             var simpleShip = new Simulation.Simulation
@@ -55,7 +63,7 @@ namespace OpenSim.WebServer.App.Controllers
             {
                 Name = "Chart",
                 Description = "Electronic chart in Mercator projection",
-                Author = user,
+                Author = corporation,
                 SupportedBy = new[] {simpleShip, seaCurrent}
             };
 
@@ -71,7 +79,8 @@ namespace OpenSim.WebServer.App.Controllers
             {
                 Name = "Just some server",
                 Description = "Server to have some data available to test portal front-end",
-                Author = user,
+                Author = corporation,
+                IsRunning = true,
                 Simulations = new [] { simpleShip, seaCurrent },
                 Presentations = new [] { steeringPanel, chart }
             };
@@ -79,7 +88,9 @@ namespace OpenSim.WebServer.App.Controllers
             {
                 Name = "Another test serfer",
                 Description = "One more entry to test portal front-end",
-                Simulations = new []{ experinemtalBuoy }
+                Author = user,
+                IsRunning = false,
+                Simulations = new [] { experinemtalBuoy }
             };
 
             var users = serviceProvider.GetService<IUserRepository>();
