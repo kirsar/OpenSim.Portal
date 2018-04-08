@@ -1,25 +1,21 @@
 <p *ngIf="!servers"><em>Loading...</em></p>
 
-<div id="server-list" *ngIf="servers">
-    <div class="server-item" *ngFor="let server of servers">
+<ul class="server-list" *ngIf="servers">
+    <li *ngFor="let server of servers">
         <expandable-list>
             <expandable-list-item>
-                <div title class="server-item-header">
-                    <div class="column-name"><span>{{ server.name }}</span></div>
-                    <div class="column-run-status">
-                       <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
-                       <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
-                    </div>
-                    <div class="column-author">
-                        <span id="server-item-author">{{ server.author.name }}</span>
-                    </div>
+                <div title>
+                    <span>{{ server.name }}</span>
+                    <span id="server-item-running" *ngIf="server.isRunning" class="glyphicon glyphicon-play"></span>
+                    <span id="server-item-stopped" *ngIf="!server.isRunning" class="glyphicon glyphicon-stop"></span>
+                    <span id="server-item-author">{{ server.author.name }}</span>
                 </div>
 
-                <a class="simulation referenced-item" item *ngFor="let simulation of server.simulations" href="http://www.goo.gl">{{ simulation.name }}</a>
-                <a class="presentation referenced-item" item *ngFor="let presentation of server.presentations" href="http://www.goo.gl">{{ presentation.name }}</a>
+                <a class="simulation item" item *ngFor="let simulation of server.simulations" href="http://www.goo.gl">{{ simulation.name }}</a>
+                <a class="presentation item" item *ngFor="let presentation of server.presentations" href="http://www.goo.gl">{{ presentation.name }}</a>
 
             </expandable-list-item>
         </expandable-list>
-    </div>
-</div>
+    </li>
+</ul>
 
