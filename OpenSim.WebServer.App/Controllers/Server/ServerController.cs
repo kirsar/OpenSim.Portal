@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace OpenSim.WebServer.App.Controllers.Server
 {
     [ApiVersion("1.0")]
-    [Produces("application/json")]
+    [Produces("application/hal+json")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ServerController : Controller
     {
@@ -17,7 +17,7 @@ namespace OpenSim.WebServer.App.Controllers.Server
 
         // GET: api/Server
         [HttpGet]
-        public IEnumerable<Server> Get() => repo.GetAll();
+        public ServerCollection Get() => repo.GetAll();
 
         // GET: api/Server/5
         [HttpGet("{id}")]

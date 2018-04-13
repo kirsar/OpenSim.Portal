@@ -9,7 +9,7 @@ namespace OpenSim.WebServer.App.Controllers
             /// <summary>
             /// /servers
             /// </summary>
-            public static Link GetServers { get { return new Link("server", "~/server"); } }
+            public static Link GetServers { get { return new Link("servers", "~/servers"); } }
 
             /// <summary>
             /// /servers/{id}

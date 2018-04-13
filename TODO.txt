@@ -1,6 +1,20 @@
-1   gitignore per solution
+Portal
+1   why all goes through json formatter, even version of api
+2   go to plural for controller
+3   align collection with good hal style
+4   fix ts for hal
+5   fix 'flex' in expander
+6   finish servers page
+7   create something for presentations and simulations
+8   think about API point plugin entry
+9   gitignore per solution
 10  why signletone is reconstructed after accessed before WebHost.Build() is called?
 20  clean unneeded asp and npm references
+30  rename to Portal
 50  ensure I'm selfhost and why I need OWIN then?
+60  move data to postgres (or MS?)
 70  figure out about prerendering with asp-prerenderer (index.cshtml) 
 100 post css for webpack
+110 how I can use html <map>
+
+Platform

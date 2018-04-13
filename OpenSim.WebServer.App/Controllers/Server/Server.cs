@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using WebApi.Hal;
 
 namespace OpenSim.WebServer.App.Controllers.Server
