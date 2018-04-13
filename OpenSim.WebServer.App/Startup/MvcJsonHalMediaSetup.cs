@@ -53,7 +53,7 @@ namespace OpenSim.WebServer.App.Startup
 
         public void Configure(MvcOptions options)
         {
-            options.OutputFormatters.Add(new JsonHalMediaTypeOutputFormatter(jsonSerializerSettings, charPool));
+            options.OutputFormatters.Add(new PartialJsonHalMediaTypeOutputFormatter(jsonSerializerSettings, charPool, true));
 
             // Register JsonPatchInputFormatter before JsonInputFormatter, otherwise
             // JsonInputFormatter would consume "application/json-patch+json" requests

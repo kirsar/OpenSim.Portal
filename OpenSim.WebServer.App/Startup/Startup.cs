@@ -29,9 +29,7 @@ namespace OpenSim.WebServer.App.Startup
         {
             services
                 .AddMvc(options => options.OutputFormatters.RemoveType<JsonOutputFormatter>())
-                .AddPartialJsonFormatters()
-                .AddPartialJsonOptions(options => options.IgnoreCase = true);
-                //.AddJsonHalFormatterServices();
+                .AddJsonHalFormatterServices();
 
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IServerRepository, ServerRepository>();
