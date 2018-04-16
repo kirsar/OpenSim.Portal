@@ -10,11 +10,19 @@ namespace OpenSim.WebServer.App.Controllers.Server
         {
         }
 
+        #region HAL
+
+        public override string Href
+        {
+            get => LinkTemplates.Servers.GetServers.Href;
+            set { }
+        }
+
         protected override void CreateHypermedia()
         {
-            Href = LinkTemplates.Servers.GetServers.Href;
-
             Links.Add(new Link { Href = Href, Rel = "self" });
         }
+
+        #endregion
     }
 }

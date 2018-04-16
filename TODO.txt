@@ -12,6 +12,8 @@ Portal
 20  clean unneeded asp and npm references
 30  rename to Portal
 50  ensure I'm selfhost and why I need OWIN then?
+55  regulate _embedded data for pure HAL without ?fields
+58  web api with pagination
 60  move data to postgres (or MS?)
 70  figure out about prerendering with asp-prerenderer (index.cshtml) 
 100 post css for webpack

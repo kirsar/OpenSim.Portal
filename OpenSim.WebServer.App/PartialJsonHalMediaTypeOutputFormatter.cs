@@ -54,9 +54,7 @@ namespace WebApi.Hal
         
         protected override bool CanWriteType(Type type)
         {
-            // TODO: figure out: why all, even api version, goes through here?
-            //return typeof(Representation).IsAssignableFrom(type);
-            return true;
+            return typeof(Representation).IsAssignableFrom(type);
         }
     }
 }
