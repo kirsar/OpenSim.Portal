@@ -7,14 +7,15 @@
                 <div title>
                     <div class="column-name"><span>{{ server.name }}</span></div>
                     <div class="column-run-status">
-                       <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
-                       <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
+                        <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
+                        <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
                     </div>
                     <div class="column-author">
-                        <span id="server-item-author">{{ server.author.name }}</span>
+                        <span>{{ server.author.name }}</span>
                     </div>
                 </div>
-
+                
+                <p class="column-description" item>{{ server.description }}</p>
                 <a class="simulation referenced-item" item *ngFor="let simulation of server.simulations" href="http://www.goo.gl">{{ simulation.name }}</a>
                 <a class="presentation referenced-item" item *ngFor="let presentation of server.presentations" href="http://www.goo.gl">{{ presentation.name }}</a>
 

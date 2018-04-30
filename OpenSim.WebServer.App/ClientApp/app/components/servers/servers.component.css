@@ -43,6 +43,11 @@
     margin: 0 5%
 }
 
+.column-description {
+    font-size: 70%;
+    margin: -24px 0 0 4%;
+}
+
 .referenced-item {
     margin-top: 4px;
     margin-bottom: 4px;

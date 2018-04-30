@@ -52,7 +52,7 @@ namespace OpenSim.WebServer.App.Controllers
                 SupportedSimulations = new [] {seaCurrent}
             };
 
-            var experinemtalBuoy = new Simulation.Simulation
+            var experimentalBuoy = new Simulation.Simulation
             {
                 Name = "Hydrodynamic buoy",
                 Description = "Experimental model of buoy with full hydrodynamics",
@@ -86,11 +86,11 @@ namespace OpenSim.WebServer.App.Controllers
             };
             var stoppedServer = new Server.Server
             {
-                Name = "Another test serfer",
+                Name = "Another test server",
                 Description = "One more entry to test portal front-end",
                 Author = user,
                 IsRunning = false,
-                Simulations = new [] { experinemtalBuoy }
+                Simulations = new [] { experimentalBuoy }
             };
 
             var users = serviceProvider.GetService<IUserRepository>();
@@ -102,7 +102,7 @@ namespace OpenSim.WebServer.App.Controllers
 
             simulations.Add(simpleShip);
             simulations.Add(seaCurrent);
-            simulations.Add(experinemtalBuoy);
+            simulations.Add(experimentalBuoy);
 
             presentations.Add(chart);
             presentations.Add(steeringPanel);
