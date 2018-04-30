@@ -4,7 +4,7 @@
     <div class="server-item" *ngFor="let server of servers">
         <expandable-list>
             <expandable-list-item>
-                <div title class="server-item-header">
+                <div title>
                     <div class="column-name"><span>{{ server.name }}</span></div>
                     <div class="column-run-status">
                        <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
