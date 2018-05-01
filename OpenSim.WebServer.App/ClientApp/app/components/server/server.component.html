@@ -1,10 +1,19 @@
 <div *ngIf="server">
-    <h2>{{ server.name }}</h2>
+    <h2 id="name">{{ server.name }}</h2>
 
-    <p>{{ server.description }}</p>
+    <div id="run-status">
+        <span *ngIf="server.isRunning" class="run-status-running glyphicon glyphicon-play"></span>
+        <span *ngIf="!server.isRunning" class="run-status-stopped glyphicon glyphicon-stop"></span>
+    </div>
 
-    <p>{{ server.author.name }}</p>
+    <p id="description">{{ server.description }}</p>
 
+    <p>
+        <span>By </span>
+        <a routerLink="{{ server.author.name }}">{{ server.author.name }}.</a>
+        <span>{{ server.author.description }} </span>
+    </p>
+    
     <section class="item-container">
         <figure class="simulation item" *ngFor="let simulation of server.simulations">
             <a class="simulation-link link" routerLink="{{ simulation.id }}">{{ simulation.name }}</a>
