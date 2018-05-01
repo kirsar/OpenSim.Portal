@@ -1,0 +1,24 @@
+<div *ngIf="server">
+    <h2>{{ server.name }}</h2>
+
+    <p>{{ server.description }}</p>
+
+    <p>{{ server.author.name }}</p>
+
+    <div id="simulations-container">
+        <section class="simulation" *ngFor="let simulation of server.simulations">
+            <a class="simulation-link" routerLink="{{ simulation.id }}">{{ simulation.name }}</a>
+
+            <p>{{ simulation.description }}</p>
+        </section>
+    </div>
+
+    <div id="presentations-container">
+        <section class="presentation" *ngFor="let presentation of server.presentations">
+            <a class="presentation-link" routerLink="{{ presentation.id }}">{{ presentation.name }}</a>
+
+            <p>{{ presentation.description }}</p>
+        </section>
+    </div>
+</div>
+

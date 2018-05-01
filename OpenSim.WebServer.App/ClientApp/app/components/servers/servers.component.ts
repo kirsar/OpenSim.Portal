@@ -11,18 +11,15 @@ export class ServersComponent {
     public servers: Server[];
 
     constructor(http: Http, @Inject("BASE_URL") baseUrl: string) {
-        http.get(baseUrl + "api/v1/servers?fields=_embedded/servers(" +
-            "name,description,isRunning," +
+        http.get(baseUrl + "api/v1/servers?fields=" +
+            "_embedded/servers(" +
+                "id,name,description,isRunning," +
                 "author(name)," +
                 "simulations(name)," +
                 "presentations(name))").subscribe(result => {
                     this.servers = result.json()._embedded.servers as Server[];
         }, error => console.error(error));
     }
-}
-
-interface EmbeddedData {
-    servers: Server[];
 }
 
 interface Server {

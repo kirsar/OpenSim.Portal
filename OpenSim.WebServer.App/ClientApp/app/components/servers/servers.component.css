@@ -20,6 +20,7 @@
 
 .column-name {
     float: left;
+    text-decoration: none;
     /*width: 40%;*/
 }
 
@@ -56,10 +57,10 @@
 }
 
 .simulation {
-    background-color: #518fb7;
+    background-color: rgba(81, 143, 183, 0.69);
 }
 
 .presentation {
-    background-color: #e6bd35;
+    background-color: rgba(230, 189, 53, 0.65);
 }
 

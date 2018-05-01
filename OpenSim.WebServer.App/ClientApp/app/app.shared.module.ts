@@ -10,6 +10,7 @@ import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { ServersComponent } from './components/servers/servers.component';
+import { ServerComponent } from './components/server/server.component';
 
 import { CounterComponent } from './components/counter/counter.component';
 
@@ -19,6 +20,7 @@ import { CounterComponent } from './components/counter/counter.component';
         NavMenuComponent,
         CounterComponent,
         ServersComponent,
+        ServerComponent,
         HomeComponent
     ],
     imports: [
@@ -30,7 +32,8 @@ import { CounterComponent } from './components/counter/counter.component';
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'counter', component: CounterComponent },
-            { path: 'server', component: ServersComponent },
+            { path: 'servers', component: ServersComponent },
+            { path: 'servers/:id', component: ServerComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ],

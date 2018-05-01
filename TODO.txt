@@ -12,6 +12,7 @@ Portal
 55  regulate _embedded data for pure HAL without ?fields
 58  web api with pagination
 60  move data to postgres (or MS?)
+70  mobile adaptive ui for server list
 100 post css for webpack
 110 how I can use html <map>
 

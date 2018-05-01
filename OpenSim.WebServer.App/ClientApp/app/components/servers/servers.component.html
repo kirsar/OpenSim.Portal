@@ -1,5 +1,3 @@
-<p *ngIf="!servers"><em>Loading...</em></p>
-
 <div id="server-list" *ngIf="servers">
     <div class="server-item" *ngFor="let server of servers">
         <expandable-list>
@@ -9,7 +7,7 @@
                         <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
                         <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
                     </div>
-                    <div class="column-name"><span>{{ server.name }}</span></div>
+                    <a class="column-name" routerLink="{{ server.id }}">{{ server.name }}</a>
                     <div class="column-author">
                         <span>{{ server.author.name }}</span>
                     </div>
