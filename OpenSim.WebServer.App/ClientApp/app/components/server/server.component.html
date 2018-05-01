@@ -5,20 +5,20 @@
 
     <p>{{ server.author.name }}</p>
 
-    <div id="simulations-container">
-        <section class="simulation" *ngFor="let simulation of server.simulations">
-            <a class="simulation-link" routerLink="{{ simulation.id }}">{{ simulation.name }}</a>
+    <section class="item-container">
+        <figure class="simulation item" *ngFor="let simulation of server.simulations">
+            <a class="simulation-link link" routerLink="{{ simulation.id }}">{{ simulation.name }}</a>
 
             <p>{{ simulation.description }}</p>
-        </section>
-    </div>
+        </figure>
+    </section>
 
-    <div id="presentations-container">
-        <section class="presentation" *ngFor="let presentation of server.presentations">
-            <a class="presentation-link" routerLink="{{ presentation.id }}">{{ presentation.name }}</a>
+    <section class="item-container">
+        <figure class="presentation item" *ngFor="let presentation of server.presentations">
+            <a class="presentation-link link" routerLink="{{ presentation.id }}">{{ presentation.name }}</a>
 
             <p>{{ presentation.description }}</p>
-        </section>
-    </div>
+        </figure>
+    </section>
 </div>
 
