@@ -1,12 +1,13 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
+using OpenSim.WebServer.Model;
 using WebApi.Hal;
 
-namespace OpenSim.WebServer.App.Controllers.Server
+namespace OpenSim.WebServer.Controllers
 {
-    public class ServerCollection : SimpleListRepresentation<Server>
+    public class ServerCollection : SimpleListRepresentation<ServerResource>
     {
-        public ServerCollection(IList<Server> servers) : base(servers)
+        public ServerCollection(IEnumerable<Server> servers) : base(servers.Select(s => new ServerResource(s)).ToList())
         {
         }
 

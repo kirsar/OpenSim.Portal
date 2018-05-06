@@ -20,7 +20,7 @@
 
     <section class="item-container">
         <figure class="simulation item" *ngFor="let simulation of server.simulations">
-            <a class="simulation-link link" href="simulation\{{ simulation.id }}">{{ simulation.name }}</a>
+            <a class="simulation-link link" routerLink="{{ simulation.id }}">{{ simulation.name }}</a>
 
             <p>{{ simulation.description }}</p>
         </figure>

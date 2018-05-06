@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using OpenSim.WebServer.Model;
 
-namespace OpenSim.WebServer.App.Controllers.Presentation
+namespace OpenSim.WebServer.Controllers
 {
     [ApiVersion("1.0")]
     [Produces("application/json")]
@@ -17,7 +19,7 @@ namespace OpenSim.WebServer.App.Controllers.Presentation
 
         // GET: api/Simulation
         [HttpGet]
-        public IEnumerable<Presentation> Get() => repo.GetAll();
+        public IEnumerable<PresentationResource> Get() => repo.GetAll().Select(p => new PresentationResource(p));
 
         // GET: api/Simulation/5
         [HttpGet("{id}")]
@@ -28,24 +30,28 @@ namespace OpenSim.WebServer.App.Controllers.Presentation
             if (presentation == null)
                 return NotFound();
 
-            return new ObjectResult(presentation);
+            return new ObjectResult(new PresentationResource(presentation));
         }
 
         // POST: api/Simulation
         [HttpPost]
-        public IActionResult Post([FromBody]Presentation presentation)
+        public IActionResult Post([FromBody]PresentationResource presentation)
         {
             if (presentation == null)
                 return BadRequest();
 
-            repo.Add(presentation);
+            repo.Add(new Presentation
+            {
+                Name = presentation.Name,
+                // TODO
+            });
 
             return CreatedAtRoute("Get", new { id = presentation.Id }, presentation);
         }
 
         // PUT: api/Simulation/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Presentation presentation)
+        public IActionResult Put(int id, [FromBody]PresentationResource presentation)
         {
             if (presentation == null || presentation.Id != id)
                 return BadRequest();
@@ -54,7 +60,13 @@ namespace OpenSim.WebServer.App.Controllers.Presentation
             if (todo == null)
                 return NotFound();
         
-            repo.Update(presentation);
+            repo.Update(new Presentation
+            {
+                Id = presentation.Id,
+                Name = presentation.Name,
+                // TODO
+            });
+
             return new NoContentResult();
         }
 

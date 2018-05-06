@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace OpenSim.WebServer.App.Controllers.User
+namespace OpenSim.WebServer.Model
 {
     public class UserRepository : IUserRepository
     {
@@ -20,9 +20,7 @@ namespace OpenSim.WebServer.App.Controllers.User
             users.TryGetValue(id, out var user);
             return user;
         }
-
-        public UserDetails GetDetails(long id) => Get(id)?.ToUserDetails();
-
+               
         public IEnumerable<User> GetAll() => users.Values;
 
         public void Update(User user) => users[user.Id] = user;

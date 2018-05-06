@@ -6,6 +6,7 @@ using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using WebApi.Hal;
+using OpenSim.WebServer.Controllers;
 
 namespace OpenSim.WebServer.App.Startup
 {

@@ -11,6 +11,8 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { ServersComponent } from './components/servers/servers.component';
 import { ServerComponent } from './components/server/server.component';
+import { SimulationComponent } from './components/simulation/simulation.component';
+import { PresentationComponent } from './components/presentation/presentation.component';
 
 import { CounterComponent } from './components/counter/counter.component';
 
@@ -21,6 +23,8 @@ import { CounterComponent } from './components/counter/counter.component';
         CounterComponent,
         ServersComponent,
         ServerComponent,
+        SimulationComponent,
+        PresentationComponent,
         HomeComponent
     ],
     imports: [
@@ -34,6 +38,8 @@ import { CounterComponent } from './components/counter/counter.component';
             { path: 'counter', component: CounterComponent },
             { path: 'servers', component: ServersComponent },
             { path: 'servers/:id', component: ServerComponent },
+            { path: 'simulation/:id', component: SimulationComponent },
+            { path: 'presentation/:id', component: PresentationComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ],

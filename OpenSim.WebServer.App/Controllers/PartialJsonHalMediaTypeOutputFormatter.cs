@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Buffers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using PartialResponse.AspNetCore.Mvc.Formatters;
 using WebApi.Hal.JsonConverters;
+using WebApi.Hal;
 
-namespace WebApi.Hal
+namespace OpenSim.WebServer.Controllers
 {
     public class PartialJsonHalMediaTypeOutputFormatter : PartialJsonOutputFormatter
     {
         private const string _mediaTypeHeaderValueName = "application/hal+json";
 
-        private readonly LinksConverter _linksConverter = new LinksConverter();
-
-        private readonly ResourceConverter _resourceConverter;
-        private readonly EmbeddedResourceConverter _embeddedResourceConverter = new EmbeddedResourceConverter();
+        private readonly LinksConverter linksConverter = new LinksConverter();
+        private readonly ResourceConverter resourceConverter;
+        private readonly EmbeddedResourceConverter embeddedResourceConverter = new EmbeddedResourceConverter();
 
         public PartialJsonHalMediaTypeOutputFormatter(
             JsonSerializerSettings serializerSettings, 
@@ -28,7 +30,7 @@ namespace WebApi.Hal
                 throw new ArgumentNullException(nameof(hypermediaResolver));
             }
 
-            _resourceConverter = new ResourceConverter(hypermediaResolver);
+            resourceConverter = new ResourceConverter(hypermediaResolver);
             Initialize();
         }
 
@@ -38,7 +40,7 @@ namespace WebApi.Hal
             bool ignoreCase) :
             base(serializerSettings, charPool, ignoreCase)
         {
-            _resourceConverter = new ResourceConverter();
+            resourceConverter = new ResourceConverter();
             Initialize();
         }
 
@@ -46,12 +48,23 @@ namespace WebApi.Hal
         {
             SupportedMediaTypes.Clear();
             SupportedMediaTypes.Add(new MediaTypeHeaderValue(_mediaTypeHeaderValueName));
-            SerializerSettings.Converters.Add(_linksConverter);
-            SerializerSettings.Converters.Add(_resourceConverter);
-            SerializerSettings.Converters.Add(_embeddedResourceConverter);
+            SerializerSettings.Converters.Add(linksConverter);
+            SerializerSettings.Converters.Add(resourceConverter);
+            SerializerSettings.Converters.Add(embeddedResourceConverter);
             SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
         }
-        
+
+        public override Task WriteAsync(OutputFormatterWriteContext context)
+        {
+            if (context.HttpContext.Request.Query.ContainsKey("fields"))
+            {
+                if (context.Object is DynamicRepresentation representation)
+                    representation.EmbedRelations();
+            }
+
+            return base.WriteAsync(context);
+        }
+
         protected override bool CanWriteType(Type type)
         {
             return typeof(Representation).IsAssignableFrom(type);

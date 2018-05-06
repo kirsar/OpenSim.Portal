@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OpenSim.WebServer.Model;
 
-namespace OpenSim.WebServer.App.Controllers.User
+namespace OpenSim.WebServer.Controllers
 {
     [ApiVersion("1.0")]
     [Produces("application/json")]
@@ -32,43 +33,43 @@ namespace OpenSim.WebServer.App.Controllers.User
         //}
 
         // GET: api/User/5/details
-        [HttpGet("{id}/details")]
-        public IActionResult GetDetails(int id)
-        {
-            var userDetails = repo.GetDetails(id);
+        //[HttpGet("{id}/details")]
+        //public IActionResult GetDetails(int id)
+        //{
+        //    var userDetails = repo.GetDetails(id);
 
-            if (userDetails == null)
-                return NotFound();
+        //    if (userDetails == null)
+        //        return NotFound();
 
-            return new ObjectResult(userDetails);
-        }
+        //    return new ObjectResult(userDetails);
+        //}
 
         // POST: api/User
-        [HttpPost]
-        public IActionResult Post([FromBody]User user)
-        {
-            if (user == null)
-                return BadRequest();
+        //[HttpPost]
+        //public IActionResult Post([FromBody]User user)
+        //{
+        //    if (user == null)
+        //        return BadRequest();
 
-            repo.Add(user);
+        //    repo.Add(user);
 
-            return CreatedAtRoute("Get", new { id = user.Id }, user);
-        }
+        //    return CreatedAtRoute("Get", new { id = user.Id }, user);
+        //}
 
-        // PUT: api/User/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]User user)
-        {
-            if (user == null || user.Id != id)
-                return BadRequest();
+        //// PUT: api/User/5
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, [FromBody]User user)
+        //{
+        //    if (user == null || user.Id != id)
+        //        return BadRequest();
         
-            var todo = repo.Get(id);
-            if (todo == null)
-                return NotFound();
+        //    var todo = repo.Get(id);
+        //    if (todo == null)
+        //        return NotFound();
         
-            repo.Update(user);
-            return new NoContentResult();
-        }
+        //    repo.Update(user);
+        //    return new NoContentResult();
+        //}
         
         //// DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]

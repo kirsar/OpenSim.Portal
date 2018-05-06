@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using OpenSim.WebServer.Model;
 
-namespace OpenSim.WebServer.App.Controllers.Server
+namespace OpenSim.WebServer.Controllers
 {
     [ApiVersion("1.0")]
     [Produces("application/hal+json")]
@@ -16,7 +18,7 @@ namespace OpenSim.WebServer.App.Controllers.Server
 
         // GET: api/v1/Servers
         [HttpGet]
-        public ServerCollection Get() => repo.GetAll();
+        public ServerCollection Get() => new ServerCollection(repo.GetAll());
 
         // GET: api/v1/Servers/5
         [HttpGet("{id}")]
@@ -27,24 +29,28 @@ namespace OpenSim.WebServer.App.Controllers.Server
             if (server == null)
                 return NotFound();
 
-            return new ObjectResult(server);
+            return new ObjectResult(new ServerResource(server));
         }
         
         // POST: api/v1/Servers
         [HttpPost]
-        public IActionResult Post([FromBody]Server server)
+        public IActionResult Post([FromBody]ServerResource server)
         {
             if (server == null)
                 return BadRequest();
 
-            repo.Add(server);
+            repo.Add(new Server
+            {
+                Id = server.Id,
+                // TODO
+            });
 
             return CreatedAtRoute("Get", new { id = server.Id }, server);
         }
         
         // PUT: api/v1/Servers/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Server server)
+        public IActionResult Put(int id, [FromBody]ServerResource server)
         {
             if (server == null || server.Id != id)
                 return BadRequest();
@@ -53,7 +59,12 @@ namespace OpenSim.WebServer.App.Controllers.Server
             if (todo == null)
                 return NotFound();
         
-            repo.Update(server);
+            repo.Update(new Server
+            {
+                Id = server.Id,
+                // TODO
+            });
+
             return new NoContentResult();
         }
         

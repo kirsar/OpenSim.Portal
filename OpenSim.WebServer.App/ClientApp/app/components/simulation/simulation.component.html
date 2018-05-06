@@ -1,0 +1,51 @@
+<div *ngIf="simulation">
+    <h2 id="name">{{ simulation.name }}</h2>
+
+    <p id="description">{{ simulation.description }}</p>
+
+    <p>
+        <span>By </span>
+        <a routerLink="{{ simulation.author.name }}">{{ simulation.author.name }}.</a>
+        <span>{{ simulation.author.description }} </span>
+    </p>
+
+    <p>Referenced Simulations</p>
+
+    <expandable-list>
+        <expandable-list-item>
+            <div item *ngFor="let reference of simulation.references">
+                <a class="item-name" routerLink="{{ reference.id }}">{{reference.name }}</a>
+                <div class="item-author">
+                    <span>{{ reference.author.name }}</span>
+                </div>
+            </div>
+        </expandable-list-item>
+    </expandable-list>
+
+    <!--<p>Consumed by</p>
+
+    <expandable-list>
+        <expandable-list-item>
+            <div item *ngFor="let consumer of simulation.consumers">
+                <a class="item-name" routerLink="{{ consumer.id }}">{{consumer.name }}</a>
+                <div class="item-author">
+                    <span>{{ consumer.author.name }}</span>
+                </div>
+            </div>
+        </expandable-list-item>
+    </expandable-list>-->
+
+    <p>Presentations</p>
+
+    <expandable-list>
+        <expandable-list-item>
+            <div item *ngFor="let presentation of simulation.presentations">
+                <a class="item-name" routerLink="{{ presentation.id }}">{{presentation.name }}</a>
+                <div class="item-author">
+                    <span>{{ presentation.author.name }}</span>
+                </div>
+            </div>
+        </expandable-list-item>
+    </expandable-list>
+</div>
+

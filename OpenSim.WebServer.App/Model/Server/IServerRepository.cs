@@ -1,9 +1,11 @@
-﻿namespace OpenSim.WebServer.App.Controllers.Server
+﻿using System.Collections.Generic;
+
+namespace OpenSim.WebServer.Model
 {
     public interface IServerRepository
     {
         void Add(Server server);
-        ServerCollection GetAll();
+        IEnumerable<Server> GetAll();
         Server Get(long id);
         Server Remove(long id);
         void Update(Server server);
