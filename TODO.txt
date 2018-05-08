@@ -1,5 +1,4 @@
 Portal
-6   finish servers page
 7   create something for presentations and simulations
 8   think about API point plugin entry
 9   gitignore per solution
@@ -10,6 +9,7 @@ Portal
 30  rename to Portal
 50  ensure I'm selfhost and why I need OWIN then?
 55  regulate _embedded data for pure HAL without ?fields
+56  dynamic embedding of linked resource based on ?fields  
 58  web api with pagination
 60  move data to postgres (or MS?)
 70  mobile adaptive ui for server list

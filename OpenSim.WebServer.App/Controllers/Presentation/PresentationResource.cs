@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using OpenSim.WebServer.Model;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class PresentationResource : DynamicRepresentation
+    public class PresentationResource : Representation
     {
-        private Presentation presentation;
+        private readonly Presentation presentation;
 
         public PresentationResource(Presentation presentation)
         {
@@ -15,8 +16,9 @@ namespace OpenSim.WebServer.Controllers
         public long Id => presentation.Id;
         public string Name => presentation.Name;
         public string Description => presentation.Description;
-        public UserDetails Author => AreRelationsEmbedded ? presentation.Author.ToUserDetails() : null;
-        public IEnumerable<Simulation> Simulations => AreRelationsEmbedded ? presentation.Simulations : null;
+
+        public UserInfoResource Author { get; set; }
+        public IEnumerable<Simulation> Simulations { get; set; }
 
         #region HAL
 

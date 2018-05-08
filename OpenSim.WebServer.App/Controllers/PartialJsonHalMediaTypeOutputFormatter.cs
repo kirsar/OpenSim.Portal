@@ -54,17 +54,6 @@ namespace OpenSim.WebServer.Controllers
             SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
         }
 
-        public override Task WriteAsync(OutputFormatterWriteContext context)
-        {
-            if (context.HttpContext.Request.Query.ContainsKey("fields"))
-            {
-                if (context.Object is DynamicRepresentation representation)
-                    representation.EmbedRelations();
-            }
-
-            return base.WriteAsync(context);
-        }
-
         protected override bool CanWriteType(Type type)
         {
             return typeof(Representation).IsAssignableFrom(type);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using OpenSim.WebServer.Model;
 
@@ -18,7 +19,10 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Servers
         [HttpGet]
-        public ServerCollection Get() => new ServerCollection(repo.GetAll());
+        public ServerCollection Get() => new ServerCollection(repo
+            .GetAll()
+            .Select(server => new ServerResource(server)
+            .EmbedRelations(Request, server)).ToList());
 
         // GET: api/v1/Servers/5
         [HttpGet("{id}")]
@@ -29,7 +33,7 @@ namespace OpenSim.WebServer.Controllers
             if (server == null)
                 return NotFound();
 
-            return new ObjectResult(new ServerResource(server));
+            return new ObjectResult(new ServerResource(server).EmbedRelations(Request, server));
         }
         
         // POST: api/v1/Servers
@@ -73,7 +77,7 @@ namespace OpenSim.WebServer.Controllers
         public IActionResult Delete(int id)
         {
             var sever = repo.Get(id);
-            if (repo == null)
+            if (sever == null)
                 return NotFound();
             
             repo.Remove(id);

@@ -7,7 +7,7 @@ namespace OpenSim.WebServer.Controllers
 {
     public class ServerCollection : SimpleListRepresentation<ServerResource>
     {
-        public ServerCollection(IEnumerable<Server> servers) : base(servers.Select(s => new ServerResource(s)).ToList())
+        public ServerCollection(IList<ServerResource> servers) : base(servers)
         {
         }
 

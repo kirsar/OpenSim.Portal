@@ -3,19 +3,22 @@ using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class UseResource : Representation
+    public class UserInfoResource : Representation
     {
-        public long Id { get; set;}
-        public string Name { get; set; }
-        public string Description { get; set; }
+        private readonly User user;
+
+        public UserInfoResource(User user)
+        {
+            this.user = user;
+        }
+
+        public long Id => user.Id;
+        public string Name => user.Name;
+        public string Description => user.Description;
 
         #region HAL
 
-        public override string Rel
-        {
-            get => LinkTemplates.Users.User.Rel;
-            set { }
-        }
+        public override string Rel { get; set; } = LinkTemplates.Users.User.Rel;
 
         public override string Href
         {
@@ -24,22 +27,5 @@ namespace OpenSim.WebServer.Controllers
         }
 
         #endregion
-    }
-
-    public class UserDetails
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-    }
-
-    public static class UserConvertions
-    {
-        public static UserDetails ToUserDetails(this User user) => new UserDetails
-        {
-            Id = user.Id,
-            Name = user.Name,
-            Description = user.Description
-        };
     }
 }

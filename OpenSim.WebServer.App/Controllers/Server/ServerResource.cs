@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OpenSim.WebServer.Model;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class ServerResource : DynamicRepresentation
+    public class ServerResource : Representation
     {
         private readonly Server server;
       
@@ -18,9 +20,9 @@ namespace OpenSim.WebServer.Controllers
         public bool IsRunning => server.IsRunning;
         public bool IsCustomUiAvailable => server.IsCustomUiAvailable;
 
-        public UserDetails Author => /*AreRelationsEmbedded ? */server.Author.ToUserDetails()/* : null*/;
-        public IEnumerable<Simulation> Simulations => AreRelationsEmbedded ? server.Simulations : null;
-        public IEnumerable<Presentation> Presentations => AreRelationsEmbedded ? server.Presentations : null;
+        public UserInfoResource Author { get; set; }
+        public IEnumerable<SimulationResource> Simulations { get; set; } 
+        public IEnumerable<PresentationResource> Presentations { get; set; }
       
         #region HAL
 

@@ -29,7 +29,7 @@ namespace OpenSim.WebServer.Controllers
 
         public static class Users
         {
-            public static Link User => new Link("users", "~/servers/{id}");
+            public static Link User => new Link("users", "~/users/{id}");
         }
     }
 }
