@@ -18,8 +18,14 @@ export class ServerComponent {
         this.sub = this.route.params.subscribe(params => {
             this.id = +params['id']; // (+) converts string 'id' to a number
 
-            this.http.get(this.baseUrl + "api/v1/servers/" + this.id).subscribe(result => {
-                this.server = result.json() as Server;
+            this.http.get(this.baseUrl + "api/v1/servers/" + this.id + "?fields=" +
+                "name,description,isRunning," +
+                "_links/self," +
+                "_embedded(" +
+                    "author(name,description,_links/self)," +
+                    "simulations(name,description,_links/self)," +
+                    "presentations(name,description,_links/self))").subscribe(result => {
+                        this.server = result.json() as Server;
             }, error => console.error(error));
         });
     }
@@ -34,9 +40,13 @@ interface Server {
     name: string;
     description: string;
     isRunning: boolean;
+    _embedded: Embedded;
+}
+
+interface Embedded {
+    author: Author;
     simulations: Simulation[];
     presentations: Presentation[];
-    selfLink: string;
 }
 
 interface Author {
@@ -44,13 +54,11 @@ interface Author {
 }
 
 interface Simulation {
-    id: number;
     name: string;
     description: string;
 }
 
 interface Presentation {
-    id: number;
     name: string;
     description: string;
 }

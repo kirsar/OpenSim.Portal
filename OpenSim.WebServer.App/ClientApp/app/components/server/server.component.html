@@ -10,8 +10,8 @@
 
     <p>
         <span>By </span>
-        <a routerLink="{{ server.author.name }}">{{ server.author.name }}.</a>
-        <span>{{ server.author.description }} </span>
+        <a href="{{ server._embedded.author._links.self.href }}">{{ server._embedded.author.name }}.</a>
+        <span>{{ server._embedded.author.description }} </span>
     </p>
 
     <div class="divider">
@@ -19,8 +19,8 @@
     </div>
 
     <section class="item-container">
-        <figure class="simulation item" *ngFor="let simulation of server.simulations">
-            <a class="simulation-link link" href="simulation\{{ simulation.id }}">{{ simulation.name }}</a>
+        <figure class="simulation item" *ngFor="let simulation of server._embedded.simulations">
+            <a class="link" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
 
             <p>{{ simulation.description }}</p>
         </figure>
@@ -31,8 +31,8 @@
     </div>
 
     <section class="item-container">
-        <figure class="presentation item" *ngFor="let presentation of server.presentations">
-            <a class="presentation-link link" routerLink="{{ presentation.id }}">{{ presentation.name }}</a>
+        <figure class="presentation item" *ngFor="let presentation of server._embedded.presentations">
+            <a class="link" href="{{ presentation._links.self.href }}">{{ presentation.name }}</a>
 
             <p>{{ presentation.description }}</p>
         </figure>
