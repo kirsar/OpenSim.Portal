@@ -11,8 +11,8 @@ namespace OpenSim.WebServer.Controllers
     {
         public static ServerResource EmbedRelations(this ServerResource serverResource, HttpRequest request, Server server)
         {
-            //if (!request.HasFieldsQuery())
-            //    return serverResource;
+            if (!request.HasFieldsQuery())
+                return serverResource;
 
             serverResource.Author = new UserInfoResource(server.Author)
             {

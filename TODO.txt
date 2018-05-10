@@ -8,6 +8,7 @@ Portal
 25  separate app / client / controllers parts into projects
 30  rename to Portal
 50  ensure I'm selfhost and why I need OWIN then?
+54  remove links if items are embedded
 55  regulate _embedded data for pure HAL without ?fields
 56  dynamic embedding of linked resource based on ?fields  
 58  web api with pagination
