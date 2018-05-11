@@ -19,7 +19,10 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Simulations
         [HttpGet]
-        public IEnumerable<SimulationResource> Get() => repo.GetAll().Select(s => new SimulationResource(s));
+        public SimulationCollection Get() => new SimulationCollection(repo
+            .GetAll()
+            .Select(simulation => new SimulationResource(simulation)
+            .EmbedRelations(simulation, Request)).ToList());
 
         // GET: api/v1/Simulations/5
         [HttpGet("{id}")]
@@ -30,7 +33,7 @@ namespace OpenSim.WebServer.Controllers
             if (simulation == null)
                 return NotFound();
 
-            return new ObjectResult(new SimulationResource(simulation));
+            return new ObjectResult(new SimulationResource(simulation).EmbedRelations(simulation, Request));
         }
 
         // POST: api/v1/Simulations

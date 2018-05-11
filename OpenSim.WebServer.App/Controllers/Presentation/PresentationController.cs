@@ -17,11 +17,11 @@ namespace OpenSim.WebServer.Controllers
             this.repo = repo;
         }
 
-        // GET: api/Simulation
+        // GET: api/v1/presentations
         [HttpGet]
         public IEnumerable<PresentationResource> Get() => repo.GetAll().Select(p => new PresentationResource(p));
 
-        // GET: api/Simulation/5
+        // GET: api/v1/presentations/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -33,7 +33,7 @@ namespace OpenSim.WebServer.Controllers
             return new ObjectResult(new PresentationResource(presentation));
         }
 
-        // POST: api/Simulation
+        // POST: api/v1/presentations/5
         [HttpPost]
         public IActionResult Post([FromBody]PresentationResource presentation)
         {
@@ -49,7 +49,7 @@ namespace OpenSim.WebServer.Controllers
             return CreatedAtRoute("Get", new { id = presentation.Id }, presentation);
         }
 
-        // PUT: api/Simulation/5
+        // PUT: api/v1/presentations/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]PresentationResource presentation)
         {

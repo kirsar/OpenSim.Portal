@@ -19,30 +19,33 @@ namespace OpenSim.WebServer.Controllers
 
         public UserInfoResource Author { get; set; }
         public IEnumerable<SimulationResource> References { get; set; }
-        public IEnumerable<Simulation> Consumers { get; set; }
-        public IEnumerable<Presentation> Presentations { get; set; }
+        public IEnumerable<SimulationResource> Consumers { get; set; }
+        public IEnumerable<PresentationResource> Presentations { get; set; }
 
         #region HAL
 
-        public override string Rel
-        {
-            get => LinkTemplates.Simulations.Simulation.Rel;
-            set { }
-        }
-
+        public override string Rel { get; set; } = LinkTemplates.Simulations.GetSimulation.Rel;
+        
         public override string Href
         {
-            get => LinkTemplates.Simulations.Simulation.CreateLink(new { id = Id }).Href;
+            get => LinkTemplates.Simulations.GetSimulation.CreateLink(new { id = Id }).Href;
             set { }
         }
 
         protected override void CreateHypermedia()
         {
-            if (References != null)
-                Links.Add(LinkTemplates.Simulations.References.CreateLink(new { id = Id }));
-            if (Presentations != null)
-                Links.Add(LinkTemplates.Simulations.Presentations.CreateLink(new { id = Id }));
-       }
+            if (simulation.References != null)
+                foreach (var reference in simulation.References)
+                    Links.Add(LinkTemplates.Simulations.GetReference.CreateLink(new { id = reference.Id }));
+
+            if (simulation.Consumers != null)
+                foreach (var consumer in simulation.Consumers)
+                    Links.Add(LinkTemplates.Simulations.GetConsumer.CreateLink(new { id = consumer.Id }));
+
+            if (simulation.Presentations != null)
+                foreach (var presentation in simulation.Presentations)
+                    Links.Add(LinkTemplates.Presentations.GetPresentation.CreateLink(new { id = presentation.Id }));
+        }
 
         #endregion
     }

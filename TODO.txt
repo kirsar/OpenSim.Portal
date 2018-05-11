@@ -6,6 +6,7 @@ Portal
 15  reusable code for ts for hal
 20  clean unneeded asp and npm references
 25  separate app / client / controllers parts into projects
+27  fix slow opening of server/id page
 30  rename to Portal
 50  ensure I'm selfhost and why I need OWIN then?
 54  remove links if items are embedded

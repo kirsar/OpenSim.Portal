@@ -14,8 +14,8 @@
                 </div>
                 
                 <p class="description" item>{{ server.description }}</p>
-                <a class="simulation referenced-item" item *ngFor="let simulation of server._embedded.simulations" href="http://www.goo.gl">{{ simulation.name }}</a>
-                <a class="presentation referenced-item" item *ngFor="let presentation of server._embedded.presentations" href="http://www.goo.gl">{{ presentation.name }}</a>
+                <a class="simulation referenced-item" item *ngFor="let simulation of server._embedded.simulations" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
+                <a class="presentation referenced-item" item *ngFor="let presentation of server._embedded.presentations" href="{{ presentation._links.self.href }}">{{ presentation.name }}</a>
 
             </expandable-list-item>
         </expandable-list>

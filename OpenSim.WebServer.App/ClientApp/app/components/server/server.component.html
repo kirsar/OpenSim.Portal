@@ -21,7 +21,6 @@
     <section class="item-container">
         <figure class="simulation item" *ngFor="let simulation of server._embedded.simulations">
             <a class="link" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
-
             <p>{{ simulation.description }}</p>
         </figure>
     </section>

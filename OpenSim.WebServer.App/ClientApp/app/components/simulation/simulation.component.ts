@@ -18,8 +18,15 @@ export class SimulationComponent {
         this.sub = this.route.params.subscribe(params => {
             this.id = +params['id']; // (+) converts string 'id' to a number
 
-            this.http.get(this.baseUrl + "api/v1/simulations/" + this.id).subscribe(result => {
-                this.simulation = result.json() as Simulation;
+            this.http.get(this.baseUrl + "api/v1/simulations/" + this.id + "?fields=" +
+                "name,description," +
+                "_links/self," +
+                "_embedded(" +
+                    "author(name,description,_links/self)," +
+                    "references(name,description,_links/self)," +
+                    "consumers(name,description,_links/self)," +
+                    "presentations(name,description,_links/self))").subscribe(result => {
+                        this.simulation = result.json() as Simulation;
             }, error => console.error(error));
         });
     }
@@ -30,22 +37,25 @@ export class SimulationComponent {
 }
 
 interface Simulation {
-    id: number;
     name: string;
     description: string;
-    author: Author;
-    references: Simulation[];
-    //consumers: Simulation[];
-    presentations: Presentation[];
+    _embedded: Embedded;
 }
 
-interface Presentation {
-    id: number;
-    name: string;
+interface Embedded {
     author: Author;
+    references: Simulation[];
+    consumers: Simulation[];
+    presentations: Presentation[];
 }
 
 interface Author {
     name: string;
+    description: string;
+}
+
+interface Presentation {
+    name: string;
+    description: string;
 }
 

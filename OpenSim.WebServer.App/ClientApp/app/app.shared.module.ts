@@ -38,8 +38,8 @@ import { CounterComponent } from './components/counter/counter.component';
             { path: 'counter', component: CounterComponent },
             { path: 'servers', component: ServersComponent },
             { path: 'servers/:id', component: ServerComponent },
-            { path: 'simulation/:id', component: SimulationComponent },
-            { path: 'presentation/:id', component: PresentationComponent },
+            { path: 'simulations/:id', component: SimulationComponent },
+            { path: 'presentations/:id', component: PresentationComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ],

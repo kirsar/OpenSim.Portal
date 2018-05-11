@@ -22,7 +22,7 @@ namespace OpenSim.WebServer.Controllers
         public ServerCollection Get() => new ServerCollection(repo
             .GetAll()
             .Select(server => new ServerResource(server)
-            .EmbedRelations(Request, server)).ToList());
+            .EmbedRelations(server, Request)).ToList());
 
         // GET: api/v1/Servers/5
         [HttpGet("{id}")]
@@ -33,7 +33,7 @@ namespace OpenSim.WebServer.Controllers
             if (server == null)
                 return NotFound();
 
-            return new ObjectResult(new ServerResource(server).EmbedRelations(Request, server));
+            return new ObjectResult(new ServerResource(server).EmbedRelations(server, Request));
         }
         
         // POST: api/v1/Servers

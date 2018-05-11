@@ -9,7 +9,7 @@ namespace OpenSim.WebServer.Controllers
     // for now we embedding relations manually
     internal static class ServerDefaultRelationsBuilder
     {
-        public static ServerResource EmbedRelations(this ServerResource serverResource, HttpRequest request, Server server)
+        public static ServerResource EmbedRelations(this ServerResource serverResource, Server server, HttpRequest request)
         {
             if (!request.HasFieldsQuery())
                 return serverResource;

@@ -26,7 +26,6 @@ export class ServersComponent {
 }
 
 interface Server {
-    id: number;
     name: string;
     description: string;
     isRunning: boolean;

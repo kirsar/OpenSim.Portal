@@ -24,20 +24,21 @@ namespace OpenSim.WebServer.Controllers
 
         public override string Rel
         {
-            get => LinkTemplates.Presentations.Presentation.Rel;
+            get => LinkTemplates.Presentations.GetPresentation.Rel;
             set { }
         }
 
         public override string Href
         {
-            get => LinkTemplates.Presentations.Presentation.CreateLink(new { id = Id }).Href;
+            get => LinkTemplates.Presentations.GetPresentation.CreateLink(new { id = Id }).Href;
             set { }
         }
 
         protected override void CreateHypermedia()
         {
-            if (Simulations != null)
-                Links.Add(LinkTemplates.Presentations.Simulations.CreateLink(new { id = Id }));
+            if (presentation.Simulations != null)
+                foreach (var simulation in presentation.Simulations)
+                     Links.Add(LinkTemplates.Simulations.GetSimulation.CreateLink(new { id = simulation.Id }));
         }
 
         #endregion

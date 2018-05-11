@@ -25,7 +25,7 @@ export class ServerComponent {
                     "author(name,description,_links/self)," +
                     "simulations(name,description,_links/self)," +
                     "presentations(name,description,_links/self))").subscribe(result => {
-                        this.server = result.json() as Server;
+                this.server = result.json() as Server;
             }, error => console.error(error));
         });
     }
@@ -36,7 +36,6 @@ export class ServerComponent {
 }
 
 interface Server {
-    id: number;
     name: string;
     description: string;
     isRunning: boolean;
