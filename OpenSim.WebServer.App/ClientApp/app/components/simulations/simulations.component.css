@@ -1,0 +1,17 @@
+.item-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(250px, 1fr));
+    margin-top: 1em;
+}
+
+.item {
+    width: 95%;
+    height: 95%;
+    display: block;
+    object-fit: cover;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 5%;
+    background-color: rgba(81, 143, 183, 0.69);
+}

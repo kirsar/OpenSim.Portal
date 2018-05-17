@@ -9,9 +9,9 @@ Portal
 27  fix slow opening of server/id page
 30  rename to Portal
 50  ensure I'm selfhost and why I need OWIN then?
-54  remove links if items are embedded
 55  regulate _embedded data for pure HAL without ?fields
 56  dynamic embedding of linked resource based on ?fields  
+57  remove mixing of API and Front end hrefs in templates (don't use link from API to redirect)
 58  web api with pagination
 60  move data to postgres (or MS?)
 70  mobile adaptive ui for server list

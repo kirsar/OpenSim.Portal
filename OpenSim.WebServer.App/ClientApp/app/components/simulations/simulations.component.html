@@ -1,0 +1,8 @@
+<div *ngIf="simulations">
+    <section class="item-container">
+        <figure class="item" *ngFor="let simulation of simulations">
+            <a class="link" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
+            <p>{{ simulation.description }}</p>
+        </figure>
+    </section>
+</div>
