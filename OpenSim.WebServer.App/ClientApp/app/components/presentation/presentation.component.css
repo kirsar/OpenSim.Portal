@@ -1,86 +1,17 @@
-#name {
-    float: left;
-}
-
-#run-status {
-    float: left;
-    margin: 2em;
-}
-
-.run-status-running {
-    color: #317a13;
-}
-
-.run-status-stopped {
-    color: #ef4e38;
-}
-
-#description {
-    clear:both;
-}
-
-.item-container {
+.items-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: 40% auto;
+    margin-left: 1em;
 }
 
-.item {
-    width: 95%;
-    height: 95%;
-    display: block;
-    object-fit: cover;
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 5%;
+.item-name {
+    grid-column: 1/1;
 }
 
-.simulation-link {
-    text-decoration: none;
+.item-author {
+    grid-column: 2/2;
 }
 
-.simulation {
-    background-color: rgba(81, 143, 183, 0.69);
-}
-
-.presentation {
-    background-color: rgba(230, 189, 53, 0.65);
-}
-
-.link {
-    text-decoration: none;
-}
-
-.divider {
-    display: block;
-    text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    margin: 1em 0;
-}
-
-.divider > span {
-    position: relative;
-    display: inline-block;
-    margin-left: 3.5em;
-}
-
-.divider > span:before,
-.divider > span:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 9999px;
-    height: 1px;
-    background-color: #514c4c;
-}
-
-.divider > span:before {
-    right: 100%;
-    margin-right: 15px;
-}
-
-.divider > span:after {
-    left: 100%;
-    margin-left: 15px;
+.group-header {
+    margin-top: 2em;
 }

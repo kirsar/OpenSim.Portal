@@ -1,41 +1,21 @@
-<div *ngIf="server">
-    <h2 id="name">{{ server.name }}</h2>
+<div *ngIf="presentation">
+    <h2 id="name">{{ presentation.name }}</h2>
 
-    <div id="run-status">
-        <span *ngIf="server.isRunning" class="run-status-running glyphicon glyphicon-play"></span>
-        <span *ngIf="!server.isRunning" class="run-status-stopped glyphicon glyphicon-stop"></span>
-    </div>
-
-    <p id="description">{{ server.description }}</p>
+    <p id="description">{{ presentation.description }}</p>
 
     <p>
         <span>By </span>
-        <a routerLink="{{ server.author.name }}">{{ server.author.name }}.</a>
-        <span>{{ server.author.description }} </span>
+        <a routerLink="{{ presentation._embedded.author._links.self.href }}">{{ presentation._embedded.author.name }}.</a>
+        <span>{{ presentation._embedded.author.description }} </span>
     </p>
 
-    <div class="divider">
-        <span>Simulations</span>
+    <p class="group-header" *ngIf="presentation._embedded.simulations">Referenced By</p>
+    <div class="items-container" *ngIf="presentation._embedded.simulations">
+        <ng-container *ngFor="let simulation of presentation._embedded.simulations">
+            <a class="item-name" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
+            <div class="item-author">
+                <span>{{ simulation._embedded.author.name }}</span>
+            </div>
+        </ng-container>
     </div>
-
-    <section class="item-container">
-        <figure class="simulation item" *ngFor="let simulation of server.simulations">
-            <a class="simulation-link link" routerLink="{{ simulation.id }}">{{ simulation.name }}</a>
-
-            <p>{{ simulation.description }}</p>
-        </figure>
-    </section>
-
-    <div class="divider">
-        <span>Presentations</span>
-    </div>
-
-    <section class="item-container">
-        <figure class="presentation item" *ngFor="let presentation of server.presentations">
-            <a class="presentation-link link" routerLink="{{ presentation.id }}">{{ presentation.name }}</a>
-
-            <p>{{ presentation.description }}</p>
-        </figure>
-    </section>
 </div>
-

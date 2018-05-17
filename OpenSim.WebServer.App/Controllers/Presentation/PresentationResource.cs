@@ -18,7 +18,7 @@ namespace OpenSim.WebServer.Controllers
         public string Description => presentation.Description;
 
         public UserInfoResource Author { get; set; }
-        public IEnumerable<Simulation> Simulations { get; set; }
+        public IEnumerable<SimulationResource> Simulations { get; set; }
 
         #region HAL
 

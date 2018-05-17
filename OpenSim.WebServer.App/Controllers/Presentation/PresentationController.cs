@@ -6,20 +6,23 @@ using OpenSim.WebServer.Model;
 namespace OpenSim.WebServer.Controllers
 {
     [ApiVersion("1.0")]
-    [Produces("application/json")]
+    [Produces("application/hal+json")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PresentationController : Controller
+    public class PresentationsController : Controller
     {
         private readonly IPresentationRepository repo;
 
-        public PresentationController(IPresentationRepository repo)
+        public PresentationsController(IPresentationRepository repo)
         {
             this.repo = repo;
         }
 
         // GET: api/v1/presentations
         [HttpGet]
-        public IEnumerable<PresentationResource> Get() => repo.GetAll().Select(p => new PresentationResource(p));
+        public IEnumerable<PresentationResource> Get() => repo
+            .GetAll()
+            .Select(presentation => new PresentationResource(presentation)
+            .EmbedRelations(presentation, Request));
 
         // GET: api/v1/presentations/5
         [HttpGet("{id}")]
@@ -30,7 +33,7 @@ namespace OpenSim.WebServer.Controllers
             if (presentation == null)
                 return NotFound();
 
-            return new ObjectResult(new PresentationResource(presentation));
+            return new ObjectResult(new PresentationResource(presentation).EmbedRelations(presentation, Request));
         }
 
         // POST: api/v1/presentations/5
