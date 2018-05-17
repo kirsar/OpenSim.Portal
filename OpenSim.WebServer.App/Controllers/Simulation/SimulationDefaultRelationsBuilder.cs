@@ -21,15 +21,29 @@ namespace OpenSim.WebServer.Controllers
 
             simulationResource.References = simulation.References?.Select(s => new SimulationResource(s)
             {
-                Rel = LinkTemplates.Simulations.GetReference.Rel
+                Rel = LinkTemplates.Simulations.GetReference.Rel,
+                Author = new UserInfoResource(s.Author)
+                {
+                    Rel = "author"
+                }
             });
 
             simulationResource.Consumers = simulation.Consumers?.Select(s => new SimulationResource(s)
             {
-                Rel = LinkTemplates.Simulations.GetConsumer.Rel
+                Rel = LinkTemplates.Simulations.GetConsumer.Rel,
+                Author = new UserInfoResource(s.Author)
+                {
+                    Rel = "author"
+                }
             });
 
-            simulationResource.Presentations = simulation.Presentations?.Select(p => new PresentationResource(p));
+            simulationResource.Presentations = simulation.Presentations?.Select(p => new PresentationResource(p)
+            {
+                Author = new UserInfoResource(p.Author)
+                {
+                    Rel = "author"
+                }
+            });
 
             return simulationResource;
         }
