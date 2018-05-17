@@ -1,23 +1,33 @@
-<div id="server-list" *ngIf="servers">
-    <div class="server-item" *ngFor="let server of servers">
-        <expandable-list>
-            <expandable-list-item>
-                <div title>
-                    <div class="column-run-status">
-                        <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
-                        <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
+<div id="grid">
+    <div id="server-list" *ngIf="servers">
+        <div class="server-item" *ngFor="let server of servers">
+            <expandable-list>
+                <expandable-list-item>
+                    <div title>
+                        <div class="column-run-status">
+                            <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
+                            <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
+                        </div>
+                        <a class="column-name" href="{{ server._links.self.href }}">{{ server.name }}</a>
+                        <div class="column-author">
+                            <span>{{ server._embedded.author.name }}</span>
+                        </div>
                     </div>
-                    <a class="column-name" href="{{ server._links.self.href }}">{{ server.name }}</a>
-                    <div class="column-author">
-                        <span>{{ server._embedded.author.name }}</span>
-                    </div>
-                </div>
                 
-                <p class="description" item>{{ server.description }}</p>
-                <a class="simulation referenced-item" item *ngFor="let simulation of server._embedded.simulations" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
-                <a class="presentation referenced-item" item *ngFor="let presentation of server._embedded.presentations" href="{{ presentation._links.self.href }}">{{ presentation.name }}</a>
-            </expandable-list-item>
-        </expandable-list>
+                    <p class="description" item>{{ server.description }}</p>
+                    <a class="simulation referenced-item" item *ngFor="let simulation of server._embedded.simulations" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
+                    <a class="presentation referenced-item" item *ngFor="let presentation of server._embedded.presentations" href="{{ presentation._links.self.href }}">{{ presentation.name }}</a>
+                </expandable-list-item>
+            </expandable-list>
+        </div>
     </div>
+    
+    <form *ngIf="simulations" id="new-server-form">
+        <input type="text" value="New Server">
+        <label *ngFor="let simulation of simulations">
+            <input type="checkbox">{{ simulation.name }}
+        </label>
+        <button type="submit">Create</button>
+    </form>
 </div>
 

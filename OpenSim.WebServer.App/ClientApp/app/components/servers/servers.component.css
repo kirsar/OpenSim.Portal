@@ -1,7 +1,13 @@
+#grid {
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
 #server-list {
     width: 70%;
     min-width: 300px;
     margin-top: 20px;
+    grid-column: 1/1;
 }
 
 #server-list expandable-list-item {
@@ -62,4 +68,15 @@
 .presentation {
     background-color: rgba(230, 189, 53, 0.65);
 }
+
+#new-server-form {
+    grid-column: 2/2;
+    border-radius: 10px;
+    background-color: rgba(71, 183, 32, 0.13);
+}
+
+#new-server-form > * {
+    display: block;
+}
+
 
