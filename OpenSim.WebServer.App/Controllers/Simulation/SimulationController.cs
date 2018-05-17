@@ -1,49 +1,58 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using OpenSim.WebServer.Model;
 
-namespace OpenSim.WebServer.App.Controllers.Simulation
+namespace OpenSim.WebServer.Controllers
 {
     [ApiVersion("1.0")]
-    [Produces("application/json")]
+    [Produces("application/hal+json")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class SimulationController : Controller
+    public class SimulationsController : Controller
     {
         private readonly ISimulationRepository repo;
 
-        public SimulationController(ISimulationRepository repo)
+        public SimulationsController(ISimulationRepository repo)
         {
             this.repo = repo;
         }
 
-        // GET: api/Simulation
+        // GET: api/v1/Simulations
         [HttpGet]
-        public IEnumerable<Simulation> Get() => repo.GetAll();
+        public SimulationCollection Get() => new SimulationCollection(repo
+            .GetAll()
+            .Select(simulation => new SimulationResource(simulation)
+            .EmbedRelations(simulation, Request)).ToList());
 
-        // GET: api/Simulation/5
+        // GET: api/v1/Simulations/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var server = repo.Get(id);
+            var simulation = repo.Get(id);
 
-            if (server == null)
+            if (simulation == null)
                 return NotFound();
 
-            return new ObjectResult(server);
+            return new ObjectResult(new SimulationResource(simulation).EmbedRelations(simulation, Request));
         }
 
-        // POST: api/Simulation
+        // POST: api/v1/Simulations
         [HttpPost]
-        public IActionResult Post([FromBody]Simulation server)
+        public IActionResult Post([FromBody]SimulationResource simulation)
         {
-            if (server == null)
+            if (simulation == null)
                 return BadRequest();
 
-            repo.Add(server);
+            repo.Add(new Simulation
+            {
+                Id = simulation.Id,
+                // TODO
+            });
 
-            return CreatedAtRoute("Get", new { id = server.Id }, server);
+            return CreatedAtRoute("Get", new { id = simulation.Id }, simulation);
         }
 
-        // PUT: api/Simulation/5
+        // PUT: api/v1/Simulations/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Simulation server)
         {
@@ -54,7 +63,12 @@ namespace OpenSim.WebServer.App.Controllers.Simulation
             if (todo == null)
                 return NotFound();
         
-            repo.Update(server);
+            repo.Update(new Simulation
+            {
+                Id = server.Id,
+                // TODO
+            });
+
             return new NoContentResult();
         }
 

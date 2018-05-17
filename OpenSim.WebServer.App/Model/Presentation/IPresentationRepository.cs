@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OpenSim.WebServer.App.Controllers.Presentation
+namespace OpenSim.WebServer.Model
 {
     public interface IPresentationRepository
     {

@@ -5,9 +5,9 @@ using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class ServerCollection : SimpleListRepresentation<ServerResource>
+    public class SimulationCollection : SimpleListRepresentation<SimulationResource>
     {
-        public ServerCollection(IList<ServerResource> servers) : base(servers)
+        public SimulationCollection(IList<SimulationResource> simulations) : base(simulations)
         {
         }
 
@@ -15,7 +15,7 @@ namespace OpenSim.WebServer.Controllers
 
         public override string Href
         {
-            get => LinkTemplates.Servers.GetServers.Href;
+            get => LinkTemplates.Simulations.GetSimulations.Href;
             set { }
         }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-namespace OpenSim.WebServer.App.Controllers.Simulation
+namespace OpenSim.WebServer.Model
 {
     public class SimulationRepository : ISimulationRepository
     {

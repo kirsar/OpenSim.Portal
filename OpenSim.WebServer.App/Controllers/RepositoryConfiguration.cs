@@ -1,10 +1,6 @@
 ﻿using System;
-using Microsoft.Data.Edm.Csdl;
 using Microsoft.Extensions.DependencyInjection;
-using OpenSim.WebServer.App.Controllers.Presentation;
-using OpenSim.WebServer.App.Controllers.Server;
-using OpenSim.WebServer.App.Controllers.Simulation;
-using OpenSim.WebServer.App.Controllers.User;
+using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.App.Controllers
 {
@@ -19,7 +15,7 @@ namespace OpenSim.WebServer.App.Controllers
 
         public void Seed()
         {
-            var user = new User.User
+            var user = new User
             {
                 Name = "user",
                 Description = "description",
@@ -27,7 +23,7 @@ namespace OpenSim.WebServer.App.Controllers
                 Password = "pwd"
             };
 
-            var corporation = new User.User
+            var corporation = new User
             {
                 Name = "Umbrella corp.",
                 Description = "Huge vendor of maritime simulators",
@@ -35,56 +31,86 @@ namespace OpenSim.WebServer.App.Controllers
                 Password = "umbrella"
             };
 
-            var seaCurrent = new Simulation.Simulation
+            var seaCurrent = new Simulation
             {
                 Name = "Sea Current",
                 Description = "Engine to provide sea current effects, applied to floating objects, " +
                               "such as drifting or" + DummyText,
-                Author = corporation
+                Author = corporation,
             };
 
-            var simpleShip = new Simulation.Simulation
+            var simpleShip = new Simulation
             {
                 Name = "Simple Ship",
                 Description = "Simulation of simple ship without any mechanics or hydrodynamics. " +
                               "Can be used to emulate far distance traffic" + DummyText,
                 Author = user,
-                SupportedSimulations = new [] {seaCurrent}
+                References = new [] {seaCurrent}
             };
 
-            var experimentalBuoy = new Simulation.Simulation
+            seaCurrent.Consumers = new[] { simpleShip };
+
+            var dummy1 = new Simulation
+            {
+                Name = "Dummy Simulation 1",
+                Description = "Simulation of something without anything. " +
+                              "Can be used to emulate something" + DummyText,
+                Author = user,
+            };
+
+            var dummy2 = new Simulation
+            {
+                Name = "Dummy Simulation 2",
+                Description = "Simulation of something without anything. " +
+                             "Can be used to emulate something" + DummyText,
+                Author = user,
+            };
+
+            var dummy3 = new Simulation
+            {
+                Name = "Dummy Simulation 3",
+                Description = "Simulation of something without anything. " +
+                             "Can be used to emulate something" + DummyText,
+                Author = user,
+            };
+
+            var experimentalBuoy = new Simulation
             {
                 Name = "Hydrodynamic buoy",
                 Description = "Experimental model of buoy with full hydrodynamics",
                 Author = user,
             };
 
-            var chart = new Presentation.Presentation
+            var chart = new Presentation
             {
                 Name = "Chart",
                 Description = "Electronic chart in Mercator projection",
                 Author = corporation,
-                SupportedBy = new[] {simpleShip, seaCurrent}
+                Simulations = new[] {simpleShip, seaCurrent}
             };
 
-            var steeringPanel = new Presentation.Presentation
+            var steeringPanel = new Presentation
             {
                 Name = "Steering Device",
                 Description = "Basic steering panel with throttle and rudder control",
                 Author = user,
-                SupportedBy = new[] { simpleShip }
+                Simulations = new[] { simpleShip }
             };
 
-            var runningServer = new Server.Server
+            simpleShip.Presentations = new[] { steeringPanel, chart };
+            seaCurrent.Presentations = new[] { chart };
+
+            var runningServer = new Server
             {
                 Name = "Just some server",
                 Description = "Server to have some data available to test portal front-end",
-                Author = corporation,
                 IsRunning = true,
-                Simulations = new [] { simpleShip, seaCurrent },
+                Author = corporation,
+                Simulations = new [] { simpleShip, seaCurrent, dummy1, dummy2, dummy3 },
                 Presentations = new [] { steeringPanel, chart }
             };
-            var stoppedServer = new Server.Server
+
+            var stoppedServer = new Server
             {
                 Name = "Another test server",
                 Description = "One more entry to test portal front-end",
@@ -103,6 +129,9 @@ namespace OpenSim.WebServer.App.Controllers
             simulations.Add(simpleShip);
             simulations.Add(seaCurrent);
             simulations.Add(experimentalBuoy);
+            simulations.Add(dummy1);
+            simulations.Add(dummy2);
+            simulations.Add(dummy3);
 
             presentations.Add(chart);
             presentations.Add(steeringPanel);

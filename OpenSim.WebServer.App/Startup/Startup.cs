@@ -4,14 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using PartialResponse.Extensions.DependencyInjection;
-using OpenSim.WebServer.App.Controllers.Presentation;
-using OpenSim.WebServer.App.Controllers.Server;
-using OpenSim.WebServer.App.Controllers.Simulation;
-using OpenSim.WebServer.App.Controllers.User;
+using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.App.Startup
 {

@@ -7,15 +7,15 @@
                         <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
                         <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
                     </div>
-                    <a class="column-name" routerLink="{{ server.id }}">{{ server.name }}</a>
+                    <a class="column-name" href="{{ server._links.self.href }}">{{ server.name }}</a>
                     <div class="column-author">
-                        <span>{{ server.author.name }}</span>
+                        <span>{{ server._embedded.author.name }}</span>
                     </div>
                 </div>
                 
                 <p class="description" item>{{ server.description }}</p>
-                <a class="simulation referenced-item" item *ngFor="let simulation of server.simulations" href="http://www.goo.gl">{{ simulation.name }}</a>
-                <a class="presentation referenced-item" item *ngFor="let presentation of server.presentations" href="http://www.goo.gl">{{ presentation.name }}</a>
+                <a class="simulation referenced-item" item *ngFor="let simulation of server._embedded.simulations" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
+                <a class="presentation referenced-item" item *ngFor="let presentation of server._embedded.presentations" href="{{ presentation._links.self.href }}">{{ presentation.name }}</a>
 
             </expandable-list-item>
         </expandable-list>

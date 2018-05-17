@@ -1,0 +1,42 @@
+<div *ngIf="simulation">
+    <h2 id="name">{{ simulation.name }}</h2>
+
+    <p id="description">{{ simulation.description }}</p>
+
+    <p>
+        <span>By </span>
+        <a routerLink="{{ simulation._embedded.author._links.self.href }}">{{ simulation._embedded.author.name }}.</a>
+        <span>{{ simulation._embedded.author.description }} </span>
+    </p>
+    
+    <p class="group-header" *ngIf="simulation._embedded.references">Referenced By</p>
+    <div class="items-container" *ngIf="simulation._embedded.references">
+        <ng-container *ngFor="let reference of simulation._embedded.references">
+            <a class="item-name" href="{{ reference._links.self.href }}">{{reference.name }}</a>
+            <div class="item-author">
+                <span>{{ reference._embedded.author.name }}</span>
+            </div>
+        </ng-container>
+    </div>
+
+    <p class="group-header" *ngIf="simulation._embedded.consumers">Consumed by</p>
+    <div class="items-container" *ngIf="simulation._embedded.consumers">
+        <ng-container *ngFor="let consumer of simulation._embedded.consumers">
+            <a class="item-name" href="{{ consumer._links.self.href }}">{{consumer.name }}</a>
+            <div class="item-author">
+                <span>{{ consumer._embedded.author.name }}</span>
+            </div>
+        </ng-container>
+    </div>
+
+    <p class="group-header" *ngIf="simulation._embedded.presentations">Presentations</p>
+    <div class="items-container" *ngIf="simulation._embedded.presentations">
+        <ng-container *ngFor="let presentation of simulation._embedded.presentations">
+            <a class="item-name" href="{{ presentation._links.self.href }}">{{presentation.name }}</a>
+            <div class="item-author">
+                <span>{{ presentation._embedded.author.name }}</span>
+            </div>
+        </ng-container>
+    </div>
+</div>
+

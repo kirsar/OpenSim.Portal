@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Concurrent;
-using System.Linq;
 
-namespace OpenSim.WebServer.App.Controllers.Server
+namespace OpenSim.WebServer.Model
 {
     public class ServerRepository : IServerRepository
     {
@@ -24,7 +23,7 @@ namespace OpenSim.WebServer.App.Controllers.Server
             return server;
         }
 
-        public ServerCollection GetAll() => new ServerCollection(servers.Values.ToList()); // TODO slow
+        public IEnumerable<Server> GetAll() => servers.Values;
 
         public Server Remove(long id)
         {
