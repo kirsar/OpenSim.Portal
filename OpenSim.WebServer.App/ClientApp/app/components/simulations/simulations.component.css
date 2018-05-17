@@ -14,20 +14,27 @@
     overflow: hidden;
     padding: 5%;
     background-color: rgba(81, 143, 183, 0.69);
-    display: flex;
-    flex-direction: column;
 }
 
 .presentations {
+    margin: .5em 0;
 }
 
 .presentations expandable-list-item {
-    background-color: rgba(230, 189, 53, 0.65);
+    background-color: rgba(230, 189, 53, 0.70);
     border-radius: 6px;
     margin-bottom: 1em;
 }
 
-.presentation {
-    margin-left: 1em; 
+.negative-margin {
+    margin-top: -24px;
+}
+
+.presentation-item {
+    margin: -.75em 0 -.75em 1em;
+}
+
+.presentation-link {
+    text-decoration: none;
 }
 

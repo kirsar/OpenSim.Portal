@@ -2,19 +2,22 @@
     <section class="item-container">
         <figure class="item" *ngFor="let simulation of simulations">
             <a class="link" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
-            <p class="description">{{ simulation.description }}</p>
-            
+
             <div class="presentations">
                 <expandable-list>
                     <expandable-list-item>
                         <span title>Presentations</span>
-                
-                        <div item *ngFor="let presentation of simulation._embedded.presentations">
-                            <a class="presentation" href="{{ presentation._links.self.href }}">{{ presentation.name }}</a>
+
+                        <div class="negative-margin" item></div>
+
+                        <div class="presentation-item" item *ngFor="let presentation of simulation._embedded.presentations">
+                            <a class="presentation-link" href="{{ presentation._links.self.href }}">{{ presentation.name }}</a>
                         </div>
                     </expandable-list-item>
                 </expandable-list>
             </div>
+
+            <p class="description">{{ simulation.description }}</p>
         </figure>
     </section>
 </div>
