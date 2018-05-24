@@ -1,0 +1,8 @@
+<form *ngIf="simulations" id="new-server-form">
+    <input type="text" value="New Server">
+    <label *ngFor="let simulation of simulations">
+        <input type="checkbox">{{ simulation.name }}
+    </label>
+    <button type="submit">Create</button>
+</form>
+

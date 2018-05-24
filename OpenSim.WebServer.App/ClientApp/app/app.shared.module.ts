@@ -10,19 +10,18 @@ import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { ServersComponent } from './components/servers/servers.component';
+import { NewServerComponent } from './components/new-server/new-server.component';
 import { ServerComponent } from './components/server/server.component';
 import { SimulationsComponent } from './components/simulations/simulations.component';
 import { SimulationComponent } from './components/simulation/simulation.component';
 import { PresentationComponent } from './components/presentation/presentation.component';
 
-import { CounterComponent } from './components/counter/counter.component';
-
 @NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
-        CounterComponent,
         ServersComponent,
+        NewServerComponent,
         ServerComponent,
         SimulationsComponent,
         SimulationComponent,
@@ -37,7 +36,6 @@ import { CounterComponent } from './components/counter/counter.component';
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
-            { path: 'counter', component: CounterComponent },
             { path: 'servers', component: ServersComponent },
             { path: 'servers/:id', component: ServerComponent },
             { path: 'simulations', component: SimulationsComponent },

@@ -1,5 +1,5 @@
-<div id="grid">
-    <div id="server-list" *ngIf="servers">
+<div id="grid" *ngIf="servers">
+    <div id="server-list">
         <div class="server-item" *ngFor="let server of servers">
             <expandable-list>
                 <expandable-list-item>
@@ -22,12 +22,6 @@
         </div>
     </div>
     
-    <form *ngIf="simulations" id="new-server-form">
-        <input type="text" value="New Server">
-        <label *ngFor="let simulation of simulations">
-            <input type="checkbox">{{ simulation.name }}
-        </label>
-        <button type="submit">Create</button>
-    </form>
+    <new-server id="new-server-form"></new-server>
 </div>
 

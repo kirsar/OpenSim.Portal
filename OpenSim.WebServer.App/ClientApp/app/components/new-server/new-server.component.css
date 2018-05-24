@@ -1,0 +1,10 @@
+#new-server-form {
+    border-radius: 10px;
+    background-color: rgba(71, 183, 32, 0.13);
+}
+
+#new-server-form > * {
+    display: block;
+}
+
+

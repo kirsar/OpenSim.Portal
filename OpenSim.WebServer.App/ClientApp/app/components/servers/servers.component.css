@@ -10,6 +10,10 @@
     grid-column: 1/1;
 }
 
+#new-server-form {
+    grid-column: 2/2;
+}
+
 #server-list expandable-list-item {
     background-color: rgba(71, 183, 32, 0.13);
     border-radius: 6px;
@@ -68,15 +72,3 @@
 .presentation {
     background-color: rgba(230, 189, 53, 0.65);
 }
-
-#new-server-form {
-    grid-column: 2/2;
-    border-radius: 10px;
-    background-color: rgba(71, 183, 32, 0.13);
-}
-
-#new-server-form > * {
-    display: block;
-}
-
-
