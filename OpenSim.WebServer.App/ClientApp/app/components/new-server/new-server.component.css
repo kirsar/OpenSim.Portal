@@ -3,8 +3,31 @@
     background-color: rgba(71, 183, 32, 0.13);
 }
 
-#new-server-form > * {
+/*#new-server-form > * {
     display: block;
+}*/
+
+.form-group {
+    margin: 0 1em;
 }
 
+.ng-valid[required], .ng-valid.required {
+    border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form) {
+    border-left: 5px solid #a94442; /* red */
+}
+
+.warning {
+    margin: 0 1em;
+}
+
+.simulations {
+    margin: .5em;
+}
+
+.submit {
+    margin: 1em;
+}
 

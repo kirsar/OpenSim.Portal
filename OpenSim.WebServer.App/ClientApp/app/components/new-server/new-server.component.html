@@ -1,8 +1,31 @@
-<form *ngIf="simulations" id="new-server-form">
-    <input type="text" value="New Server">
-    <label *ngFor="let simulation of simulations">
-        <input type="checkbox">{{ simulation.name }}
-    </label>
-    <button type="submit">Create</button>
+<form *ngIf="simulations" id="new-server-form" (ngSubmit)="onSubmit()" #newServerForm="ngForm">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" required
+               [(ngModel)]="server.name" name="name"
+               #name="ngModel">
+    </div>
+    <div [hidden]="name.valid" 
+         class="alert alert-danger warning">Name is required
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description"
+               [(ngModel)]="server.description" name="description">
+    </div>
+    
+    <div class="simulations">
+        <div class="form-group" *ngFor="let simulation of simulations">
+            <input type="checkbox"
+                   [(ngModel)]="simulation.isSelected" name="isSelected">{{ simulation.name }}
+        </div>
+    </div>
+    
+    <button type="submit" class="btn btn-success submit"
+            (click)="onCreate(); newServerForm.reset()"
+            [disabled]="!newServerForm.form.valid">
+        Create
+    </button>
 </form>
 

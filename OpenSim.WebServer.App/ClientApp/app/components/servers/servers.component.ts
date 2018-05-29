@@ -1,7 +1,7 @@
 import { Component, Inject, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { Http } from "@angular/http";
-import { NewServerComponent } from "../new-server/new-server.component";
+import { NewServerFormComponent } from "../new-server/new-server.component";
 
 @Component({
     selector: "servers",
