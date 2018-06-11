@@ -1,5 +1,5 @@
-import { Component, Inject, NgModule } from "@angular/core";
-import { Http } from "@angular/http";
+import { Component, Inject } from "@angular/core";
+import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,11 +8,11 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ["./simulation.component.css"]
 })
 export class SimulationComponent {
-    private id: number;
+    private id?: number;
     private sub: any;
-    public simulation: Simulation;
+    public simulation?: Simulation;
 
-    constructor(private route: ActivatedRoute, private http: Http, @Inject("BASE_URL") private baseUrl: string) { }
+    constructor(private route: ActivatedRoute, private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
@@ -26,7 +26,7 @@ export class SimulationComponent {
                     "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
                     "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
                     "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))").subscribe(result => {
-                        this.simulation = result.json() as Simulation;
+                        this.simulation = result/*.json()*/ as Simulation;
             }, error => console.error(error));
         });
     }

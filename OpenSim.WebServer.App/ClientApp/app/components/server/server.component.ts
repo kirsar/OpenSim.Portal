@@ -1,5 +1,5 @@
-import { Component, Inject, NgModule } from "@angular/core";
-import { Http } from "@angular/http";
+import { Component, Inject, } from "@angular/core";
+import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,11 +8,11 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ["./server.component.css"]
 })
 export class ServerComponent {
-    private id: number;
+    private id?: number;
     private sub: any;
-    public server: Server;
+    public server?: Server;
 
-    constructor(private route: ActivatedRoute, private http: Http, @Inject("BASE_URL") private baseUrl: string) { }
+    constructor(private route: ActivatedRoute, private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
@@ -25,7 +25,7 @@ export class ServerComponent {
                     "author(name,description,_links/self)," +
                     "simulations(name,description,_links/self)," +
                     "presentations(name,description,_links/self))").subscribe(result => {
-                this.server = result.json() as Server;
+                this.server = result as Server;
             }, error => console.error(error));
         });
     }

@@ -1,7 +1,5 @@
-import { Component, Inject, NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { Http } from "@angular/http";
-import { NewServerFormComponent } from "../new-server/new-server.component";
+import { Component, Inject, } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: "servers",
@@ -9,9 +7,9 @@ import { NewServerFormComponent } from "../new-server/new-server.component";
     styleUrls: ["./servers.component.css"]
 })
 export class ServersComponent {
-    public servers: Server[];
+    public servers?: Server[];
    
-    constructor(http: Http, @Inject("BASE_URL") baseUrl: string) {
+    constructor(http: HttpClient, @Inject("BASE_URL") baseUrl: string) {
         http.get(baseUrl + 
             "api/v1/servers?fields=_embedded/servers(" +
                 "id,name,description,isRunning," +
@@ -20,7 +18,7 @@ export class ServersComponent {
                     "author(id,name,_links/self)," +
                     "simulations(id,name,description,_links/self)," +
                     "presentations(id,name,description,_links/self)))").subscribe(
-            result => this.servers = result.json()._embedded.servers as Server[],
+            result => this.servers = result/*.json()._embedded.servers*/ as Server[],
             error => console.error(error));
     }
 }

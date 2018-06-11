@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ExpandableListModule } from 'angular2-expandable-list';
@@ -30,7 +30,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
     ],
     imports: [
         CommonModule,
-        HttpModule,
+        HttpClientModule,
         FormsModule,
         ExpandableListModule,
         RouterModule.forRoot([

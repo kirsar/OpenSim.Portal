@@ -1,5 +1,5 @@
 import { Component, Inject, } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
     selector: "new-server-form",
@@ -7,11 +7,11 @@ import { Http } from "@angular/http";
     styleUrls: ["./new-server.component.css"]
 })
 export class NewServerFormComponent {
-    public simulations: Simulation[];
+    public simulations?: Simulation[];
 
-    constructor(private http: Http, @Inject("BASE_URL") private baseUrl: string) {
+    constructor(private readonly http: HttpClient, @Inject("BASE_URL") private readonly  baseUrl: string) {
         http.get(baseUrl + "api/v1/simulations").subscribe(
-            results => this.simulations = results.json()._embedded.simulations as Simulation[],
+            results => this.simulations = results as Simulation[],
             error => console.error(error));
     }
 
@@ -38,8 +38,7 @@ export class Server {
     ) { }
 
     description?: string;
-    isRunning: boolean;
-    simulations: Simulation[];
+    simulations?: Simulation[];
 }
 
 //interface Embedded {
