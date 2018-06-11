@@ -26,7 +26,9 @@ export class NewServerFormComponent {
         //    this.server.simulations.push(s));
 
         //debugger;
-        //this.http.post(this.baseUrl + "api/v1/servers", this.server);
+
+
+        this.http.post(this.baseUrl + "api/v1/servers", this.server);
     }
 }
 
