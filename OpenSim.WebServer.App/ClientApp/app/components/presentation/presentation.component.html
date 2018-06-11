@@ -5,14 +5,14 @@
 
     <p>
         <span>By </span>
-        <a routerLink="{{ presentation._embedded.author._links.self.href }}">{{ presentation._embedded.author.name }}.</a>
+        <a [routerLink]="['/users/' + presentation._embedded.author.id]">{{ presentation._embedded.author.name }}.</a>
         <span>{{ presentation._embedded.author.description }} </span>
     </p>
 
     <p class="group-header" *ngIf="presentation._embedded.simulations">Referenced By</p>
     <div class="items-container" *ngIf="presentation._embedded.simulations">
         <ng-container *ngFor="let simulation of presentation._embedded.simulations">
-            <a class="item-name" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
+            <a class="item-name" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
             <div class="item-author">
                 <span>{{ simulation._embedded.author.name }}</span>
             </div>

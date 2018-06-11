@@ -22,10 +22,10 @@ export class SimulationComponent {
                 "name,description," +
                 "_links/self," +
                 "_embedded(" +
-                    "author(name,description,_links/self)," +
-                    "references(name,description,_links/self,_embedded/author(name,_links/self))," +
-                    "consumers(name,description,_links/self,_embedded/author(name,_links/self))," +
-                    "presentations(name,description,_links/self,_embedded/author(name,_links/self)))").subscribe(result => {
+                    "author(id,name,description,_links/self)," +
+                    "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
+                    "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
+                    "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))").subscribe(result => {
                         this.simulation = result.json() as Simulation;
             }, error => console.error(error));
         });
@@ -50,17 +50,20 @@ interface Embedded {
 }
 
 interface Author {
+    id : number;
     name: string;
     description: string;
 }
 
 interface SimulationReference {
+    id: number;
     name: string;
     description: string;
     _embedded: EmbeddedReference;
 }
 
 interface PresentationReference {
+    id: number;
     name: string;
     description: string;
     _embedded: EmbeddedReference;

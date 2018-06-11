@@ -1,7 +1,7 @@
 <div *ngIf="simulations">
     <section class="item-container">
         <figure class="item" *ngFor="let simulation of simulations">
-            <a class="link" href="{{ simulation._links.self.href }}">{{ simulation.name }}</a>
+            <a class="link" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
 
             <div class="presentations">
                 <expandable-list>
@@ -11,7 +11,7 @@
                         <div class="negative-margin" item></div>
 
                         <div class="presentation-item" item *ngFor="let presentation of simulation._embedded.presentations">
-                            <a class="presentation-link" href="{{ presentation._links.self.href }}">{{ presentation.name }}</a>
+                            <a class="presentation-link" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
                         </div>
                     </expandable-list-item>
                 </expandable-list>

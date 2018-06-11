@@ -12,13 +12,13 @@ export class SimulationsComponent {
     constructor(http: Http, @Inject("BASE_URL") baseUrl: string) {
         http.get(baseUrl +
             "api/v1/simulations?fields=_embedded/simulations(" +
-                "name,description," +
+                "id,name,description," +
                 "_links/self," +
                 "_embedded(" +
-                "author(name,_links/self)," +
-                "references(name,description,_links/self,_embedded/author(name,_links/self))," +
-                "consumers(name,description,_links/self,_embedded/author(name,_links/self))," +
-                "presentations(name,description,_links/self,_embedded/author(name,_links/self)))").subscribe(result => {
+                "author(id,name,_links/self)," +
+                "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
+                "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
+                "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))").subscribe(result => {
                     this.simulations = result.json()._embedded.simulations as Simulation[];
             },
             error => console.error(error));
@@ -26,6 +26,7 @@ export class SimulationsComponent {
 }
 
 interface Simulation {
+    id: number;
     name: string;
     description: string;
     _embedded: Embedded;
@@ -39,17 +40,20 @@ interface Embedded {
 }
 
 interface Author {
+    id: number;
     name: string;
     description: string;
 }
 
 interface SimulationReference {
+    id: number;
     name: string;
     description: string;
     _embedded: EmbeddedReference;
 }
 
 interface PresentationReference {
+    id: number;
     name: string;
     description: string;
     _embedded: EmbeddedReference;

@@ -22,8 +22,8 @@ export class NewServerFormComponent {
     //}
 
     onCreate() {
-        this.simulations.filter(s => s.isSelected).forEach(s =>
-            this.server.simulations.push(s));
+        //this.simulations.filter(s => s.isSelected).forEach(s =>
+        //    this.server.simulations.push(s));
 
         //debugger;
         //this.http.post(this.baseUrl + "api/v1/servers", this.server);

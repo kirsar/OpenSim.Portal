@@ -22,8 +22,8 @@ export class PresentationComponent {
                 "name,description," +
                 "_links/self," +
                 "_embedded(" +
-                    "author(name,description,_links/self)," +
-                    "simulations(name,description,_links/self,_embedded/author(name,_links/self)))").subscribe(result => {
+                    "author(id, name,description,_links/self)," +
+                    "simulations(id, name,description,_links/self,_embedded/author(id, name,_links/self)))").subscribe(result => {
                        this.presentation = result.json() as Presentation;
             }, error => console.error(error));
         });
@@ -46,6 +46,7 @@ interface Embedded {
 }
 
 interface SimulationReference {
+    id: number;
     name: string;
     description: string;
     _embedded: EmbeddedReference;
@@ -56,6 +57,7 @@ interface EmbeddedReference {
 }
 
 interface Author {
+    id: number;
     name: string;
     description: string;
 }

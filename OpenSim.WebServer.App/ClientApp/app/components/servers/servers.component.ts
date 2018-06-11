@@ -17,9 +17,9 @@ export class ServersComponent {
                 "id,name,description,isRunning," +
                 "_links/self," +
                 "_embedded(" +
-                    "author(name,_links/self)," +
-                    "simulations(name,description,_links/self)," +
-                    "presentations(name,description,_links/self)))").subscribe(
+                    "author(id,name,_links/self)," +
+                    "simulations(id,name,description,_links/self)," +
+                    "presentations(id,name,description,_links/self)))").subscribe(
             result => this.servers = result.json()._embedded.servers as Server[],
             error => console.error(error));
     }
@@ -39,15 +39,18 @@ interface Embedded {
 }
 
 interface Author {
+    id: number;
     name: string;
 }
 
 interface Simulation {
+    id: number;
     name: string;
     description: string;
 }
 
 interface Presentation {
+    id: number;
     name: string;
     description: string;
 }
