@@ -8,27 +8,26 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ["./simulation.component.css"]
 })
 export class SimulationComponent {
-    private id?: number;
     private sub: any;
     public simulation?: Simulation;
 
-    constructor(private route: ActivatedRoute, private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
+    constructor(
+        private readonly route: ActivatedRoute,
+        private readonly http: HttpClient, @Inject("BASE_URL")
+        private readonly baseUrl: string) { }
 
     ngOnInit() {
-        this.sub = this.route.params.subscribe(params => {
-            this.id = +params['id']; // (+) converts string 'id' to a number
-
-            this.http.get(this.baseUrl + "api/v1/simulations/" + this.id + "?fields=" +
+        this.sub = this.route.params.subscribe(params =>
+            this.http.get<Simulation>(this.baseUrl + "api/v1/simulations/" + params['id'] + "?fields=" +
                 "name,description," +
                 "_links/self," +
                 "_embedded(" +
                     "author(id,name,description,_links/self)," +
                     "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
                     "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
-                    "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))").subscribe(result => {
-                        this.simulation = result/*.json()*/ as Simulation;
-            }, error => console.error(error));
-        });
+                "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))").subscribe(
+                result => this.simulation = result,
+                error => console.error(error)));
     }
 
     ngOnDestroy() {

@@ -7,11 +7,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
     styleUrls: ["./new-server.component.css"]
 })
 export class NewServerFormComponent {
-    public simulations?: Simulation[];
+    public simulations: Simulation[] = [];
 
     constructor(private readonly http: HttpClient, @Inject("BASE_URL") private readonly  baseUrl: string) {
-        http.get(baseUrl + "api/v1/simulations").subscribe(
-            results => this.simulations = results as Simulation[],
+        http.get(baseUrl + "api/v1/simulations", { responseType: 'text' }).subscribe(
+            res => this.simulations = JSON.parse(res)._embedded.simulations as Simulation[],
             error => console.error(error));
     }
 
@@ -22,23 +22,28 @@ export class NewServerFormComponent {
     //}
 
     onCreate() {
-        //this.simulations.filter(s => s.isSelected).forEach(s =>
-        //    this.server.simulations.push(s));
+        this.simulations.filter(sim => sim.isSelected).forEach(
+            sim => this.server.simulations.push(sim));
 
-        //debugger;
+        const httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/hal+json' })
+        };
 
+        debugger;
 
-        this.http.post(this.baseUrl + "api/v1/servers", this.server);
+        const body = JSON.stringify(this.server);
+        this.http.post<Server>(this.baseUrl + "api/v1/servers", body, httpOptions);
     }
 }
 
 export class Server {
-    constructor(
-        public name: string
-    ) { }
+    constructor(public name: string)
+    {
+        this.simulations = [];
+    }
 
     description?: string;
-    simulations?: Simulation[];
+    simulations: Simulation[];
 }
 
 //interface Embedded {

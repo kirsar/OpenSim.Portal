@@ -18,9 +18,8 @@ export class SimulationsComponent {
                 "author(id,name,_links/self)," +
                 "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
                 "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
-                "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))").subscribe(result => {
-                    this.simulations = result/*.json()._embedded.simulations*/ as Simulation[];
-            },
+            "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))", { responseType: 'text' }).subscribe(
+            res => this.simulations = JSON.parse(res)._embedded.simulations as Simulation[],
             error => console.error(error));
     }
 }

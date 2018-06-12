@@ -8,26 +8,25 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ["./server.component.css"]
 })
 export class ServerComponent {
-    private id?: number;
     private sub: any;
     public server?: Server;
 
-    constructor(private route: ActivatedRoute, private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
+    constructor(
+        private readonly route: ActivatedRoute,
+        private readonly http: HttpClient, @Inject("BASE_URL")
+        private readonly baseUrl: string) { }
 
     ngOnInit() {
-        this.sub = this.route.params.subscribe(params => {
-            this.id = +params['id']; // (+) converts string 'id' to a number
-
-            this.http.get(this.baseUrl + "api/v1/servers/" + this.id + "?fields=" +
+        this.sub = this.route.params.subscribe(params =>
+            this.http.get<Server>(this.baseUrl + "api/v1/servers/" + params['id'] + "?fields=" +
                 "name,description,isRunning," +
                 "_links/self," +
                 "_embedded(" +
                     "author(name,description,_links/self)," +
                     "simulations(name,description,_links/self)," +
-                    "presentations(name,description,_links/self))").subscribe(result => {
-                this.server = result as Server;
-            }, error => console.error(error));
-        });
+                "presentations(name,description,_links/self))").subscribe(
+                result => this.server = result,
+                error => console.error(error)));
     }
 
     ngOnDestroy() {

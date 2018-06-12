@@ -17,8 +17,8 @@ export class ServersComponent {
                 "_embedded(" +
                     "author(id,name,_links/self)," +
                     "simulations(id,name,description,_links/self)," +
-                    "presentations(id,name,description,_links/self)))").subscribe(
-            result => this.servers = result/*.json()._embedded.servers*/ as Server[],
+            "presentations(id,name,description,_links/self)))", { responseType: 'text'}).
+            subscribe(res => this.servers = JSON.parse(res)._embedded.servers as Server[],
             error => console.error(error));
     }
 }
