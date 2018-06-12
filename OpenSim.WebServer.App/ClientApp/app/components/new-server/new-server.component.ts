@@ -1,4 +1,4 @@
-import { Component, Inject, } from "@angular/core";
+import { Component, Inject, Output, EventEmitter } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -7,13 +7,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
     styleUrls: ["./new-server.component.css"]
 })
 export class NewServerFormComponent {
-    public simulations: Simulation[] = [];
+    public simulations: ISimulation[] = [];
 
     constructor(private readonly http: HttpClient, @Inject("BASE_URL") private readonly  baseUrl: string) {
         http.get(baseUrl + "api/v1/simulations", { responseType: 'text' }).subscribe(
-            res => this.simulations = JSON.parse(res)._embedded.simulations as Simulation[],
+            res => this.simulations = JSON.parse(res)._embedded.simulations as ISimulation[],
             error => console.error(error));
     }
+
+    @Output() serverCreated = new EventEmitter<Server>();
 
     server = new Server("New Server 1");
 
@@ -23,47 +25,50 @@ export class NewServerFormComponent {
 
     onCreate() {
         this.simulations.filter(sim => sim.isSelected).forEach(
-            sim => this.server.simulations.push(sim));
+            sim => this.server._links.simulations.push(new SimulationLink(sim.id)));
 
         const httpOptions = {
             headers: new HttpHeaders({ 'Content-Type': 'application/hal+json' })
         };
 
-        debugger;
-
-        const body = JSON.stringify(this.server);
-        this.http.post<Server>(this.baseUrl + "api/v1/servers", body, httpOptions);
+        this.http.post(this.baseUrl + "api/v1/servers", this.server, httpOptions).subscribe(
+            res => {
+                this.server = new Server("New Server 1");
+                this.simulations.forEach(s => s.isSelected = false);
+                this.serverCreated.emit(res as Server);
+            });
     }
 }
 
-export class Server {
-    constructor(public name: string)
-    {
-        this.simulations = [];
-    }
-
-    description?: string;
-    simulations: Simulation[];
-}
-
-//interface Embedded {
-//    author: Author;
-//    simulations: Simulation[];
-//    presentations: Presentation[];
-//}
-
-//interface Author {
-//    name: string;
-//}
-
-interface Simulation {
+interface ISimulation {
     id: number;
     name: string;
     description: string;
     isSelected: boolean;
 }
 
-//interface Presentation {
-//    name: string;
-//    description: string;
-//}
+class Server {
+    constructor(public name: string)
+    {
+        this._links = new Links();
+    }
+
+    description?: string;
+    _links: Links;
+}
+
+class Links {
+    constructor() {
+        this.simulations = [];
+    }
+
+    simulations: SimulationLink[];
+}
+
+class SimulationLink {
+    constructor(id: number) {
+        this.href = `\\simulations\\${id}`;
+    }
+
+    public href: string;
+}

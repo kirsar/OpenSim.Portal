@@ -14,7 +14,7 @@ Portal
 Done 27  fix slow opening of server/id page. Replaced hrefs with router link to prevent whole page reload 
 30  rename to Portal
 50  ensure I'm selfhost and why I need OWIN then?
-55  regulate _embedded data for pure HAL without ?fields
+Done 55  regulate _embedded data for pure HAL without ?fields
 56  dynamic embedding of linked resource based on ?fields  
 Done 57  remove mixing of API and Front end hrefs in templates (don't use link from API to redirect)
 58  web api with pagination

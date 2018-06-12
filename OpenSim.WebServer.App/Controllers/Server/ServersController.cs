@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using OpenSim.WebServer.Model;
@@ -10,25 +11,32 @@ namespace OpenSim.WebServer.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ServersController : Controller
     {
-        private readonly IServerRepository repo;
+        private readonly IServerRepository serversRepo;
+        private readonly ISimulationRepository simulationsRepo;
+        private readonly IUserRepository usersRepo;
 
-        public ServersController(IServerRepository repo)
+        public ServersController(
+            IServerRepository serversRepo, 
+            ISimulationRepository simulationsRepo,
+            IUserRepository usersRepo)
         {
-            this.repo = repo;
+            this.serversRepo = serversRepo;
+            this.simulationsRepo = simulationsRepo;
+            this.usersRepo = usersRepo;
         }
 
         // GET: api/v1/Servers
         [HttpGet]
-        public ServerCollection Get() => new ServerCollection(repo
+        public ServerCollection Get() => new ServerCollection(serversRepo
             .GetAll()
             .Select(server => new ServerResource(server)
             .EmbedRelations(server, Request)).ToList());
 
         // GET: api/v1/Servers/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(long id)
         {
-            var server = repo.Get(id);
+            var server = serversRepo.Get(id);
 
             if (server == null)
                 return NotFound();
@@ -38,18 +46,33 @@ namespace OpenSim.WebServer.Controllers
         
         // POST: api/v1/Servers
         [HttpPost]
-        public IActionResult Post([FromBody]ServerResource server)
+        public IActionResult Post([FromBody]ServerResource serverResource)
         {
-            if (server == null)
+            if (serverResource == null)
                 return BadRequest();
 
-            repo.Add(new Server
+            var server = new Server
             {
-                Id = server.Id,
-                // TODO
-            });
+                Name = serverResource.Name,
+                Description = serverResource.Description,
+                Author = usersRepo.GetAll().First()
+            };
 
-            return CreatedAtRoute("Get", new { id = server.Id }, server);
+            // TODO current
+
+            foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Simulations.GetSimulation.Rel))
+            {
+                // TODO handle error
+                // TODO replace this by something smarter
+                var id = long.Parse(link.Href.Substring(link.Rel.Length + 2), NumberStyles.Any, CultureInfo.InvariantCulture);
+                var simulation = simulationsRepo.Get(id);
+                server.AddSimulation(simulation);
+            }
+
+            serversRepo.Add(server);
+
+            //return CreatedAtRoute("Get", new { id = server.Id }, server);
+            return Get(server.Id);
         }
         
         // PUT: api/v1/Servers/5
@@ -59,11 +82,11 @@ namespace OpenSim.WebServer.Controllers
             if (server == null || server.Id != id)
                 return BadRequest();
         
-            var todo = repo.Get(id);
+            var todo = serversRepo.Get(id);
             if (todo == null)
                 return NotFound();
         
-            repo.Update(new Server
+            serversRepo.Update(new Server
             {
                 Id = server.Id,
                 // TODO
@@ -76,11 +99,11 @@ namespace OpenSim.WebServer.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var sever = repo.Get(id);
+            var sever = serversRepo.Get(id);
             if (sever == null)
                 return NotFound();
             
-            repo.Remove(id);
+            serversRepo.Remove(id);
             return new NoContentResult();
         }
     }

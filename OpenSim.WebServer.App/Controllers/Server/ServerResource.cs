@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using OpenSim.WebServer.Model;
 using WebApi.Hal;
 
@@ -8,17 +7,27 @@ namespace OpenSim.WebServer.Controllers
     public class ServerResource : Representation
     {
         private readonly Server server;
-      
+
+        public ServerResource()
+        {
+        }
+
         public ServerResource(Server server)
         {
             this.server = server;
+
+            Id = server.Id;
+            Name = server.Name;
+            Description = server.Description;
+            IsRunning = server.IsRunning;
+            IsCustomUiAvailable = server.IsCustomUiAvailable;
         }
 
-        public long Id => server.Id;
-        public string Name => server.Name;
-        public string Description => server.Description;
-        public bool IsRunning => server.IsRunning;
-        public bool IsCustomUiAvailable => server.IsCustomUiAvailable;
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public bool IsRunning { get; set; }
+        public bool IsCustomUiAvailable { get; set; }
 
         public UserInfoResource Author { get; set; }
         public IEnumerable<SimulationResource> Simulations { get; set; } 
