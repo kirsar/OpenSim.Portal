@@ -1,0 +1,19 @@
+<div>
+    <div>
+        <file-drop headertext="Drop archieve with you simulation here" 
+                   (onFileDrop)="dropped($event)" 
+                   (onFileOver)="fileOver($event)" 
+                   (onFileLeave)="fileLeave($event)">
+        </file-drop>
+    </div>
+    
+    <div id="report" *ngIf="isValid()" ><span>Name: {{ fileEntry.name }}</span></div>
+    
+    <div id="error" *ngIf="!isValid()">{{ message }}</div>
+
+    <button class="btn btn-success submit"
+            (click)="onUpload()"
+            [disabled]="!isValid()">
+        Upload
+    </button>
+</div>

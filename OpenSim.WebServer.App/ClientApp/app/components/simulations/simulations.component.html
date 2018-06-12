@@ -1,4 +1,6 @@
 <div *ngIf="simulations">
+    <new-simulation-form id="new-simulation"></new-simulation-form>
+    
     <section class="item-container">
         <figure class="item" *ngFor="let simulation of simulations">
             <a class="link" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>

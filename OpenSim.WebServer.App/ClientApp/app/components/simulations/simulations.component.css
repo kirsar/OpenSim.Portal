@@ -1,3 +1,7 @@
+#new-simulation {
+    margin: 1em;
+}
+
 .item-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

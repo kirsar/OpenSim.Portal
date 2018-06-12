@@ -5,26 +5,33 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ExpandableListModule } from 'angular2-expandable-list';
+import { FileDropModule } from 'ngx-file-drop';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
+
 import { ServersComponent } from './components/servers/servers.component';
-import { NewServerFormComponent } from './components/new-server/new-server.component';
 import { ServerComponent } from './components/server/server.component';
+import { NewServerFormComponent } from './components/new-server/new-server.component';
+
 import { SimulationsComponent } from './components/simulations/simulations.component';
 import { SimulationComponent } from './components/simulation/simulation.component';
+import { NewSimulationFormComponent } from "./components/new-simulation/new-simulation.component";
+
 import { PresentationComponent } from './components/presentation/presentation.component';
 
-@NgModule({
+@
+NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
         ServersComponent,
-        NewServerFormComponent,
         ServerComponent,
+        NewServerFormComponent,
         SimulationsComponent,
         SimulationComponent,
+        NewSimulationFormComponent,
         PresentationComponent,
         HomeComponent
     ],
@@ -33,6 +40,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
         HttpClientModule,
         FormsModule,
         ExpandableListModule,
+        FileDropModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
