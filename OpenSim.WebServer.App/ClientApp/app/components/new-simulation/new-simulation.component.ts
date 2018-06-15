@@ -1,5 +1,5 @@
-import { Component, Inject, ChangeDetectorRef } from "@angular/core";
-import { HttpClient, } from '@angular/common/http';
+import { Component, Inject, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UploadEvent, UploadFile, FileSystemFileEntry } from 'ngx-file-drop';
 
 @Component({
@@ -15,6 +15,7 @@ export class NewSimulationFormComponent {
 
     public fileEntry?: FileSystemFileEntry;
     public message: string = "";
+    private simulation?: Simulation; 
 
     public dropped(event: UploadEvent) {
         const droppedFile = event.files[0] as UploadFile;
@@ -26,6 +27,23 @@ export class NewSimulationFormComponent {
                 // check if it's a simulation and store a file
                 this.fileEntry = fileEntry;
                 this.changeDetection.detectChanges();
+
+                const reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = () => {
+                    var json = JSON.parse(reader.result);
+
+                    this.simulation = new Simulation(json["name"]);
+
+                    const httpOptions = {
+                        headers: new HttpHeaders({ 'Content-Type': 'application/hal+json' })
+                    };
+
+                    this.http.post(this.baseUrl + "api/v1/simulations", this.simulation, httpOptions).subscribe(
+                        res => {
+                            this.simulationCreated.emit(res as Simulation);
+                        });
+                }
             });
         } else
             this.message = droppedFile.fileEntry.name + "is not a paltform compatible simulation file";
@@ -51,8 +69,9 @@ export class NewSimulationFormComponent {
     public isValid = () => this.fileEntry !== undefined && this.fileEntry !== null;
     
     public onUpload() {
-
+        this.fileEntry = undefined;
     }
+    @Output() simulationCreated = new EventEmitter<Simulation>();
 
     public fileOver(event: any) {
         console.log(event);
@@ -61,4 +80,12 @@ export class NewSimulationFormComponent {
     public fileLeave(event: any) {
         console.log(event);
     }
+}
+
+class Simulation {
+    constructor(private name: string) {
+    }
+
+    description: string;
+    references: string[];
 }

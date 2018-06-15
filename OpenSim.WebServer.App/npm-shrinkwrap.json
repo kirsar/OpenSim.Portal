@@ -4414,6 +4414,7 @@
       "version": "4.0.4",
       "resolved": "https://registry.npmjs.org/ngx-file-drop/-/ngx-file-drop-4.0.4.tgz",
       "integrity": "sha512-qK9API1BU3WJzFcsaT5qr8077yry3sVvTd8Bu+pz++crRJ1BO6DTUr/YJ6paQAaNd26Jv50utMfnVc/IvOEDcA==",
+      "dev": true,
       "requires": {
         "tslib": "1.9.2"
       }
@@ -6577,7 +6578,8 @@
     "tslib": {
       "version": "1.9.2",
       "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.9.2.tgz",
-      "integrity": "sha1-i+DMmh9tx3J8ON6xbC69GiiSmI4="
+      "integrity": "sha1-i+DMmh9tx3J8ON6xbC69GiiSmI4=",
+      "dev": true
     },
     "tslint": {
       "version": "5.10.0",
