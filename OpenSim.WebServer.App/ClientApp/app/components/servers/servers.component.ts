@@ -7,10 +7,11 @@ import { HttpClient } from '@angular/common/http';
     styleUrls: ["./servers.component.css"]
 })
 export class ServersComponent {
-    public servers?: Server[] ;
+    public servers: Server[];
    
     constructor(private readonly http: HttpClient, @Inject("BASE_URL") private readonly baseUrl: string) {
-       this.queryServers();
+        this.servers = [];
+        this.queryServers();
     }
 
     queryServers = () =>

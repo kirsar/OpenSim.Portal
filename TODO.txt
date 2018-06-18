@@ -1,6 +1,5 @@
 Portal Todo:
 1   allow to click play / stop (servers/server) for own server and post
-3   simple plugin loader
 14  gitignore per solution
 15  reusable code for ts for hal
 15.11 refactor new-simulation with promises 
@@ -11,8 +10,9 @@ Portal Todo:
 21  why signletone is reconstructed after accessed before WebHost.Build() is called?
 25  separate app / client / controllers parts into projects
 30  rename to Portal
-50  ensure I'm selfhost and why I need OWIN then?
 56  dynamic embedding of linked resource based on ?fields  
+50  ensure I'm selfhost and why I need OWIN then?
+57  rename servers into server config, introduce runnable instance of server as separate portal entity
 58  web api with pagination
 60  move data to postgres (or MS?)
 70  mobile adaptive ui for server list

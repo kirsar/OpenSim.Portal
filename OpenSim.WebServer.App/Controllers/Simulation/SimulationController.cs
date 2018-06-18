@@ -1,6 +1,11 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
@@ -10,25 +15,27 @@ namespace OpenSim.WebServer.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class SimulationsController : Controller
     {
-        private readonly ISimulationRepository repo;
+        private readonly ISimulationRepository simulationRepo;
+        private readonly IUserRepository usersRepo;
 
-        public SimulationsController(ISimulationRepository repo)
+        public SimulationsController(ISimulationRepository simulationRepo, IUserRepository usersRepo)
         {
-            this.repo = repo;
+            this.simulationRepo = simulationRepo;
+            this.usersRepo = usersRepo;
         }
 
         // GET: api/v1/Simulations
         [HttpGet]
-        public SimulationCollection Get() => new SimulationCollection(repo
+        public SimulationCollection Get() => new SimulationCollection(simulationRepo
             .GetAll()
             .Select(simulation => new SimulationResource(simulation)
             .EmbedRelations(simulation, Request)).ToList());
 
         // GET: api/v1/Simulations/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(long id)
         {
-            var simulation = repo.Get(id);
+            var simulation = simulationRepo.Get(id);
 
             if (simulation == null)
                 return NotFound();
@@ -38,18 +45,24 @@ namespace OpenSim.WebServer.Controllers
 
         // POST: api/v1/Simulations
         [HttpPost]
-        public IActionResult Post([FromBody]SimulationResource simulation)
+        public IActionResult Post([FromBody]JObject json)
         {
-            if (simulation == null)
-                return BadRequest();
+            var simulations = simulationRepo.GetAll();
 
-            repo.Add(new Simulation
+            var simulation = new Simulation
             {
-                Id = simulation.Id,
-                // TODO
-            });
+                Name = json["name"].Value<string>(),
+                Description = json["description"].Value<string>(),
+                Author = usersRepo.GetAll().First(),
+                References = json["references"].Select(token => simulations.Single(s => s.Name == token.Value<string>())).ToList()
+            };
 
-            return CreatedAtRoute("Get", new { id = simulation.Id }, simulation);
+            simulationRepo.Add(simulation);
+
+            foreach (var reference in simulation.References)
+               reference.AddConsumer(simulation);
+
+            return Get(simulation.Id);
         }
 
         // PUT: api/v1/Simulations/5
@@ -59,11 +72,11 @@ namespace OpenSim.WebServer.Controllers
             if (server == null || server.Id != id)
                 return BadRequest();
         
-            var todo = repo.Get(id);
+            var todo = simulationRepo.Get(id);
             if (todo == null)
                 return NotFound();
         
-            repo.Update(new Simulation
+            simulationRepo.Update(new Simulation
             {
                 Id = server.Id,
                 // TODO
@@ -76,10 +89,10 @@ namespace OpenSim.WebServer.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (repo.Get(id) == null)
+            if (simulationRepo.Get(id) == null)
                 return NotFound();
             
-            repo.Remove(id);
+            simulationRepo.Remove(id);
             return new NoContentResult();
         }
     }

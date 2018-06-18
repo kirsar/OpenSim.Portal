@@ -13,9 +13,11 @@ export class NewSimulationFormComponent {
         @Inject("BASE_URL") private readonly baseUrl: string,
         private readonly changeDetection: ChangeDetectorRef) { }
 
-    public message: string = "";
+    private message: string = "";
     private simulation?: Simulation; 
     private content?: any;
+
+    @Output() simulationCreated = new EventEmitter<Simulation>();
 
     public dropped(event: UploadEvent) {
         const droppedFile = event.files[0] as UploadFile;
@@ -45,11 +47,9 @@ export class NewSimulationFormComponent {
             this.message = droppedFile.fileEntry.name + "is not a paltform compatible simulation file";
     }
 
-    public isValid = () => this.content !== undefined && this.content !== null;
+    private isValid = () => this.content !== undefined && this.content !== null;
     
-    public onUpload() {
-        debugger;
-
+    private onUpload() {
         const httpOptions = {
             headers: new HttpHeaders({ 'Content-Type': 'application/hal+json' })
         };
@@ -61,15 +61,6 @@ export class NewSimulationFormComponent {
 
         this.content = undefined;
         this.simulation = undefined;
-    }
-    @Output() simulationCreated = new EventEmitter<Simulation>();
-
-    public fileOver(event: any) {
-        console.log(event);
-    }
-
-    public fileLeave(event: any) {
-        console.log(event);
     }
 }
 

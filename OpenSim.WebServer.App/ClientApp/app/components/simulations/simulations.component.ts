@@ -7,20 +7,29 @@ import { HttpClient } from '@angular/common/http';
     styleUrls: ["./simulations.component.css"]
 })
 export class SimulationsComponent {
-    public simulations?: Simulation[];
+    private simulations: Simulation[];
 
-    constructor(http: HttpClient, @Inject("BASE_URL") baseUrl: string) {
-        http.get(baseUrl +
+    constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) {
+        this.simulations = [];
+        this.querySimulations();
+    }
+
+    querySimulations = () =>
+        this.http.get(this.baseUrl +
             "api/v1/simulations?fields=_embedded/simulations(" +
-                "id,name,description," +
-                "_links/self," +
-                "_embedded(" +
-                "author(id,name,_links/self)," +
-                "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
-                "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
+            "id,name,description," +
+            "_links/self," +
+            "_embedded(" +
+            "author(id,name,_links/self)," +
+            "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
+            "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
             "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))", { responseType: 'text' }).subscribe(
             res => this.simulations = JSON.parse(res)._embedded.simulations as Simulation[],
             error => console.error(error));
+
+    onSimulationCreated(simulation: Simulation) {
+        //this.servers.push(server); // TODO just add result to list when servers in both components are compatible
+        this.querySimulations();
     }
 }
 

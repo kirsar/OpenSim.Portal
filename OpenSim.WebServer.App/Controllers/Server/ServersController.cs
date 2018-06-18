@@ -55,11 +55,10 @@ namespace OpenSim.WebServer.Controllers
             {
                 Name = serverResource.Name,
                 Description = serverResource.Description,
+                // TODO current
                 Author = usersRepo.GetAll().First()
             };
-
-            // TODO current
-
+            
             foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Simulations.GetSimulation.Rel))
             {
                 // TODO handle error
