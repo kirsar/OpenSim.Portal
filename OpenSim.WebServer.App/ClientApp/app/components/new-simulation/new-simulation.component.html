@@ -7,7 +7,14 @@
         </file-drop>
     </div>
     
-    <div id="report" *ngIf="isValid()" ><span>Name: {{ fileEntry.name }}</span></div>
+    <div id="details" *ngIf="simulation">
+        <div><span>Name: {{ simulation.name }}</span></div>
+        <div><span>Description: {{ simulation.description }}</span></div>
+        <div><span>References:</span></div>
+        <ul>
+            <li class="referenced-item" *ngFor="let reference of simulation.references"> {{ reference }}</li>
+        </ul>
+    </div>
     
     <div id="error" *ngIf="!isValid()">{{ message }}</div>
 

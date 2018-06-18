@@ -3,6 +3,7 @@ Portal Todo:
 3   simple plugin loader
 14  gitignore per solution
 15  reusable code for ts for hal
+15.11 refactor new-simulation with promises 
 15.1 disable post server if no simulation selected
 15.2 create new server dynamic loading of related sims and pres for selected simulation
 16  home page

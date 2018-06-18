@@ -13,9 +13,9 @@ export class NewSimulationFormComponent {
         @Inject("BASE_URL") private readonly baseUrl: string,
         private readonly changeDetection: ChangeDetectorRef) { }
 
-    public fileEntry?: FileSystemFileEntry;
     public message: string = "";
     private simulation?: Simulation; 
+    private content?: any;
 
     public dropped(event: UploadEvent) {
         const droppedFile = event.files[0] as UploadFile;
@@ -25,51 +25,42 @@ export class NewSimulationFormComponent {
             fileEntry.file((file: File) => {
 
                 // check if it's a simulation and store a file
-                this.fileEntry = fileEntry;
                 this.changeDetection.detectChanges();
 
                 const reader = new FileReader();
                 reader.readAsText(file);
                 reader.onload = () => {
-                    var json = JSON.parse(reader.result);
+                    const json = JSON.parse(reader.result);
 
                     this.simulation = new Simulation(json["name"]);
+                    this.simulation.description = json["description"];
+                    this.simulation.references = json["references"];
 
-                    const httpOptions = {
-                        headers: new HttpHeaders({ 'Content-Type': 'application/hal+json' })
-                    };
+                    this.content = reader.result;
 
-                    this.http.post(this.baseUrl + "api/v1/simulations", this.simulation, httpOptions).subscribe(
-                        res => {
-                            this.simulationCreated.emit(res as Simulation);
-                        });
+                    this.changeDetection.detectChanges();
                 }
             });
         } else
             this.message = droppedFile.fileEntry.name + "is not a paltform compatible simulation file";
-
-
-            //            /**
-            //            // You could upload it like this:
-            //            const formData = new FormData()
-            //            formData.append('logo', file, relativePath)
-
-            //            // Headers
-            //            const headers = new HttpHeaders({
-            //              'security-token': 'mytoken'
-            //            })
-
-            //            this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
-            //            .subscribe(data => {
-            //              // Sanitized logo returned from backend
-            //            })
-            //            **/
     }
 
-    public isValid = () => this.fileEntry !== undefined && this.fileEntry !== null;
+    public isValid = () => this.content !== undefined && this.content !== null;
     
     public onUpload() {
-        this.fileEntry = undefined;
+        debugger;
+
+        const httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/hal+json' })
+        };
+
+        this.http.post(this.baseUrl + "api/v1/simulations", this.content, httpOptions).subscribe(
+            res => {
+                this.simulationCreated.emit(res as Simulation);
+            });
+
+        this.content = undefined;
+        this.simulation = undefined;
     }
     @Output() simulationCreated = new EventEmitter<Simulation>();
 
@@ -83,9 +74,11 @@ export class NewSimulationFormComponent {
 }
 
 class Simulation {
-    constructor(private name: string) {
+    constructor(
+        private name: string) {
+        this.references = [];
     }
 
-    description: string;
+    description?: string;
     references: string[];
 }

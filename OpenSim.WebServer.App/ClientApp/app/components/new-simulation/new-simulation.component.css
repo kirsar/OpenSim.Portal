@@ -2,6 +2,14 @@
     margin-top: 1em;
 }
 
+#details {
+    margin-top: 1em;
+}
+
+.referenced-item {
+    list-style: none;
+}
+
 .btn-success {
     margin-top: 1em;
 }
