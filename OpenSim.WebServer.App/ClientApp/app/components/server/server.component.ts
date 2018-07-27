@@ -1,7 +1,7 @@
 import { Component, Inject, } from "@angular/core";
 import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from './../../service/api-service';
+import { ApiService } from '../../service/api-service';
 
 @Component({
     selector: "servers",
@@ -26,8 +26,8 @@ export class ServerComponent {
                     "author(name,description,_links/self)," +
                     "simulations(name,description,_links/self)," +
                 "presentations(name,description,_links/self))").subscribe(
-                result => this.server = result,
-                error => console.error(error)));
+                (result: any) => this.server = result,
+                (error: any) => console.error(error)));
     }
 
     ngOnDestroy() {

@@ -6,8 +6,11 @@ import { RouterModule } from '@angular/router';
 
 import { ExpandableListModule } from 'angular2-expandable-list';
 import { FileDropModule } from 'ngx-file-drop';
+import { AngularHalModule, ExternalConfigurationHandlerInterface } from 'hal-4-angular';
 
+import { ExternalConfigurationService } from './service/external-configuration-service';
 import { ApiService } from './service/api-service';
+import { ServerService } from './service/server.service';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -43,6 +46,7 @@ NgModule({
         FormsModule,
         ExpandableListModule,
         FileDropModule,
+        AngularHalModule.forRoot(),
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
@@ -54,7 +58,11 @@ NgModule({
             { path: '**', redirectTo: 'home' }
         ])
     ],
-    providers: [ApiService],
+    providers: [
+        ApiService,
+        ServerService,
+        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModuleShared {

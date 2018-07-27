@@ -10,13 +10,13 @@
                         </div>
                         <a class="column-name" [routerLink]="['/servers/' + server.id]">{{ server.name }}</a>
                         <div class="column-author">
-                            <span>{{ server._embedded.author.name }}</span>
+                            <span>{{ server.author.name }}</span>
                         </div>
                     </div>
                 
                     <p class="description" item>{{ server.description }}</p>
-                    <a class="simulation referenced-item" item *ngFor="let simulation of server._embedded.simulations" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
-                    <a class="presentation referenced-item" item *ngFor="let presentation of server._embedded.presentations" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
+                    <a class="simulation referenced-item" item *ngFor="let simulation of server.simulations" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
+                    <a class="presentation referenced-item" item *ngFor="let presentation of server.presentations" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
                 </expandable-list-item>
             </expandable-list>
         </div>
