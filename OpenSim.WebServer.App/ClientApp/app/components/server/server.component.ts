@@ -1,6 +1,7 @@
 import { Component, Inject, } from "@angular/core";
 import { HttpClient, } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { ApiService } from './../../service/api-service';
 
 @Component({
     selector: "servers",
@@ -13,12 +14,12 @@ export class ServerComponent {
 
     constructor(
         private readonly route: ActivatedRoute,
-        private readonly http: HttpClient, @Inject("BASE_URL")
-        private readonly baseUrl: string) { }
+        private readonly api: ApiService)
+    { }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params =>
-            this.http.get<Server>(this.baseUrl + "api/v1/servers/" + params['id'] + "?fields=" +
+            this.api.get<Server>("servers/" + params['id'] + "?fields=" +
                 "name,description,isRunning," +
                 "_links/self," +
                 "_embedded(" +

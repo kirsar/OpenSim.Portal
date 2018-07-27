@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { ExpandableListModule } from 'angular2-expandable-list';
 import { FileDropModule } from 'ngx-file-drop';
 
+import { ApiService } from './service/api-service';
+
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
@@ -52,6 +54,7 @@ NgModule({
             { path: '**', redirectTo: 'home' }
         ])
     ],
+    providers: [ApiService],
     bootstrap: [AppComponent]
 })
 export class AppModuleShared {
