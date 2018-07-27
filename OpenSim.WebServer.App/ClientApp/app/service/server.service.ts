@@ -1,7 +1,8 @@
 ﻿import { Injectable, Injector } from '@angular/core'
 import { Observable } from 'rxjs';
-import { RestService, HalOptions } from 'hal-4-angular'
+import { RestService, Resource, HalOptions, HalParam } from 'hal-4-angular'
 import { Server } from '../model/server'
+import { User } from '../model/user'
 
 @Injectable()
 export class ServerService {
@@ -29,5 +30,15 @@ export class ServerService {
         };
 
         return this.service.getAll(options);
+    }
+}  
+
+export interface IRequestBuilder<T extends Resource> {
+    build(resource: string): HalParam[];
+}
+
+export class ServerRequestBuilder implements IRequestBuilder<Server> {
+    build(resource: string): HalParam[] {
+         throw new Error("Not implemented");
     }
 }

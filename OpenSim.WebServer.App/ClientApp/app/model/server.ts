@@ -7,7 +7,9 @@ export class Server extends Resource {
     id?: number;
     name?: string;
     description?: string;
-    author?: User;
-    simulations: Simulation[] = [];
-    presentations: Presentation[] = [];
+
+    // TODO think aobut how to deal woth _embedded
+    //author?: User;
+    //simulations: Simulation[] = [];
+    //presentations: Presentation[] = [];
 }
