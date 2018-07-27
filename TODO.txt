@@ -1,5 +1,4 @@
 Portal Todo:
-1   allow to click play / stop (servers/server) for own server and post
 14  gitignore per solution
 15  reusable code for ts for hal
 15.11 refactor new-simulation with promises 
@@ -13,11 +12,13 @@ Portal Todo:
 56  dynamic embedding of linked resource based on ?fields  
 50  ensure I'm selfhost and why I need OWIN then?
 57  rename servers into server config, introduce runnable instance of server as separate portal entity
+57.1 allow to click play / stop (servers/server) for own server and post
 58  web api with pagination
 60  move data to postgres (or MS?)
 70  mobile adaptive ui for server list
 100 post css for webpack
 110 how I can use html <map>
+111 beautiful home page
 
 Done:
 Done 2   configure new server and post
