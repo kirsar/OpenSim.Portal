@@ -1,5 +1,4 @@
-import { Component, Inject } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
+import { Component } from "@angular/core";
 import { Simulation } from "../../model/simulation"
 import { SimulationsService } from "../../service/simulations.service"
 import { SimulationRequestBuilder } from '../../service/request-builder/simulation.builder'

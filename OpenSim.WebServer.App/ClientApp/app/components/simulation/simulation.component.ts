@@ -1,6 +1,9 @@
-import { Component, Inject } from "@angular/core";
-import { HttpClient, } from '@angular/common/http';
+import { Component } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
+import { Simulation } from '../../model/simulation';
+import { SimulationsService } from '../../service/simulations.service';
+import { SimulationRequestBuilder } from '../../service/request-builder/simulation.builder'
+import { PresentationRequestBuilder } from '../../service/request-builder/presentation.builder'
 
 @Component({
     selector: "simulations",
@@ -8,67 +11,30 @@ import { ActivatedRoute } from '@angular/router';
     styleUrls: ["./simulation.component.css"]
 })
 export class SimulationComponent {
-    private sub: any;
-    public simulation?: Simulation;
+    private subscription: any;
+    public simulation?: Simulation | undefined;
 
     constructor(
         private readonly route: ActivatedRoute,
-        private readonly http: HttpClient, @Inject("BASE_URL")
-        private readonly baseUrl: string) { }
+        private readonly service: SimulationsService)
+    { }
 
     ngOnInit() {
-        this.sub = this.route.params.subscribe(params =>
-            this.http.get<Simulation>(this.baseUrl + "api/v1/simulations/" + params['id'] + "?fields=" +
-                "name,description," +
-                "_links/self," +
-                "_embedded(" +
-                    "author(id,name,description,_links/self)," +
-                    "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
-                    "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
-                "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))").subscribe(
-                result => this.simulation = result,
-                error => console.error(error)));
+        this.subscription = this.route.params.subscribe(params =>
+            this.service.get(params['id'], new SimulationRequestBuilder()
+                .withAuthor()
+                .withReferences(new SimulationRequestBuilder().withAuthor())
+                .withConsumers(new SimulationRequestBuilder().withAuthor())
+                .withPresentations(new PresentationRequestBuilder().withAuthor())).subscribe(
+                (result: Simulation | undefined) => {
+                    debugger;
+                    this.simulation = result;
+                },
+                    (error: any) => console.error(error)));
     }
 
     ngOnDestroy() {
-        this.sub.unsubscribe();
+        this.subscription.unsubscribe();
     }
-}
-
-interface Simulation {
-    name: string;
-    description: string;
-    _embedded: Embedded;
-}
-
-interface Embedded {
-    author: Author;
-    references: SimulationReference[];
-    consumers: SimulationReference[];
-    presentations: PresentationReference[];
-}
-
-interface Author {
-    id : number;
-    name: string;
-    description: string;
-}
-
-interface SimulationReference {
-    id: number;
-    name: string;
-    description: string;
-    _embedded: EmbeddedReference;
-}
-
-interface PresentationReference {
-    id: number;
-    name: string;
-    description: string;
-    _embedded: EmbeddedReference;
-}
-
-interface EmbeddedReference {
-    author: Author;
 }
 

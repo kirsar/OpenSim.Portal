@@ -1,17 +1,17 @@
 ﻿import { Injectable } from '@angular/core'
-import { Simulation } from "../../model/simulation"
-import { RequestBuilder } from "./request-builder-interface"
-import { UserRequestBuilder } from "./user.builder"
-import { PresentationRequestBuilder } from "./presentation.builder"
+import { Simulation } from '../../model/simulation'
+import { RequestBuilder } from './request-builder-interface'
+import { UserRequestBuilder } from './user.builder'
+import { PresentationRequestBuilder } from './presentation.builder'
 
 @Injectable()
 export class SimulationRequestBuilder extends RequestBuilder<Simulation> {
     constructor() {
         super([
-            "id",
-            "name",
-            "description",
-            "_links/self"]);
+            'id',
+            'name',
+            'description',
+            '_links/self']);
     }
    
     withAuthor(builder?: UserRequestBuilder): SimulationRequestBuilder {

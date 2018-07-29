@@ -11,7 +11,7 @@ import { ServerRequestBuilder } from '../../service/request-builder/server.build
 })
 export class ServerComponent {
     private subscription: any;
-    public server?: Server | null;
+    public server?: Server;
 
     constructor(
         private readonly route: ActivatedRoute,

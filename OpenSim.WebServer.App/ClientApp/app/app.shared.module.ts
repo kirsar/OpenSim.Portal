@@ -27,8 +27,7 @@ import { NewSimulationFormComponent } from "./components/new-simulation/new-simu
 
 import { PresentationComponent } from './components/presentation/presentation.component';
 
-@
-NgModule({
+@NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
