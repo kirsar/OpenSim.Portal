@@ -24,9 +24,7 @@ export class ServerComponent {
                 .withAuthor()
                 .withSimulations()
                 .withPresentations()).subscribe(
-                (result: Server | undefined) => { this.server = result;
-                    debugger;
-                },
+                    (result: Server | undefined) => this.server = result,
                     (error: any) => console.error(error)));
     }
 

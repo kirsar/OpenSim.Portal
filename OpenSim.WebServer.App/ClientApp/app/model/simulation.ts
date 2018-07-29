@@ -1,16 +1,13 @@
-﻿import { Resource } from 'hal-4-angular'
+﻿import { EmbeddingResource } from './embedding-resource';
 import { User } from './user';
 import { Presentation } from "./presentation"
 
-export class Simulation extends Resource {
-    id?: number;
-    name?: string;
-    description?: string;
+export class Simulation extends EmbeddingResource {
+    public name?: string;
+    public description?: string;
 
-    _embedded?: any;
-
-    get author(): User { return this._embedded.author; }
-    get references(): Simulation[] { return this._embedded.references; }
-    get consumers(): Simulation[] { return this._embedded.consumers; }
-    get presentations(): Presentation[] { return this._embedded.presentations; }
+    public get author(): User { return this._embedded.author; }
+    public get references(): Simulation[] { return this._embedded.references; }
+    public get consumers(): Simulation[] { return this._embedded.consumers; }
+    public get presentations(): Presentation[] { return this._embedded.presentations; }
 }

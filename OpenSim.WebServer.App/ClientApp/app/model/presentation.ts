@@ -1,9 +1,9 @@
-﻿import { Resource } from 'hal-4-angular'
+﻿import { EmbeddingResource } from './embedding-resource';
 import { User } from './user';
 
-export class Presentation extends Resource {
-    id?: number;
-    name?: string;
-    description?: string;
-    author?: User;
+export class Presentation extends EmbeddingResource {
+    public name?: string;
+    public description?: string;
+
+    public get author(): User { return this._embedded.author; }
 }

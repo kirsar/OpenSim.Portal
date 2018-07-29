@@ -1,5 +1,5 @@
-﻿import { Resource } from 'hal-4-angular'
+﻿import { EmbeddingResource } from './embedding-resource';
 
-export class User extends Resource {
-    name?: string;
+export class User extends EmbeddingResource {
+    public name?: string;
 }

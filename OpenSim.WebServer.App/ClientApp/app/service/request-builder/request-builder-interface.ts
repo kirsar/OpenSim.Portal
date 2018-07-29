@@ -1,6 +1,6 @@
-﻿import { Resource } from 'hal-4-angular'
+﻿import { EmbeddingResource } from '../../model/embedding-resource';
 
-export abstract  class RequestBuilder<T extends Resource> {
+export abstract class RequestBuilder<T extends EmbeddingResource> {
     private params: string[] = [];
 
     protected constructor(private readonly defaultParams: string[]) {

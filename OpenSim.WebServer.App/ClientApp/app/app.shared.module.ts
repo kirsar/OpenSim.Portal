@@ -6,10 +6,10 @@ import { RouterModule } from '@angular/router';
 
 import { ExpandableListModule } from 'angular2-expandable-list';
 import { FileDropModule } from 'ngx-file-drop';
-import { AngularHalModule, ExternalConfigurationHandlerInterface } from 'hal-4-angular';
+import { AngularHalModule } from 'hal-4-angular';
 
 import { ExternalConfigurationService } from './service/external-configuration-service';
-import { ApiService } from './service/api-service';
+
 import { ServersService } from './service/servers.service';
 import { SimulationsService } from './service/simulations.service';
 
@@ -60,7 +60,6 @@ NgModule({
         ])
     ],
     providers: [
-        ApiService,
         ServersService,
         SimulationsService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
