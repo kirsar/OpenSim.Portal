@@ -1,63 +1,36 @@
-import { Component, Inject, } from "@angular/core";
-import { HttpClient, } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../service/api-service';
+import { Server } from '../../model/server';
+import { ServersService } from '../../service/servers.service';
+import { ServerRequestBuilder } from '../../service/request-builder/server.builder'
 
 @Component({
-    selector: "servers",
-    templateUrl: "./server.component.html",
-    styleUrls: ["./server.component.css"]
+    selector: 'servers',
+    templateUrl: './server.component.html',
+    styleUrls: ['./server.component.css']
 })
 export class ServerComponent {
-    private sub: any;
-    public server?: Server;
+    private subscription: any;
+    public server?: Server | null;
 
     constructor(
         private readonly route: ActivatedRoute,
-        private readonly api: ApiService)
+        private readonly service: ServersService)
     { }
 
-    ngOnInit() {
-        this.sub = this.route.params.subscribe(params =>
-            this.api.get<Server>("servers/" + params['id'] + "?fields=" +
-                "name,description,isRunning," +
-                "_links/self," +
-                "_embedded(" +
-                    "author(name,description,_links/self)," +
-                    "simulations(name,description,_links/self)," +
-                "presentations(name,description,_links/self))").subscribe(
-                (result: any) => this.server = result,
-                (error: any) => console.error(error)));
+    public ngOnInit() {
+        this.subscription = this.route.params.subscribe(params =>
+            this.service.get(params['id'], new ServerRequestBuilder()
+                .withAuthor()
+                .withSimulations()
+                .withPresentations()).subscribe(
+                (result: Server | undefined) => { this.server = result;
+                    debugger;
+                },
+                    (error: any) => console.error(error)));
     }
 
-    ngOnDestroy() {
-        this.sub.unsubscribe();
+    public ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
-}
-
-interface Server {
-    name: string;
-    description: string;
-    isRunning: boolean;
-    _embedded: Embedded;
-}
-
-interface Embedded {
-    author: Author;
-    simulations: Simulation[];
-    presentations: Presentation[];
-}
-
-interface Author {
-    name: string;
-}
-
-interface Simulation {
-    name: string;
-    description: string;
-}
-
-interface Presentation {
-    name: string;
-    description: string;
 }

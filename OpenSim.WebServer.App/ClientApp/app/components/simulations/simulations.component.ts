@@ -1,5 +1,9 @@
 import { Component, Inject } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
+import { Simulation } from "../../model/simulation"
+import { SimulationsService } from "../../service/simulations.service"
+import { SimulationRequestBuilder } from '../../service/request-builder/simulation.builder'
+import { PresentationRequestBuilder } from '../../service/request-builder/presentation.builder'
 
 @Component({
     selector: "simulations",
@@ -7,67 +11,22 @@ import { HttpClient } from '@angular/common/http';
     styleUrls: ["./simulations.component.css"]
 })
 export class SimulationsComponent {
-    private simulations: Simulation[];
+    private simulations: Simulation[] = [];
 
-    constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) {
-        this.simulations = [];
+    constructor(private readonly service: SimulationsService) {
         this.querySimulations();
     }
 
     querySimulations = () =>
-        this.http.get(this.baseUrl +
-            "api/v1/simulations?fields=_embedded/simulations(" +
-            "id,name,description," +
-            "_links/self," +
-            "_embedded(" +
-            "author(id,name,_links/self)," +
-            "references(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
-            "consumers(id,name,description,_links/self,_embedded/author(id,name,_links/self))," +
-            "presentations(id,name,description,_links/self,_embedded/author(id,name,_links/self)))", { responseType: 'text' }).subscribe(
-            res => this.simulations = JSON.parse(res)._embedded.simulations as Simulation[],
-            error => console.error(error));
+        this.service.getAll(new SimulationRequestBuilder()
+            .withAuthor()
+            .withPresentations(new PresentationRequestBuilder().withAuthor())).subscribe(
+                (simulations: Simulation[]) => this.simulations = simulations,
+                (error: any) => console.error(error));
 
     onSimulationCreated(simulation: Simulation) {
         //this.servers.push(server); // TODO just add result to list when servers in both components are compatible
         this.querySimulations();
     }
-}
-
-interface Simulation {
-    id: number;
-    name: string;
-    description: string;
-    _embedded: Embedded;
-}
-
-interface Embedded {
-    author: Author;
-    references: SimulationReference[];
-    consumers: SimulationReference[];
-    presentations: PresentationReference[];
-}
-
-interface Author {
-    id: number;
-    name: string;
-    description: string;
-}
-
-interface SimulationReference {
-    id: number;
-    name: string;
-    description: string;
-    _embedded: EmbeddedReference;
-}
-
-interface PresentationReference {
-    id: number;
-    name: string;
-    description: string;
-    _embedded: EmbeddedReference;
-}
-
-interface EmbeddedReference {
-    author: Author;
 }
 

@@ -12,7 +12,7 @@
 
                         <div class="negative-margin" item></div>
 
-                        <div class="presentation-item" item *ngFor="let presentation of simulation._embedded.presentations">
+                        <div class="presentation-item" item *ngFor="let presentation of simulation.presentations">
                             <a class="presentation-link" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
                         </div>
                     </expandable-list-item>

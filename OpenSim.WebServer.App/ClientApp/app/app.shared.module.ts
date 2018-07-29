@@ -10,7 +10,8 @@ import { AngularHalModule, ExternalConfigurationHandlerInterface } from 'hal-4-a
 
 import { ExternalConfigurationService } from './service/external-configuration-service';
 import { ApiService } from './service/api-service';
-import { ServerService } from './service/server.service';
+import { ServersService } from './service/servers.service';
+import { SimulationsService } from './service/simulations.service';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -60,7 +61,8 @@ NgModule({
     ],
     providers: [
         ApiService,
-        ServerService,
+        ServersService,
+        SimulationsService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
     ],
     bootstrap: [AppComponent]

@@ -1,23 +1,27 @@
-import { Component, } from "@angular/core";
-import { Server } from "../../model/server";
-import { ServerService } from "../../service/server.service"
+import { Component, } from '@angular/core';
+import { Server } from '../../model/server';
+import { ServersService } from '../../service/servers.service'
+import { ServerRequestBuilder } from '../../service/request-builder/server.builder'
 
 @Component({
-    selector: "servers",
-    templateUrl: "./servers.component.html",
-    styleUrls: ["./servers.component.css"]
+    selector: 'servers',
+    templateUrl: './servers.component.html',
+    styleUrls: ['./servers.component.css']
 })
 export class ServersComponent {
     public servers: Server[] = [];
    
-    constructor(private readonly service: ServerService) {
+    constructor(private readonly service: ServersService) {
         this.queryServers();
     }
 
     queryServers = () => 
-        this.service.getAll().subscribe(
-            (servers: any) => this.servers = servers,
-            (error: any) => console.error(error));
+        this.service.getAll(new ServerRequestBuilder()
+            .withSimulations()
+            .withPresentations()
+            .withAuthor()).subscribe(
+                (servers: Server[]) => this.servers = servers,
+                (error: any) => console.error(error));
 
     onServerCreated(server: Server) {
         //this.servers.push(server); // TODO just add result to list when servers in both components are compatible

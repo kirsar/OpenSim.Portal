@@ -8,8 +8,9 @@ export class Server extends Resource {
     name?: string;
     description?: string;
 
-    // TODO think aobut how to deal woth _embedded
-    //author?: User;
-    //simulations: Simulation[] = [];
-    //presentations: Presentation[] = [];
+    _embedded?: any;
+
+    get author(): User { return this._embedded.author; }
+    get simulations(): Simulation[] { return this._embedded.simulations; }
+    get presentations(): Presentation[] { return this._embedded.presentations; }
 }
