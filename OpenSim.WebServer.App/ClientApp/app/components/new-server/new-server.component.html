@@ -5,8 +5,9 @@
                [(ngModel)]="server.name" name="name"
                #name="ngModel">
     </div>
-    <div [hidden]="name.valid" 
-         class="alert alert-danger warning">Name is required
+    <div [hidden]="name.valid"
+         class="alert alert-danger warning">
+        Name is required
     </div>
 
     <div class="form-group">
@@ -14,14 +15,23 @@
         <input type="text" class="form-control" id="description"
                [(ngModel)]="server.description" name="description">
     </div>
-    
+
     <div class="simulations">
         <div class="form-group" *ngFor="let simulation of simulations">
             <input type="checkbox"
                    [(ngModel)]="simulation.isSelected" name="isSelected">{{ simulation.name }}
         </div>
     </div>
-    
+
+    <hr>
+   
+    <div class="presentations">
+        <div class="form-group" *ngFor="let presentation of presentations">
+            <input type="checkbox"
+                   [(ngModel)]="presentation.isSelected" name="isSelected">{{ presentation.name }}
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-success submit"
             (click)="onCreate(); newServerForm.reset()"
             [disabled]="isInvalid()">

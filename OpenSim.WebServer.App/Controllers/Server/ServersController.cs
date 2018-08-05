@@ -13,15 +13,18 @@ namespace OpenSim.WebServer.Controllers
     {
         private readonly IServerRepository serversRepo;
         private readonly ISimulationRepository simulationsRepo;
+        private readonly IPresentationRepository presentationsRepo;
         private readonly IUserRepository usersRepo;
 
         public ServersController(
             IServerRepository serversRepo, 
             ISimulationRepository simulationsRepo,
+            IPresentationRepository presentationsRepo,
             IUserRepository usersRepo)
         {
             this.serversRepo = serversRepo;
             this.simulationsRepo = simulationsRepo;
+            this.presentationsRepo = presentationsRepo;
             this.usersRepo = usersRepo;
         }
 
@@ -66,6 +69,15 @@ namespace OpenSim.WebServer.Controllers
                 var id = long.Parse(link.Href.Substring(link.Rel.Length + 2), NumberStyles.Any, CultureInfo.InvariantCulture);
                 var simulation = simulationsRepo.Get(id);
                 server.AddSimulation(simulation);
+            }
+
+            foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Presentations.GetPresentation.Rel))
+            {
+                // TODO handle error
+                // TODO replace this by something smarter
+                var id = long.Parse(link.Href.Substring(link.Rel.Length + 2), NumberStyles.Any, CultureInfo.InvariantCulture);
+                var presentation = presentationsRepo.Get(id);
+                server.AddPresentation(presentation);
             }
 
             serversRepo.Add(server);

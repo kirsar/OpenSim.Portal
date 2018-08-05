@@ -5,6 +5,9 @@ namespace OpenSim.WebServer.Model
 {
     public class Server
     {
+        private ICollection<Simulation> simulations = new List<Simulation>();
+        private ICollection<Presentation> presentations = new List<Presentation>();
+
         public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -17,10 +20,14 @@ namespace OpenSim.WebServer.Model
             get => simulations;
             set => simulations = value.ToList();
         }
+
+        public IEnumerable<Presentation> Presentations
+        {
+            get => presentations;
+            set => presentations = value.ToList();
+        }
+
         public void AddSimulation(Simulation simulation) => simulations.Add(simulation);
-
-        public IEnumerable<Presentation> Presentations { get; set; }
-
-        private ICollection<Simulation> simulations = new List<Simulation>();
+        public void AddPresentation(Presentation presentation) => presentations.Add(presentation);
     }
 }

@@ -13,7 +13,7 @@ namespace OpenSim.WebServer.Controllers
 
         public override string Href
         {
-            get => LinkTemplates.Presentations.GetPresentation.Href;
+            get => LinkTemplates.Presentations.GetPresentations.Href;
             set { }
         }
 
