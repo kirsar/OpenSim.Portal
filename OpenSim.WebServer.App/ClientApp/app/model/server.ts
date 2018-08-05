@@ -18,11 +18,11 @@ export class Server extends EmbeddingResource {
     public get simulations(): Simulation[] { return this._embedded.simulations; }
     public get presentations(): Presentation[] { return this._embedded.presentations; }
 
-    public addSimulation(id: number | undefined) {
-        this._links.simulations.push(new Link('simulations', id));
+    public addSimulation(simulation: Simulation) {
+        this._links.simulations.push(simulation._links.self);
     }
 
-    public addPresentation(id: number | undefined) {
-        this._links.presentations.push(new Link('presentations', id));
+    public addPresentation(presentation: Presentation) {
+        this._links.presentations.push(presentation._links.self);
     }
 }

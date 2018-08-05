@@ -5,7 +5,6 @@ import { SimulationsService } from '../../service/simulations.service';
 import { SimulationItem } from './simulation-item';
 import { PresentationsService } from '../../service/presentations.service';
 import { PresentationItem } from './presentation-item';
-import { Link } from '../../model/link';
 
 @Component({
     selector: 'new-server-form',
@@ -44,10 +43,10 @@ export class NewServerFormComponent {
 
     private onCreate() {
         this.simulations.filter(s => s.isSelected).forEach(
-            s => this.server.addSimulation(s.id));
+            s => this.server.addSimulation(s.simulation));
 
         this.presentations.filter(s => s.isSelected).forEach(
-            p => this.server.addPresentation(p.id));
+            p => this.server.addPresentation(p.presentation));
 
         // TODO use current user as author
         this.serversService.post(this.server).subscribe(

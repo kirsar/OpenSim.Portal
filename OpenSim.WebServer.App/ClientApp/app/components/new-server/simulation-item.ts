@@ -6,6 +6,5 @@ export class SimulationItem {
     }
 
     public isSelected: boolean = false;
-    public get id(): number | undefined { return this.simulation.id; }
     public get name(): string | undefined { return this.simulation.name; }
 }
