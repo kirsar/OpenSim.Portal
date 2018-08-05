@@ -24,8 +24,7 @@ export class SimulationsComponent {
                 (error: any) => console.error(error));
 
     public onSimulationCreated(simulation: Simulation) {
-        //this.servers.push(server); // TODO just add result to list when servers in both components are compatible
-        this.querySimulations();
+        this.simulations.push(simulation);
     }
 }
 

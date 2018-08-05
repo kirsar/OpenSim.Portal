@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators'
 export abstract class ApiService<T extends EmbeddingResource> {
     private readonly service: RestService<T>;
 
-    protected constructor(type: { new(): T; }, private readonly resource: string, injector: Injector) {
+    protected constructor(type: { new(): T; }, protected  readonly resource: string, injector: Injector) {
         this.service = new RestService<T>(type, resource, injector);
     }
 

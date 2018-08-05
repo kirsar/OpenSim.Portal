@@ -1,6 +1,7 @@
-import { Component, Inject, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { UploadEvent, UploadFile, FileSystemFileEntry } from 'ngx-file-drop';
+import { Simulation } from '../../model/simulation';
+import { SimulationsService } from '../../service/simulations.service';
 
 @Component({
     selector: 'new-simulation-form',
@@ -9,12 +10,11 @@ import { UploadEvent, UploadFile, FileSystemFileEntry } from 'ngx-file-drop';
 })
 export class NewSimulationFormComponent {
     constructor(
-        private readonly http: HttpClient,
-        @Inject('BASE_URL') private readonly baseUrl: string,
+        private readonly service: SimulationsService,
         private readonly changeDetection: ChangeDetectorRef) { }
 
     private message: string = '';
-    private simulation?: Simulation; 
+    private simulation?: SimulationContent; 
     private content?: any;
 
     @Output() public simulationCreated = new EventEmitter<Simulation>();
@@ -34,7 +34,7 @@ export class NewSimulationFormComponent {
                 reader.onload = () => {
                     const json = JSON.parse(reader.result);
 
-                    this.simulation = new Simulation(json['name']);
+                    this.simulation = new SimulationContent(json['name']);
                     this.simulation.description = json['description'];
                     this.simulation.references = json['references'];
 
@@ -50,26 +50,20 @@ export class NewSimulationFormComponent {
     private isValid = () => this.content !== undefined && this.content !== null;
     
     private onUpload() {
-        const httpOptions = {
-            headers: new HttpHeaders({ 'Content-Type': 'application/hal+json' })
-        };
-
-        this.http.post(this.baseUrl + 'api/v1/simulations', this.content, httpOptions).subscribe(
-            res => {
-                this.simulationCreated.emit(res as Simulation);
-            });
+        this.service.upload(this.content).subscribe(
+            res => this.simulationCreated.emit(res as Simulation));
 
         this.content = undefined;
         this.simulation = undefined;
     }
 }
 
-class Simulation {
+class SimulationContent {
     constructor(
-        private name: string) {
+        private readonly name: string) {
         this.references = [];
     }
 
-    description?: string;
-    references: string[];
+    public description?: string;
+    public references: string[];
 }
