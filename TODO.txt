@@ -2,11 +2,11 @@ Portal Todo:
 15.1  dynamic embedding of linked resource based on ?fields  
 15.2 PR to PartialResponse to expose public parsing of ?fields
 15.11 refactor new-simulation with promises 
-15.1 disable post server if no simulation selected
 15.2 create new server dynamic loading of related sims and pres for selected simulation
 15.3 PR to hal-4-angular to extend get() with options
 15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation)
 16  home page
+18  figure out why server is null after created on form
 20  clean unneeded asp and npm references
 21  why signletone is reconstructed after accessed before WebHost.Build() is called?
 25  separate app / client / controllers parts into projects
@@ -25,6 +25,7 @@ Done:
 2   configure new server and post
 14  gitignore per solution
 15  reusable code for ts for hal
+15.1 disable post server if no simulation selected
 27  fix slow opening of server/id page => Replaced hrefs with router link to prevent whole page reload 
 55  regulate _embedded data for pure HAL without ?fields
 57  remove mixing of API and Front end hrefs in templates (don't use link from API to redirect)
