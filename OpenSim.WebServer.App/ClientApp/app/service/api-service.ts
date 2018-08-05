@@ -22,6 +22,10 @@ export abstract class ApiService<T extends EmbeddingResource> {
         return this.getAll(builder).pipe(map(items => items ? items.find(item => item.id == id) : undefined));
     }
 
+    public post(resource: T): Observable<Observable<never> | T> {
+        return this.service.create(resource);
+    }
+
     private buildOptions(builder?: RequestBuilder<T>): HalOptions {
         return builder != undefined ? {
             params: [

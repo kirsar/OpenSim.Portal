@@ -4,6 +4,12 @@ import { Simulation } from './simulation';
 import { Presentation } from './presentation';
 
 export class Server extends EmbeddingResource {
+    public constructor() {
+        super();
+        this._links.simulations = [];
+        this._links.presentations = [];
+    }
+
     public name?: string;
     public description?: string;
 

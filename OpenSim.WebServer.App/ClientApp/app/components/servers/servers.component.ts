@@ -24,7 +24,6 @@ export class ServersComponent {
                 (error: any) => console.error(error));
 
     public onServerCreated(server: Server) {
-        //this.servers.push(server); // TODO just add result to list when servers in both components are compatible
-        this.queryServers();
+        this.servers.push(server);
     }
 }
