@@ -7,11 +7,7 @@ import { PresentationRequestBuilder } from './presentation.builder'
 @Injectable()
 export class SimulationRequestBuilder extends RequestBuilder<Simulation> {
     constructor() {
-        super([
-            'id',
-            'name',
-            'description',
-            '_links/self']);
+        super(['name','description']);
     }
    
     public withAuthor(builder?: UserRequestBuilder): SimulationRequestBuilder {

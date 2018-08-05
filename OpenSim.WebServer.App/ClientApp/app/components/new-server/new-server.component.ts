@@ -42,6 +42,8 @@ export class NewServerFormComponent {
     }
 
     private onCreate() {
+
+        debugger;
         this.simulations.filter(s => s.isSelected).forEach(
             s => this.server.addSimulation(s.simulation));
 

@@ -5,9 +5,6 @@ import { RequestBuilder } from './request-builder-interface'
 @Injectable()
 export class UserRequestBuilder extends  RequestBuilder<User> {
     constructor() {
-        super([
-            'id',
-            'name',
-            '_links/self']);
+        super(['name']);
     }
 }

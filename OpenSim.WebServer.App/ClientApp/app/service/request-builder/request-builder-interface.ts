@@ -4,6 +4,8 @@ export abstract class RequestBuilder<T extends EmbeddingResource> {
     private params: string[] = [];
 
     protected constructor(private readonly defaultParams: string[]) {
+        defaultParams.push('id');
+        defaultParams.push('_links');
     }
 
     protected addParam(param: string) {
