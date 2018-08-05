@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using OpenSim.WebServer.Model;
 
@@ -19,10 +18,10 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/presentations
         [HttpGet]
-        public IEnumerable<PresentationResource> Get() => repo
+        public PresentationCollection Get() => new PresentationCollection(repo
             .GetAll()
             .Select(presentation => new PresentationResource(presentation)
-            .EmbedRelations(presentation, Request));
+            .EmbedRelations(presentation, Request)).ToList());
 
         // GET: api/v1/presentations/5
         [HttpGet("{id}")]

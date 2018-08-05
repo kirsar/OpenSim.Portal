@@ -14,7 +14,7 @@
         <ng-container *ngFor="let reference of simulation.references">
             <a class="item-name" [routerLink]="['/simulations/' + reference.id]">{{reference.name }}</a>
             <div class="item-author">
-                <span>{{ reference.author.name }}</span>
+                <span>{{ reference._embedded.author.name }}</span>
             </div>
         </ng-container>
     </div>
@@ -23,9 +23,9 @@
     <div class="items-container" *ngIf="simulation.consumers">
         <ng-container *ngFor="let consumer of simulation.consumers">
             <a class="item-name" [routerLink]="['/simulations/' + consumer.id]">{{consumer.name }}</a>
-            <!--<div class="item-author">
-                <span>{{ consumer.author.name }}</span>
-            </div>-->
+            <div class="item-author">
+                <span>{{ consumer._embedded.author.name }}</span>
+            </div>
         </ng-container>
     </div>
 
@@ -33,9 +33,9 @@
     <div class="items-container" *ngIf="simulation.presentations">
         <ng-container *ngFor="let presentation of simulation.presentations">
             <a class="item-name" [routerLink]="['/presentations/' + presentation.id]">{{presentation.name }}</a>
-            <!--<div class="item-author">
-                <span>{{ presentation.author.name }}</span>
-            </div>-->
+            <div class="item-author">
+                <span>{{ presentation._embedded.author.name }}</span>
+            </div>
         </ng-container>
     </div>
 </div>

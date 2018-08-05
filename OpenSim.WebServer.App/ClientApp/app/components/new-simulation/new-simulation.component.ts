@@ -1,23 +1,23 @@
-import { Component, Inject, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
+import { Component, Inject, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UploadEvent, UploadFile, FileSystemFileEntry } from 'ngx-file-drop';
 
 @Component({
-    selector: "new-simulation-form",
-    templateUrl: "./new-simulation.component.html",
-    styleUrls: ["./new-simulation.component.css"]
+    selector: 'new-simulation-form',
+    templateUrl: './new-simulation.component.html',
+    styleUrls: ['./new-simulation.component.css']
 })
 export class NewSimulationFormComponent {
     constructor(
         private readonly http: HttpClient,
-        @Inject("BASE_URL") private readonly baseUrl: string,
+        @Inject('BASE_URL') private readonly baseUrl: string,
         private readonly changeDetection: ChangeDetectorRef) { }
 
-    private message: string = "";
+    private message: string = '';
     private simulation?: Simulation; 
     private content?: any;
 
-    @Output() simulationCreated = new EventEmitter<Simulation>();
+    @Output() public simulationCreated = new EventEmitter<Simulation>();
 
     public dropped(event: UploadEvent) {
         const droppedFile = event.files[0] as UploadFile;
@@ -34,9 +34,9 @@ export class NewSimulationFormComponent {
                 reader.onload = () => {
                     const json = JSON.parse(reader.result);
 
-                    this.simulation = new Simulation(json["name"]);
-                    this.simulation.description = json["description"];
-                    this.simulation.references = json["references"];
+                    this.simulation = new Simulation(json['name']);
+                    this.simulation.description = json['description'];
+                    this.simulation.references = json['references'];
 
                     this.content = reader.result;
 
@@ -44,7 +44,7 @@ export class NewSimulationFormComponent {
                 }
             });
         } else
-            this.message = droppedFile.fileEntry.name + "is not a paltform compatible simulation file";
+            this.message = droppedFile.fileEntry.name + 'is not a paltform compatible simulation file';
     }
 
     private isValid = () => this.content !== undefined && this.content !== null;
@@ -54,7 +54,7 @@ export class NewSimulationFormComponent {
             headers: new HttpHeaders({ 'Content-Type': 'application/hal+json' })
         };
 
-        this.http.post(this.baseUrl + "api/v1/simulations", this.content, httpOptions).subscribe(
+        this.http.post(this.baseUrl + 'api/v1/simulations', this.content, httpOptions).subscribe(
             res => {
                 this.simulationCreated.emit(res as Simulation);
             });

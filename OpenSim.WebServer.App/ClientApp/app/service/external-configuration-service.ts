@@ -11,32 +11,32 @@ export class ExternalConfigurationService implements ExternalConfigurationHandle
 
     constructor(
         private readonly http: HttpClient,
-        @Inject("BASE_URL") private readonly baseUrl: string) {
+        @Inject('BASE_URL') private readonly baseUrl: string) {
     }
 
-    getProxyUri(): string {
-        return this.baseUrl + "api/v1/";
+    public getProxyUri(): string {
+        return this.getRootUri();
     }
 
-    getRootUri(): string {
-        return this.baseUrl + "api/v1/";
+    public getRootUri(): string {
+        return this.baseUrl + 'api/v1/';
     }
 
-    getHttp(): HttpClient {
+    public getHttp(): HttpClient {
         return this.http;
     }
 
-    getExternalConfiguration(): ExternalConfiguration {
+    public getExternalConfiguration(): ExternalConfiguration {
         return new ExternalConfigurationImpl();
     }
 
-    setExternalConfiguration(externalConfiguration: ExternalConfiguration) {
+    public setExternalConfiguration(externalConfiguration: ExternalConfiguration) {
     }
 
-    deserialize(): any {
+    public deserialize(): any {
     }
 
-    serialize(): any {
+    public serialize(): any {
     }
 }
 

@@ -10,11 +10,11 @@ export abstract class RequestBuilder<T extends EmbeddingResource> {
         this.params.push(param);
     }
 
-    build(): string {
-        let result = this.defaultParams.join(",");
+    public build(): string {
+        let result = this.defaultParams.join(',');
 
         if (this.params.length > 0)
-            result += `,_embedded(${this.params.join(",")})`;
+            result += `,_embedded(${this.params.join(',')})`;
 
         return result;
     }

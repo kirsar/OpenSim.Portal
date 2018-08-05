@@ -5,6 +5,7 @@ Portal Todo:
 15.1 disable post server if no simulation selected
 15.2 create new server dynamic loading of related sims and pres for selected simulation
 15.3 PR to hal-4-angular to extend get() with options
+15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation)
 16  home page
 20  clean unneeded asp and npm references
 21  why signletone is reconstructed after accessed before WebHost.Build() is called?

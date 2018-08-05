@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators'
 export abstract class ApiService<T extends EmbeddingResource> {
     private readonly service: RestService<T>;
 
-    constructor(type: { new(): T; }, private readonly resource: string, injector: Injector) {
+    protected constructor(type: { new(): T; }, private readonly resource: string, injector: Injector) {
         this.service = new RestService<T>(type, resource, injector);
     }
 
@@ -19,7 +19,7 @@ export abstract class ApiService<T extends EmbeddingResource> {
     
     // TODO make PR in fork hal-4-angular to support options in get(id)
     public get(id: number, builder?: RequestBuilder<T>): Observable<T | undefined> {
-        return this.service.getAll(this.buildOptions(builder)).pipe(map(items => items ? items.find(item => item.id == id) : undefined));
+        return this.getAll(builder).pipe(map(items => items ? items.find(item => item.id == id) : undefined));
     }
 
     private buildOptions(builder?: RequestBuilder<T>): HalOptions {

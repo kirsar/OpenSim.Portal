@@ -1,6 +1,6 @@
 ﻿import { EmbeddingResource } from './embedding-resource';
 import { User } from './user';
-import { Presentation } from "./presentation"
+import { Presentation } from './presentation'
 
 export class Simulation extends EmbeddingResource {
     public name?: string;

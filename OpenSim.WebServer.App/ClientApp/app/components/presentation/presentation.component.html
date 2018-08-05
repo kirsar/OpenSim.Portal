@@ -6,12 +6,12 @@
     <p>
         <span>By </span>
         <a [routerLink]="['/users/' + presentation._embedded.author.id]">{{ presentation._embedded.author.name }}.</a>
-        <span>{{ presentation._embedded.author.description }} </span>
+        <span>{{ presentation.author.description }} </span>
     </p>
 
-    <p class="group-header" *ngIf="presentation._embedded.simulations">Referenced By</p>
-    <div class="items-container" *ngIf="presentation._embedded.simulations">
-        <ng-container *ngFor="let simulation of presentation._embedded.simulations">
+    <p class="group-header" *ngIf="presentation.simulations">Referenced By</p>
+    <div class="items-container" *ngIf="presentation.simulations">
+        <ng-container *ngFor="let simulation of presentation.simulations">
             <a class="item-name" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
             <div class="item-author">
                 <span>{{ simulation._embedded.author.name }}</span>

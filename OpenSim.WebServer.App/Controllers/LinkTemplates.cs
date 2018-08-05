@@ -20,6 +20,7 @@ namespace OpenSim.WebServer.Controllers
 
         public static class Presentations
         {
+            public static Link GetSimulations => new Link("presentations", "~/presentations");
             public static Link GetPresentation => new Link("presentations", "~/presentations/{id}");
         }
 

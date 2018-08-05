@@ -3,9 +3,9 @@ using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class SimulationCollection : SimpleListRepresentation<SimulationResource>
+    public class PresentationCollection : SimpleListRepresentation<PresentationResource>
     {
-        public SimulationCollection(IList<SimulationResource> simulations) : base(simulations)
+        public PresentationCollection(IList<PresentationResource> presentations) : base(presentations)
         {
         }
 
@@ -13,7 +13,7 @@ namespace OpenSim.WebServer.Controllers
 
         public override string Href
         {
-            get => LinkTemplates.Simulations.GetSimulations.Href;
+            get => LinkTemplates.Presentations.GetPresentation.Href;
             set { }
         }
 

@@ -14,22 +14,22 @@ export class SimulationRequestBuilder extends RequestBuilder<Simulation> {
             '_links/self']);
     }
    
-    withAuthor(builder?: UserRequestBuilder): SimulationRequestBuilder {
+    public withAuthor(builder?: UserRequestBuilder): SimulationRequestBuilder {
         this.addParam(`author(${(builder ? builder : new UserRequestBuilder()).build()})`);
         return this;
     }
 
-    withReferences(builder?: SimulationRequestBuilder): SimulationRequestBuilder {
+    public withReferences(builder?: SimulationRequestBuilder): SimulationRequestBuilder {
         this.addParam(`references(${(builder ? builder : new SimulationRequestBuilder()).build()})`);
         return this;
     }
 
-    withConsumers(builder?: SimulationRequestBuilder): SimulationRequestBuilder {
+    public withConsumers(builder?: SimulationRequestBuilder): SimulationRequestBuilder {
         this.addParam(`consumers(${(builder ? builder : new SimulationRequestBuilder()).build()})`);
         return this;
     }
 
-    withPresentations(builder?: PresentationRequestBuilder): SimulationRequestBuilder {
+    public withPresentations(builder?: PresentationRequestBuilder): SimulationRequestBuilder {
         this.addParam(`presentations(${(builder ? builder : new PresentationRequestBuilder()).build()})`);
         return this;
     }

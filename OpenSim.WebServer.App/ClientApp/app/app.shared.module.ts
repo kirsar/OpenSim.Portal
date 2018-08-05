@@ -12,6 +12,7 @@ import { ExternalConfigurationService } from './service/external-configuration-s
 
 import { ServersService } from './service/servers.service';
 import { SimulationsService } from './service/simulations.service';
+import { PresentationsService } from './service/presentations.service'
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -23,7 +24,7 @@ import { NewServerFormComponent } from './components/new-server/new-server.compo
 
 import { SimulationsComponent } from './components/simulations/simulations.component';
 import { SimulationComponent } from './components/simulation/simulation.component';
-import { NewSimulationFormComponent } from "./components/new-simulation/new-simulation.component";
+import { NewSimulationFormComponent } from './components/new-simulation/new-simulation.component';
 
 import { PresentationComponent } from './components/presentation/presentation.component';
 
@@ -61,6 +62,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
     providers: [
         ServersService,
         SimulationsService,
+        PresentationsService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
     ],
     bootstrap: [AppComponent]
