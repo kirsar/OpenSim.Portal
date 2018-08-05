@@ -9,24 +9,24 @@ export class SimulationRequestBuilder extends RequestBuilder<Simulation> {
     constructor() {
         super(['name','description']);
     }
-   
+
     public withAuthor(builder?: UserRequestBuilder): SimulationRequestBuilder {
-        this.addParam(`author(${(builder ? builder : new UserRequestBuilder()).build()})`);
+        this.addRelation(UserRequestBuilder, 'author', builder);
         return this;
     }
 
     public withReferences(builder?: SimulationRequestBuilder): SimulationRequestBuilder {
-        this.addParam(`references(${(builder ? builder : new SimulationRequestBuilder()).build()})`);
+        this.addRelation(SimulationRequestBuilder, 'references', builder);
         return this;
     }
 
     public withConsumers(builder?: SimulationRequestBuilder): SimulationRequestBuilder {
-        this.addParam(`consumers(${(builder ? builder : new SimulationRequestBuilder()).build()})`);
+        this.addRelation(SimulationRequestBuilder, 'consumers', builder);
         return this;
     }
 
     public withPresentations(builder?: PresentationRequestBuilder): SimulationRequestBuilder {
-        this.addParam(`presentations(${(builder ? builder : new PresentationRequestBuilder()).build()})`);
+        this.addRelation(PresentationRequestBuilder, 'presentations', builder);
         return this;
     }
 }

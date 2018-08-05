@@ -8,8 +8,9 @@ export abstract class RequestBuilder<T extends EmbeddingResource> {
         defaultParams.push('_links');
     }
 
-    protected addParam(param: string) {
-        this.params.push(param);
+    protected addRelation<TResource extends EmbeddingResource, TBuilder extends RequestBuilder<TResource>>(
+        type: { new(): TBuilder; }, relation: string, builder?: TBuilder) {
+        this.addParam(`${relation}(${(builder ? builder : new type()).build()})`);
     }
 
     public build(): string {
@@ -19,5 +20,9 @@ export abstract class RequestBuilder<T extends EmbeddingResource> {
             result += `,_embedded(${this.params.join(',')})`;
 
         return result;
+    }
+
+    private addParam(param: string) {
+        this.params.push(param);
     }
 }

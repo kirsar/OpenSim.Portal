@@ -12,17 +12,17 @@ export class ServerRequestBuilder extends RequestBuilder<Server> {
     }
 
     public withAuthor(builder?: UserRequestBuilder): ServerRequestBuilder {
-        this.addParam(`author(${(builder ? builder : new UserRequestBuilder()).build()})`);
+        this.addRelation(UserRequestBuilder, 'author', builder);
         return this;
     }
 
     public withSimulations(builder?: SimulationRequestBuilder): ServerRequestBuilder {
-        this.addParam(`simulations(${(builder ? builder : new SimulationRequestBuilder()).build()})`);
+        this.addRelation(SimulationRequestBuilder, 'simulations', builder);
         return this;
     }
 
     public withPresentations(builder?: PresentationRequestBuilder): ServerRequestBuilder {
-        this.addParam(`presentations(${(builder ? builder : new PresentationRequestBuilder()).build()})`);
+        this.addRelation(PresentationRequestBuilder, 'presentations', builder);
         return this;
     }
 }

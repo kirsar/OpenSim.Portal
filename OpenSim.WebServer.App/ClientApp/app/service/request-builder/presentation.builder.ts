@@ -11,12 +11,12 @@ export class PresentationRequestBuilder extends RequestBuilder<Presentation> {
     }
 
     public withAuthor(builder?: UserRequestBuilder): PresentationRequestBuilder {
-        this.addParam(`author(${(builder ? builder : new UserRequestBuilder()).build()})`);
+        this.addRelation(UserRequestBuilder, 'author', builder);
         return this;
     }
 
     public withSimulations(builder?: SimulationRequestBuilder): PresentationRequestBuilder {
-        this.addParam(`simulations(${(builder ? builder : new SimulationRequestBuilder()).build()})`);
+        this.addRelation(SimulationRequestBuilder, 'simulations', builder);
         return this;
     }
 }
