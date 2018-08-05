@@ -25,9 +25,14 @@ export class NewServerFormComponent {
     public simulations: SimulationItem[] = [];
     @Output() public serverCreated = new EventEmitter<Server>();
 
-    //get isSimulationSelected() {
-    //    return this.simulations.filter(s => s.isSelected).length > 0;
-    //}
+    public isInvalid(): boolean {
+        if (this.simulations.filter(s => s.isSelected).length === 0)
+            return true;
+        if (this.server.name!.length === 0)
+            return true;
+
+        return false;
+    }
 
     private onCreate() {
         this.simulations.filter(s => s.isSelected).forEach(

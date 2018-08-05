@@ -1,4 +1,4 @@
-<form *ngIf="simulations" id="new-server-form" (ngSubmit)="onSubmit()" #newServerForm="ngForm">
+<form *ngIf="simulations" id="new-server-form" #newServerForm="ngForm">
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" id="name" required
@@ -24,7 +24,7 @@
     
     <button type="submit" class="btn btn-success submit"
             (click)="onCreate(); newServerForm.reset()"
-            [disabled]="!newServerForm.form.valid">
+            [disabled]="isInvalid()">
         Create
     </button>
 </form>
