@@ -43,7 +43,8 @@ export class NewSimulationFormComponent {
                     this.changeDetection.detectChanges();
                 }
             });
-        } else
+        }
+        else
             this.message = droppedFile.fileEntry.name + 'is not a paltform compatible simulation file';
     }
 

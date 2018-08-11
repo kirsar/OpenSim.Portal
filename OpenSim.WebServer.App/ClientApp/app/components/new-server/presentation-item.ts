@@ -6,5 +6,6 @@ export class PresentationItem {
     }
 
     public isSelected: boolean = false;
+    public get id(): number | undefined { return this.presentation.id; }
     public get name(): string | undefined { return this.presentation.name; }
 }

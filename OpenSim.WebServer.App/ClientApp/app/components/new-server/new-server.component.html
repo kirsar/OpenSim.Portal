@@ -1,4 +1,4 @@
-<form *ngIf="simulations" id="new-server-form" #newServerForm="ngForm">
+<form id="new-server-form" #newServerForm="ngForm">
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" id="name" required
@@ -17,7 +17,7 @@
     </div>
 
     <div class="simulations">
-        <div class="form-group" *ngFor="let simulation of simulations">
+        <div class="form-group" *ngFor="let simulation of components.simulations">
             <input type="checkbox"
                    [(ngModel)]="simulation.isSelected" name="isSelected">{{ simulation.name }}
         </div>
@@ -26,7 +26,7 @@
     <hr>
    
     <div class="presentations">
-        <div class="form-group" *ngFor="let presentation of presentations">
+        <div class="form-group" *ngFor="let presentation of components.presentations">
             <input type="checkbox"
                    [(ngModel)]="presentation.isSelected" name="isSelected">{{ presentation.name }}
         </div>

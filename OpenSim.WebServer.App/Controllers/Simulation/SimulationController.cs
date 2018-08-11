@@ -38,6 +38,21 @@ namespace OpenSim.WebServer.Controllers
             return new ObjectResult(new SimulationResource(simulation).EmbedRelations(simulation, Request));
         }
 
+        // GET: api/v1/Simulations/5/references
+        [HttpGet("{id}/references")]
+        public SimulationCollection GetReferences(long id)
+        {
+            var simulation = simulationRepo.Get(id);
+
+            // TODO handle it properly
+            //if (simulation == null)
+            //    return NotFound();
+
+            return new SimulationCollection(simulation.References
+                .Select(reference => new SimulationResource(reference)
+                .EmbedRelations(reference, Request)).ToList());
+        }
+
         // POST: api/v1/Simulations
         [HttpPost]
         public IActionResult Post([FromBody]JObject json)
