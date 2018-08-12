@@ -18,8 +18,8 @@
 
     <div class="simulations">
         <div class="form-group" *ngFor="let simulation of components.simulations">
-            <input type="checkbox"
-                   [(ngModel)]="simulation.isSelected" name="isSelected">{{ simulation.name }}
+            <input type="checkbox" name="isSelected"
+                   [checked]="simulation.isSelected" (change)="simulation.isSelected = !simulation.isSelected">{{ simulation.name }}
         </div>
     </div>
 

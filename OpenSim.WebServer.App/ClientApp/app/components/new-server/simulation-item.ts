@@ -1,4 +1,5 @@
-﻿import { Simulation } from '../../model/simulation'
+﻿import { forkJoin } from 'rxjs';
+import { Simulation } from '../../model/simulation'
 import { Presentation } from '../../model/presentation'
 import { ComponentCollection } from './components-collection'
 
@@ -8,9 +9,10 @@ export class SimulationItem {
         private readonly components: ComponentCollection) {
     }
 
-    private _isSelected: boolean = false;
-    private references?: Simulation[];
-    private presentations?: Presentation[];
+    private _isSelected = false;
+    private isRelationsLoaded = false;
+    private references: Simulation[] = [];
+    private presentations: Presentation[] = [];
 
     public get id(): number | undefined { return this.simulation.id; }
     public get name(): string | undefined { return this.simulation.name; }
@@ -20,36 +22,31 @@ export class SimulationItem {
     public set isSelected(value: boolean) {
         this._isSelected = value;
 
-        if (this._isSelected) {
-            if (this.references == undefined) {
-                this.simulation.queryReferences().subscribe(
-                    references => {
-                        this.references = references;
-                        this.isSelected = value; // reinterable call 
-                    },
-                    error => console.error(error));
-                return;
-            }
+        if (!this._isSelected)
+            return;
 
-            if (this.presentations == undefined) {
-                this.simulation.queryPresentations().subscribe(
-                    presentations => {
-                        this.presentations = presentations;
-                        this.isSelected = value; // reinterable call 
-                    },
-                    error => console.error(error));
-                return;
-            }
-        }
-
-        this.selectComponents(this._isSelected);
+        if (this.isRelationsLoaded)
+            this.selectRelations();
+        else 
+            this.loadRelations();
     }
 
-    private selectComponents(isSelected: boolean) {
-        const referenceItems = this.references!.map(r => this.components.simulations.find(s => s.id === r.id));
-        referenceItems.forEach(r => r!.isSelected = isSelected);
+    private loadRelations() {
+        forkJoin(this.simulation.queryReferences(), this.simulation.queryPresentations()).subscribe(
+            ([references, presentations]) => {
+                this.references = references;
+                this.presentations = presentations;
+                this.isRelationsLoaded = true;
+                this.selectRelations();
+            },
+            error => console.error(error));
+    }
 
-        const presentationItems = this.presentations!.map(p => this.components.presentations.find(pi => pi.id === p.id));
-        presentationItems.forEach(p => p!.isSelected = isSelected);
+    private selectRelations() {
+        const referenceItems = this.references.map(r => this.components.simulations.find(ri => ri.id === r.id));
+        referenceItems.forEach(r => r!.isSelected = true);
+
+        const presentationItems = this.presentations.map(p => this.components.presentations.find(pi => pi.id === p.id));
+        presentationItems.forEach(p => p!.isSelected = true);
     }
 }

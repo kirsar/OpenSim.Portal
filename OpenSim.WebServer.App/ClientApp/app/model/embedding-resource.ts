@@ -16,7 +16,9 @@ export abstract  class EmbeddingResource extends Resource {
 
         // TODO hot fix for request with relative uri sent from Resource
         const link = this._links[relation];
-        link.href = ResourceHelper.getRootUri() + link.href.substr(1);
+        const rootUri = ResourceHelper.getRootUri();
+        if (!link.href.startsWith(rootUri))
+            link.href = ResourceHelper.getRootUri() + link.href.substr(1);
         
         return super.getRelationArray(type, relation);
     }
