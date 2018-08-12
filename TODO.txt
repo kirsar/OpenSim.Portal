@@ -4,7 +4,6 @@ Portal Todo:
 15.11 refactor new-simulation with promises 
 15.2 create new server dynamic loading of related sims and pres for selected simulation
 15.25 try to merge getters and queries for model
-15.26 move to async
 15.3 PR to hal-4-angular to extend get() with options
 15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation)
 15.5 Should I use IAsyncResult for collections?

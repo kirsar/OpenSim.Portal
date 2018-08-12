@@ -46,7 +46,10 @@ export class SimulationItem {
     }
 
     private selectComponents(isSelected: boolean) {
-        this.references!.forEach(r => this.components.simulations.find(s => s.id === r.id)!.isSelected = isSelected); // n2 use map
-        this.presentations!.forEach(r => this.components.presentations.find(s => s.id === r.id)!.isSelected = isSelected); // n2 use map
+        const referenceItems = this.references!.map(r => this.components.simulations.find(s => s.id === r.id));
+        referenceItems.forEach(r => r!.isSelected = isSelected);
+
+        const presentationItems = this.presentations!.map(p => this.components.presentations.find(pi => pi.id === p.id));
+        presentationItems.forEach(p => p!.isSelected = isSelected);
     }
 }
