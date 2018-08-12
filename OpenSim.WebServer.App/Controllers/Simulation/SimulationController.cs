@@ -48,9 +48,30 @@ namespace OpenSim.WebServer.Controllers
             //if (simulation == null)
             //    return NotFound();
 
+            if (simulation.References == null)
+                return new SimulationCollection(Enumerable.Empty<SimulationResource>().ToList());
+
             return new SimulationCollection(simulation.References
                 .Select(reference => new SimulationResource(reference)
                 .EmbedRelations(reference, Request)).ToList());
+        }
+
+        // GET: api/v1/Simulations/5/presentations
+        [HttpGet("{id}/presentations")]
+        public PresentationCollection GetPresentations(long id)
+        {
+            var simulation = simulationRepo.Get(id);
+
+            // TODO handle it properly
+            //if (simulation == null)
+            //    return NotFound();
+
+            if (simulation.Presentations == null)
+                return new PresentationCollection(Enumerable.Empty<PresentationResource>().ToList());
+
+            return new PresentationCollection(simulation.Presentations
+                .Select(presentation => new PresentationResource(presentation)
+                    .EmbedRelations(presentation, Request)).ToList());
         }
 
         // POST: api/v1/Simulations

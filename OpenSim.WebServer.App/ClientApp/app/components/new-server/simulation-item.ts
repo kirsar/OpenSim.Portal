@@ -20,24 +20,26 @@ export class SimulationItem {
     public set isSelected(value: boolean) {
         this._isSelected = value;
 
-        if (this.references == undefined) {
-            this.simulation.queryReferences().subscribe(
-                references => {
-                    this.references = references;
-                    this.isSelected = value; // reinterable call 
-                },
-                error => console.error(error));
-            return;
-        }
+        if (this._isSelected) {
+            if (this.references == undefined) {
+                this.simulation.queryReferences().subscribe(
+                    references => {
+                        this.references = references;
+                        this.isSelected = value; // reinterable call 
+                    },
+                    error => console.error(error));
+                return;
+            }
 
-        if (this.presentations == undefined) {
-            this.simulation.queryPresentations().subscribe(
-                presentations => {
-                    this.presentations = presentations;
-                    this.isSelected = value; // reinterable call 
-                },
-                error => console.error(error));
-            return;
+            if (this.presentations == undefined) {
+                this.simulation.queryPresentations().subscribe(
+                    presentations => {
+                        this.presentations = presentations;
+                        this.isSelected = value; // reinterable call 
+                    },
+                    error => console.error(error));
+                return;
+            }
         }
 
         this.selectComponents(this._isSelected);
