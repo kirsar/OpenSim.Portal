@@ -1,4 +1,5 @@
 Portal Todo:
+15.0 figure out errors after migration to ASP Core 2.1 / Webhal.Api
 15.1  dynamic embedding of linked resource based on ?fields  
 15.2 PR to PartialResponse to expose public parsing of ?fields
 15.11 refactor new-simulation with promises 
@@ -14,7 +15,6 @@ Portal Todo:
 25  separate app / client / controllers parts into projects
 30  rename to Portal
 50  ensure I'm selfhost and why I need OWIN then?
-52  why servers are not loaded from first attempt
 57  rename servers into server config, introduce runnable instance of server as separate portal entity
 57.1 allow to click play / stop (servers/server) for own server and post
 58  web api with pagination
@@ -30,6 +30,7 @@ Done:
 15.1 disable post server if no simulation selected
 27  fix slow opening of server/id page => Replaced hrefs with router link to prevent whole page reload 
 55  regulate _embedded data for pure HAL without ?fields
+52  why servers are not loaded from first attempt (fixed by Webhal.Api owners)
 57  remove mixing of API and Front end hrefs in templates (don't use link from API to redirect)
 
 
