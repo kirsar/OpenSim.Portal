@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Buffers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using PartialResponse.AspNetCore.Mvc.Formatters;
@@ -30,17 +28,17 @@ namespace OpenSim.WebServer.Controllers
                 throw new ArgumentNullException(nameof(hypermediaResolver));
             }
 
-            resourceConverter = new ResourceConverter(hypermediaResolver);
+            resourceConverter = new ResourceConverter(hypermediaResolver, serializerSettings);
             Initialize();
         }
 
         public PartialJsonHalMediaTypeOutputFormatter(
-            JsonSerializerSettings serializerSettings, 
+            JsonSerializerSettings serializerSettings,
             ArrayPool<char> charPool,
             bool ignoreCase) :
             base(serializerSettings, charPool, ignoreCase)
         {
-            resourceConverter = new ResourceConverter();
+            resourceConverter = new ResourceConverter(serializerSettings);
             Initialize();
         }
 

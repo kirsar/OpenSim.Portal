@@ -16,6 +16,7 @@ namespace OpenSim.WebServer.App.Startup
     public class MvcJsonHalMediaSetup : IConfigureOptions<MvcOptions>
     {
         private readonly ILoggerFactory loggerFactory;
+        private readonly MvcJsonOptions jsonOptions;
         private readonly JsonSerializerSettings jsonSerializerSettings;
         private readonly ArrayPool<char> charPool;
         private readonly ObjectPoolProvider objectPoolProvider;
@@ -47,6 +48,7 @@ namespace OpenSim.WebServer.App.Startup
             }
 
             this.loggerFactory = loggerFactory;
+            this.jsonOptions = jsonOptions.Value;
             jsonSerializerSettings = jsonOptions.Value.SerializerSettings;
             this.charPool = charPool;
             this.objectPoolProvider = objectPoolProvider;
@@ -65,7 +67,9 @@ namespace OpenSim.WebServer.App.Startup
                                             jsonInputPatchLogger,
                                             new JsonSerializerSettings(),
                                             charPool,
-                                            objectPoolProvider));
+                                            objectPoolProvider,
+                                            options,
+                                            jsonOptions));
         }
     }
 }
