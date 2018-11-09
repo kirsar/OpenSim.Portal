@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
-using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
@@ -11,7 +10,7 @@ namespace OpenSim.WebServer.Controllers
     {
         public static ServerResource EmbedRelations(this ServerResource serverResource, Server server, HttpRequest request)
         {
-            if (!request.HasFieldsQuery())
+            if (!request.TryGetFields(out var fields))
                 return serverResource;
 
             serverResource.Author = new UserInfoResource(server.Author)
