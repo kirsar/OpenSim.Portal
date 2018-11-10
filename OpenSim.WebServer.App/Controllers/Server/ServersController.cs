@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using OpenSim.WebServer.Model;
@@ -29,10 +30,14 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Servers
         [HttpGet]
-        public ServerCollection Get() => new ServerCollection(serversRepo
-            .GetAll()
-            .Select(server => new ServerResource(server))
-            .ToList());
+        public ServerCollection Get()
+        {
+            return new ServerCollection(serversRepo
+                .GetAll()
+                .Select(server => new ServerResource(server))
+                .ToList()
+                .EmbedRelations(Request));
+        }
 
         // GET: api/v1/Servers/5
         [HttpGet("{id}")]

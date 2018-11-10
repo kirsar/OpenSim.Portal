@@ -24,7 +24,8 @@ namespace OpenSim.WebServer.Controllers
         public SimulationCollection Get() => new SimulationCollection(simulationRepo
             .GetAll()
             .Select(simulation => new SimulationResource(simulation))
-            .EmbedRelations(Request).ToList());
+            .ToList()
+            .EmbedRelations(Request));
 
         // GET: api/v1/Simulations/5
         [HttpGet("{id}")]

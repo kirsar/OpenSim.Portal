@@ -21,7 +21,8 @@ namespace OpenSim.WebServer.Controllers
         public PresentationCollection Get() => new PresentationCollection(repo
             .GetAll()
             .Select(presentation => new PresentationResource(presentation))
-            .EmbedRelations(Request).ToList());
+            .ToList()
+            .EmbedRelations(Request));
 
         // GET: api/v1/presentations/5
         [HttpGet("{id}")]

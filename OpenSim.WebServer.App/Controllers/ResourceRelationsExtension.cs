@@ -18,7 +18,7 @@ namespace OpenSim.WebServer.Controllers
             return resource;
         }
 
-        public static IEnumerable<T> EmbedRelations<T>(this IEnumerable<T> resources, HttpRequest request) where T : ResourceWithRelations
+        public static List<T> EmbedRelations<T>(this List<T> resources, HttpRequest request) where T : ResourceWithRelations
         {
             var embeddedNode = request.GetEmbeddedNode();
             if (embeddedNode == null)
