@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using OpenSim.WebServer.App.Controllers;
+using OpenSim.WebServer.App.Model;
 
 namespace OpenSim.WebServer.App
 {
@@ -17,7 +17,7 @@ namespace OpenSim.WebServer.App
                 .UseStartup<Startup.Startup>()
                 .Build();
 
-            new RepositoryConfiguration(host.Services).Seed();
+            new Repository(host.Services).Seed();
 
             return host;
         }

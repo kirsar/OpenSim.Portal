@@ -2,13 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenSim.WebServer.Model;
 
-namespace OpenSim.WebServer.App.Controllers
+namespace OpenSim.WebServer.App.Model
 {
-    public class RepositoryConfiguration
+    public class Repository
     {
         private readonly IServiceProvider serviceProvider;
 
-        public RepositoryConfiguration(IServiceProvider serviceProvider)
+        public Repository(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
         }

@@ -2,53 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using PartialResponse.Core;
 
 namespace OpenSim.WebServer.App.Controllers
 {
     public static class PartialResponseFieldsExtensions
     {
-        [Obsolete("Use dynamic relation injection")]
-        public static bool HasFieldsQuery(this HttpRequest request) =>
-            request.Query.ContainsKey("fields");
-
-        public static FieldsTreeNode UnfoldFieldsTree(this IEnumerable<string> fields)
+        public static bool TryGetFields(this HttpRequest request, out Fields result)
         {
-            var nodes = GetNodes(fields.Select(f => f.Split('/'))).ToList();
+            if (!request.Query.ContainsKey("fields"))
+                return false;
+
+            if (!Fields.TryParse(request.Query["fields"][0], out var fields))
+            {
+                return false;
+            }
+
+            result = fields;
+            return true;
+        }
+
+        public static FieldsTreeNode UnfoldFieldsTree(this IEnumerable<IEnumerable<string>> fieldsParts)
+        {
+            var nodes = GetNodes(fieldsParts).ToList();
             if (nodes.Count == 0)
-                throw new ArgumentException("Fields collection should not be empty", nameof(fields));
+                throw new ArgumentException("Fields collection should not be empty", nameof(fieldsParts));
             
             if (nodes.Count > 1)
-                throw new ArgumentException("Fields collection doesn't have common parent for every field paths", nameof(fields));
+                throw new ArgumentException("Fields collection doesn't have common parent for every field paths", nameof(fieldsParts));
 
             return nodes.First();
         }
 
-        private static IEnumerable<FieldsTreeNode> GetNodes(IEnumerable<IEnumerable<string>> paths)
-        {
-            var distinctPaths = paths.GroupBy(p => p.First());
-            return distinctPaths
-                .Select(grouping => new FieldsTreeNode(
-                    grouping.Key, 
-                    grouping.Any(p => p.Any()) 
-                        ? GetNodes(grouping.Where(p => p.Any()).Select(p => p.Skip(1))) 
-                        : Enumerable.Empty<FieldsTreeNode>()));
-        }
-    }
+        public static FieldsTreeNode GetEmbeddedNode(this FieldsTreeNode node) =>
+            node.Nodes.FirstOrDefault(n => n.Value == "_embedded");
 
-    public class FieldsTreeNode
-    {
-        private ICollection<FieldsTreeNode> nodes = new List<FieldsTreeNode>(); 
-
-        public FieldsTreeNode(string value, IEnumerable<FieldsTreeNode> nodes)
-        {
-            Value = value;
-            this.nodes = new List<FieldsTreeNode>(nodes);
-        }
-
-        public string Value { get; }
-
-        public IEnumerable<FieldsTreeNode> Nodes => nodes;
-
-        public void AddNode(FieldsTreeNode node) => nodes.Add(node);
+        private static IEnumerable<FieldsTreeNode> GetNodes(IEnumerable<IEnumerable<string>> paths) => 
+            from grouping in paths.GroupBy(p => p.First())
+            let childrenPaths = grouping.Select(p => p.Skip(1)).Where(p => p.Any())
+            select new FieldsTreeNode(
+                grouping.Key, 
+                childrenPaths.Any() ? GetNodes(childrenPaths) : Enumerable.Empty<FieldsTreeNode>());
     }
 }

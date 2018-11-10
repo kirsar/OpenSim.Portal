@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using OpenSim.WebServer.Model;
+﻿using System.Collections.Generic;
 using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers

@@ -1,27 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OpenSim.WebServer.Model;
-using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class SimulationResource : Representation
+    public class SimulationResource : ResourceWithRelations
     {
         private readonly Simulation simulation;
 
         public SimulationResource(Simulation simulation)
         {
             this.simulation = simulation;
+
+            RegisterRelation("author", () => Author = new UserInfoResource(simulation.Author)
+                { Rel = "author" });
+            RegisterRelation("references", () => References = simulation.References?.Select(s => new SimulationResource(s)
+                { Rel = LinkTemplates.Simulations.GetReference.Rel }));
+            RegisterRelation("consumers", () => Consumers = simulation.Consumers?.Select(s => new SimulationResource(s)
+                { Rel = LinkTemplates.Simulations.GetConsumer.Rel }));
+            RegisterRelation("presentations", () => Presentations = simulation.Presentations?.Select(p => new PresentationResource(p)));
         }
 
         public long Id => simulation.Id;
         public string Name => simulation.Name;
         public string Description => simulation.Description;
 
-        public UserInfoResource Author { get; set; }
-        public IEnumerable<SimulationResource> References { get; set; }
-        public IEnumerable<SimulationResource> Consumers { get; set; }
-        public IEnumerable<PresentationResource> Presentations { get; set; }
-
+        public UserInfoResource Author { get; private set; }
+        public IEnumerable<SimulationResource> References { get; private set; }
+        public IEnumerable<SimulationResource> Consumers { get; private set; }
+        public IEnumerable<PresentationResource> Presentations { get; private set; }
+        
         #region HAL
 
         public override string Rel { get; set; } = LinkTemplates.Simulations.GetSimulation.Rel;

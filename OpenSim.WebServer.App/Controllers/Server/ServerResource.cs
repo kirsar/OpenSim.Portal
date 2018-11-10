@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OpenSim.WebServer.Model;
-using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class ServerResource : Representation
+    public class ServerResource : ResourceWithRelations
     {
         private readonly Server server;
 
@@ -21,6 +21,10 @@ namespace OpenSim.WebServer.Controllers
             Description = server.Description;
             IsRunning = server.IsRunning;
             IsCustomUiAvailable = server.IsCustomUiAvailable;
+
+            RegisterRelation("author", () => Author = new UserInfoResource(server.Author) { Rel = "author"});
+            RegisterRelation("simulations", () => Simulations = server.Simulations?.Select(s => new SimulationResource(s)));
+            RegisterRelation("presentations", () => Presentations = server.Presentations?.Select(p => new PresentationResource(p)));
         }
 
         public long Id { get; set; }
@@ -29,10 +33,10 @@ namespace OpenSim.WebServer.Controllers
         public bool IsRunning { get; set; }
         public bool IsCustomUiAvailable { get; set; }
 
-        public UserInfoResource Author { get; set; }
-        public IEnumerable<SimulationResource> Simulations { get; set; } 
-        public IEnumerable<PresentationResource> Presentations { get; set; }
-      
+        public UserInfoResource Author { get; private set; }
+        public IEnumerable<SimulationResource> Simulations { get; private set; } 
+        public IEnumerable<PresentationResource> Presentations { get; private set; }
+
         #region HAL
 
         public override string Rel

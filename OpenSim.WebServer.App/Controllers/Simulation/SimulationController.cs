@@ -23,8 +23,8 @@ namespace OpenSim.WebServer.Controllers
         [HttpGet]
         public SimulationCollection Get() => new SimulationCollection(simulationRepo
             .GetAll()
-            .Select(simulation => new SimulationResource(simulation)
-            .EmbedRelations(simulation, Request)).ToList());
+            .Select(simulation => new SimulationResource(simulation))
+            .EmbedRelations(Request).ToList());
 
         // GET: api/v1/Simulations/5
         [HttpGet("{id}")]
@@ -35,7 +35,7 @@ namespace OpenSim.WebServer.Controllers
             if (simulation == null)
                 return NotFound();
 
-            return new ObjectResult(new SimulationResource(simulation).EmbedRelations(simulation, Request));
+            return new ObjectResult(new SimulationResource(simulation).EmbedRelations(Request));
         }
 
         // GET: api/v1/Simulations/5/references
@@ -53,7 +53,7 @@ namespace OpenSim.WebServer.Controllers
 
             return new SimulationCollection(simulation.References
                 .Select(reference => new SimulationResource(reference)
-                .EmbedRelations(reference, Request)).ToList());
+                .EmbedRelations(Request)).ToList());
         }
 
         // GET: api/v1/Simulations/5/presentations
@@ -71,7 +71,7 @@ namespace OpenSim.WebServer.Controllers
 
             return new PresentationCollection(simulation.Presentations
                 .Select(presentation => new PresentationResource(presentation)
-                    .EmbedRelations(presentation, Request)).ToList());
+                    .EmbedRelations(Request)).ToList());
         }
 
         // POST: api/v1/Simulations

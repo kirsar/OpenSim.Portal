@@ -20,8 +20,8 @@ namespace OpenSim.WebServer.Controllers
         [HttpGet]
         public PresentationCollection Get() => new PresentationCollection(repo
             .GetAll()
-            .Select(presentation => new PresentationResource(presentation)
-            .EmbedRelations(presentation, Request)).ToList());
+            .Select(presentation => new PresentationResource(presentation))
+            .EmbedRelations(Request).ToList());
 
         // GET: api/v1/presentations/5
         [HttpGet("{id}")]
@@ -32,7 +32,7 @@ namespace OpenSim.WebServer.Controllers
             if (presentation == null)
                 return NotFound();
 
-            return new ObjectResult(new PresentationResource(presentation).EmbedRelations(presentation, Request));
+            return new ObjectResult(new PresentationResource(presentation).EmbedRelations(Request));
         }
 
         // POST: api/v1/presentations/5
