@@ -4,7 +4,7 @@ using WebApi.Hal.Interfaces;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public abstract class ResourseEmbeddedRelationSchema<TResource, TModel> where TResource : IResource
+    public abstract class ResourseEmbeddedRelationsSchema<TResource, TModel> where TResource : IResource
     {
         private Dictionary<string, Func<TResource, TModel, object>> embedActions =
             new Dictionary<string, Func<TResource, TModel, object>>();

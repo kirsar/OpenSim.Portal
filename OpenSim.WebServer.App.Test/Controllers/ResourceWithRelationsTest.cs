@@ -24,10 +24,25 @@ namespace OpenSim.WebServer.App.Test.Controllers
             Assert.Equal("User", serverResource.Author.Name);
         }
 
+        [Fact]
+        public void EmbedTwoLevelReleations()
+        {
+            // Arrange
+            var serverResource = new ServerResource(CreateServerModel());
+
+            // Act
+            serverResource.EmbedRelations(CreateTwoLevelFieldsTree(), new EmbeddedRelationsSchema());
+
+            // Assert
+            Assert.Equal(2, serverResource.Simulations.Count());
+            Assert.Equal("User1", serverResource.Simulations.ElementAt(0).Author.Name);
+            Assert.Equal("User2", serverResource.Simulations.ElementAt(1).Author.Name);
+        }
+
         private static Server CreateServerModel()
         {
-            var simulation1 = new Simulation { Name = "Sim1" };
-            var simulation2 = new Simulation { Name = "Sim2" };
+            var simulation1 = new Simulation { Name = "Sim1", Author = new User { Name = "User1" } };
+            var simulation2 = new Simulation { Name = "Sim2", Author = new User { Name = "User2" } };
             var author = new User { Name = "User" };
 
             var server = new Server
@@ -48,6 +63,18 @@ namespace OpenSim.WebServer.App.Test.Controllers
             }
             .Select(f => f.Split('/'))
             .UnfoldFieldsTree();
+        }
+
+        private FieldsTreeNode CreateTwoLevelFieldsTree()
+        {
+            return new[]
+                {
+                    "_embedded/simulations/name",
+                    "_embedded/simulations/_embedded/author/name",
+                    "_embedded/author/name",
+                }
+                .Select(f => f.Split('/'))
+                .UnfoldFieldsTree();
         }
     }
 }

@@ -3,7 +3,7 @@ using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class SimulationEmbeddedRelationSchema : ResourseEmbeddedRelationSchema<SimulationResource, Simulation>
+    public class SimulationEmbeddedRelationSchema : ResourseEmbeddedRelationsSchema<SimulationResource, Simulation>
     {
         public SimulationEmbeddedRelationSchema()
         {

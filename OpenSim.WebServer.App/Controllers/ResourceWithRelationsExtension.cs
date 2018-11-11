@@ -5,7 +5,7 @@ using OpenSim.WebServer.App.Controllers;
 
 namespace OpenSim.WebServer.Controllers
 {
-    internal static class ResourceRelationsExtension
+    internal static class ResourceWithRelationsExtension
     {
         internal static T EmbedRelations<T>(this T resource, HttpRequest request, IEmbeddedRelationsSchema embeddedRelationsSchema) 
             where T : IResourceWithRelations

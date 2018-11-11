@@ -18,14 +18,14 @@ namespace OpenSim.WebServer.Controllers
         public abstract void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema);
 
         protected internal void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema, 
-            ResourseEmbeddedRelationSchema<TResource, TModel> resourseSchema)
+            ResourseEmbeddedRelationsSchema<TResource, TModel> resourseSchema)
         {
             foreach (var relationNode in embeddedFieldNode.Nodes)
                 EmbedRelation(relationNode, schema, resourseSchema);
         }
 
         private void EmbedRelation(FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema, 
-            ResourseEmbeddedRelationSchema<TResource, TModel> resourseSchema)
+            ResourseEmbeddedRelationsSchema<TResource, TModel> resourseSchema)
         {
             var relation = resourseSchema[relationNode.Value]((TResource)this, model);
             if (relation == null)
