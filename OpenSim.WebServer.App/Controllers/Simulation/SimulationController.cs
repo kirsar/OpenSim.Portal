@@ -12,11 +12,16 @@ namespace OpenSim.WebServer.Controllers
     {
         private readonly ISimulationRepository simulationRepo;
         private readonly IUserRepository usersRepo;
+        private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
-        public SimulationsController(ISimulationRepository simulationRepo, IUserRepository usersRepo)
+        public SimulationsController(
+            ISimulationRepository simulationRepo, 
+            IUserRepository usersRepo, 
+            IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.simulationRepo = simulationRepo;
             this.usersRepo = usersRepo;
+            this.embeddedRelationsSchema = embeddedRelationsSchema;
         }
 
         // GET: api/v1/Simulations
@@ -25,7 +30,7 @@ namespace OpenSim.WebServer.Controllers
             .GetAll()
             .Select(simulation => new SimulationResource(simulation))
             .ToList()
-            .EmbedRelations(Request));
+            .EmbedRelations(Request, embeddedRelationsSchema));
 
         // GET: api/v1/Simulations/5
         [HttpGet("{id}")]
@@ -36,7 +41,7 @@ namespace OpenSim.WebServer.Controllers
             if (simulation == null)
                 return NotFound();
 
-            return new ObjectResult(new SimulationResource(simulation).EmbedRelations(Request));
+            return new ObjectResult(new SimulationResource(simulation).EmbedRelations(Request, embeddedRelationsSchema));
         }
 
         // GET: api/v1/Simulations/5/references
@@ -54,7 +59,7 @@ namespace OpenSim.WebServer.Controllers
 
             return new SimulationCollection(simulation.References
                 .Select(reference => new SimulationResource(reference)
-                .EmbedRelations(Request)).ToList());
+                .EmbedRelations(Request, embeddedRelationsSchema)).ToList());
         }
 
         // GET: api/v1/Simulations/5/presentations
@@ -72,7 +77,7 @@ namespace OpenSim.WebServer.Controllers
 
             return new PresentationCollection(simulation.Presentations
                 .Select(presentation => new PresentationResource(presentation)
-                    .EmbedRelations(Request)).ToList());
+                    .EmbedRelations(Request, embeddedRelationsSchema)).ToList());
         }
 
         // POST: api/v1/Simulations

@@ -8,7 +8,7 @@ namespace OpenSim.WebServer.App.Controllers
 {
     public static class PartialResponseFieldsExtensions
     {
-        public static bool TryGetFields(this HttpRequest request, out Fields result)
+        internal static bool TryGetFields(this HttpRequest request, out Fields result)
         {
             if (!request.Query.ContainsKey("fields"))
                 return false;
@@ -34,14 +34,14 @@ namespace OpenSim.WebServer.App.Controllers
             return nodes.First();
         }
 
-        public static FieldsTreeNode GetEmbeddedNode(this FieldsTreeNode node) =>
-            node.Nodes.FirstOrDefault(n => n.Value == "_embedded");
-
         private static IEnumerable<FieldsTreeNode> GetNodes(IEnumerable<IEnumerable<string>> paths) => 
             from grouping in paths.GroupBy(p => p.First())
             let childrenPaths = grouping.Select(p => p.Skip(1)).Where(p => p.Any())
             select new FieldsTreeNode(
                 grouping.Key, 
                 childrenPaths.Any() ? GetNodes(childrenPaths) : Enumerable.Empty<FieldsTreeNode>());
+
+        internal static FieldsTreeNode GetEmbeddedNode(this FieldsTreeNode node) =>
+            node.Nodes.FirstOrDefault(n => n.Value == "_embedded");
     }
 }

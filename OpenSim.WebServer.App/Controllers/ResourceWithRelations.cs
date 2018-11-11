@@ -1,44 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using OpenSim.WebServer.App.Controllers;
 using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class ResourceWithRelations : Representation
+
+    public abstract class ResourceWithRelations<TResource, TModel> : Representation, IResourceWithRelations
+        where TResource : ResourceWithRelations<TResource, TModel>
     {
-        private Dictionary<string, Func<object>> relationsFactory = new Dictionary<string, Func<object>>();
-
-        protected void RegisterRelation(string relation, Func<object> registerAction) =>
-            relationsFactory.Add(relation, registerAction);
-
-        public void EmbedRelations(FieldsTreeNode embeddedField)
+        private readonly TModel model;
+     
+        protected ResourceWithRelations(TModel model)
         {
-            foreach (var relationNode in embeddedField.Nodes)
-                EmbedRelation(relationNode);
+            this.model = model;
         }
 
-        private void EmbedRelation(FieldsTreeNode relationNode)
+        public abstract void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema);
+
+        protected internal void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema, 
+            ResourseEmbeddedRelationSchema<TResource, TModel> resourseSchema)
         {
-            var relation = relationsFactory[relationNode.Value]();
+            foreach (var relationNode in embeddedFieldNode.Nodes)
+                EmbedRelation(relationNode, schema, resourseSchema);
+        }
+
+        private void EmbedRelation(FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema, 
+            ResourseEmbeddedRelationSchema<TResource, TModel> resourseSchema)
+        {
+            var relation = resourseSchema[relationNode.Value]((TResource)this, model);
             if (relation == null)
                 return;
 
-            EmbedRelationsOfRelation(relation, relationNode);
+            EmbedRelationsOfRelation(relation, relationNode, schema);
         }
 
-        private static void EmbedRelationsOfRelation(object relation, FieldsTreeNode relationNode)
+        private static void EmbedRelationsOfRelation(object relation, FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema)
         {
             var embeddedOfRelation = relationNode.GetEmbeddedNode();
             if (embeddedOfRelation == null)
                 return;
 
-            if (relation is IEnumerable<ResourceWithRelations> relations)
+            if (relation is IEnumerable<IResourceWithRelations> relations)
                 foreach (var item in relations)
-                    item.EmbedRelations(embeddedOfRelation);
+                    item.EmbedRelations(embeddedOfRelation, schema);
             else
-                ((ResourceWithRelations) relation).EmbedRelations(embeddedOfRelation);
+                ((IResourceWithRelations) relation).EmbedRelations(embeddedOfRelation, schema);
         }
     }
 }

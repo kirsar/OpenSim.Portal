@@ -1,36 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class SimulationResource : ResourceWithRelations
+    public class SimulationResource : ResourceWithRelations<SimulationResource, Simulation>
     {
         private readonly Simulation simulation;
 
-        public SimulationResource(Simulation simulation)
+        public SimulationResource(Simulation simulation) : base(simulation)
         {
             this.simulation = simulation;
-
-            RegisterRelation("author", () => Author = new UserInfoResource(simulation.Author)
-                { Rel = "author" });
-            RegisterRelation("references", () => References = simulation.References?.Select(s => new SimulationResource(s)
-                { Rel = LinkTemplates.Simulations.GetReference.Rel }));
-            RegisterRelation("consumers", () => Consumers = simulation.Consumers?.Select(s => new SimulationResource(s)
-                { Rel = LinkTemplates.Simulations.GetConsumer.Rel }));
-            RegisterRelation("presentations", () => Presentations = simulation.Presentations?.Select(p => new PresentationResource(p)));
         }
 
         public long Id => simulation.Id;
         public string Name => simulation.Name;
         public string Description => simulation.Description;
 
-        public UserInfoResource Author { get; private set; }
-        public IEnumerable<SimulationResource> References { get; private set; }
-        public IEnumerable<SimulationResource> Consumers { get; private set; }
-        public IEnumerable<PresentationResource> Presentations { get; private set; }
-        
+        public UserInfoResource Author { get; set; }
+        public IEnumerable<SimulationResource> References { get; set; }
+        public IEnumerable<SimulationResource> Consumers { get; set; }
+        public IEnumerable<PresentationResource> Presentations { get; set; }
+
+        public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
+            EmbedRelations(embeddedFieldNode, schema, schema.Simulation);
+     
         #region HAL
 
         public override string Rel { get; set; } = LinkTemplates.Simulations.GetSimulation.Rel;

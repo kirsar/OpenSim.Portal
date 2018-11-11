@@ -1,27 +1,28 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class PresentationResource : ResourceWithRelations
+    public class PresentationResource : ResourceWithRelations<PresentationResource, Presentation>
     {
         private readonly Presentation presentation;
 
-        public PresentationResource(Presentation presentation)
+        public PresentationResource(Presentation presentation) : base(presentation)
         {
             this.presentation = presentation;
-
-            RegisterRelation("author", () => Author = new UserInfoResource(presentation.Author) { Rel = "author" });
-            RegisterRelation("simulations", () => Simulations = presentation.Simulations?.Select(s => new SimulationResource(s)));
         }
 
         public long Id => presentation.Id;
         public string Name => presentation.Name;
         public string Description => presentation.Description;
 
-        public UserInfoResource Author { get; private set; }
-        public IEnumerable<SimulationResource> Simulations { get; private set; }
+        public UserInfoResource Author { get; set; }
+        public IEnumerable<SimulationResource> Simulations { get; set; }
+
+        public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
+            EmbedRelations(embeddedFieldNode, schema, schema.Presentation);
+        
 
         #region HAL
 

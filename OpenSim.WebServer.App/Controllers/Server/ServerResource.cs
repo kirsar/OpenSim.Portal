@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class ServerResource : ResourceWithRelations
+    public class ServerResource : ResourceWithRelations<ServerResource, Server>
     {
         private readonly Server server;
-
-        public ServerResource()
+     
+        public ServerResource() : base(null)
         {
         }
 
-        public ServerResource(Server server)
+        public ServerResource(Server server) : base(server)
         {
             this.server = server;
 
@@ -21,10 +21,6 @@ namespace OpenSim.WebServer.Controllers
             Description = server.Description;
             IsRunning = server.IsRunning;
             IsCustomUiAvailable = server.IsCustomUiAvailable;
-
-            RegisterRelation("author", () => Author = new UserInfoResource(server.Author) { Rel = "author"});
-            RegisterRelation("simulations", () => Simulations = server.Simulations?.Select(s => new SimulationResource(s)));
-            RegisterRelation("presentations", () => Presentations = server.Presentations?.Select(p => new PresentationResource(p)));
         }
 
         public long Id { get; set; }
@@ -33,9 +29,12 @@ namespace OpenSim.WebServer.Controllers
         public bool IsRunning { get; set; }
         public bool IsCustomUiAvailable { get; set; }
 
-        public UserInfoResource Author { get; private set; }
-        public IEnumerable<SimulationResource> Simulations { get; private set; } 
-        public IEnumerable<PresentationResource> Presentations { get; private set; }
+        public UserInfoResource Author { get; set; }
+        public IEnumerable<SimulationResource> Simulations { get; set; } 
+        public IEnumerable<PresentationResource> Presentations { get; set; }
+
+        public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
+            EmbedRelations(embeddedFieldNode, schema, schema.Server);
 
         #region HAL
 

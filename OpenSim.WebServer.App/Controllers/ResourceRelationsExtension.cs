@@ -7,25 +7,27 @@ namespace OpenSim.WebServer.Controllers
 {
     internal static class ResourceRelationsExtension
     {
-        public static T EmbedRelations<T>(this T resource, HttpRequest request) where T : ResourceWithRelations
+        internal static T EmbedRelations<T>(this T resource, HttpRequest request, IEmbeddedRelationsSchema embeddedRelationsSchema) 
+            where T : IResourceWithRelations
         {
             var embeddedNode = request.GetEmbeddedNode();
             if (embeddedNode == null)
                 return resource;
 
-            resource.EmbedRelations(embeddedNode);
+            resource.EmbedRelations(embeddedNode, embeddedRelationsSchema);
 
             return resource;
         }
 
-        public static List<T> EmbedRelations<T>(this List<T> resources, HttpRequest request) where T : ResourceWithRelations
+        internal static List<T> EmbedRelations<T>(this List<T> resources, HttpRequest request, IEmbeddedRelationsSchema embeddedRelationsSchema) 
+            where T : IResourceWithRelations
         {
             var embeddedNode = request.GetEmbeddedNode();
             if (embeddedNode == null)
                 return resources;
 
             foreach (var resource in resources)
-                resource.EmbedRelations(embeddedNode);
+                resource.EmbedRelations(embeddedNode, embeddedRelationsSchema);
 
             return resources;
         }

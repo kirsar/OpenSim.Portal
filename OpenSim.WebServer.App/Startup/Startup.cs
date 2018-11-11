@@ -33,6 +33,8 @@ namespace OpenSim.WebServer.App.Startup
             services.AddSingleton<ISimulationRepository, SimulationRepository>();
             services.AddSingleton<IPresentationRepository, PresentationRepository>();
 
+            services.AddSingleton<IEmbeddedRelationsSchema, EmbeddedRelationsSchema>();
+
             services.AddApiVersioning(o =>
                 {
                     o.AssumeDefaultVersionWhenUnspecified = true;

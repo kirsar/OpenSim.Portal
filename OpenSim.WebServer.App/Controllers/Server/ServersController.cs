@@ -15,17 +15,20 @@ namespace OpenSim.WebServer.Controllers
         private readonly ISimulationRepository simulationsRepo;
         private readonly IPresentationRepository presentationsRepo;
         private readonly IUserRepository usersRepo;
+        private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
         public ServersController(
             IServerRepository serversRepo, 
             ISimulationRepository simulationsRepo,
             IPresentationRepository presentationsRepo,
-            IUserRepository usersRepo)
+            IUserRepository usersRepo,
+            IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.serversRepo = serversRepo;
             this.simulationsRepo = simulationsRepo;
             this.presentationsRepo = presentationsRepo;
             this.usersRepo = usersRepo;
+            this.embeddedRelationsSchema = embeddedRelationsSchema;
         }
 
         // GET: api/v1/Servers
@@ -36,7 +39,7 @@ namespace OpenSim.WebServer.Controllers
                 .GetAll()
                 .Select(server => new ServerResource(server))
                 .ToList()
-                .EmbedRelations(Request));
+                .EmbedRelations(Request, embeddedRelationsSchema));
         }
 
         // GET: api/v1/Servers/5
@@ -48,7 +51,7 @@ namespace OpenSim.WebServer.Controllers
             if (server == null)
                 return NotFound();
 
-            return new ObjectResult(new ServerResource(server).EmbedRelations(Request));
+            return new ObjectResult(new ServerResource(server).EmbedRelations(Request, embeddedRelationsSchema));
         }
         
         // POST: api/v1/Servers
