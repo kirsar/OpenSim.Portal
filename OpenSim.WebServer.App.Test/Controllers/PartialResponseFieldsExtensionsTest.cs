@@ -3,7 +3,7 @@ using System.Linq;
 using OpenSim.WebServer.App.Controllers;
 using Xunit;
 
-namespace OpenSim.WebServer.App.Test
+namespace OpenSim.WebServer.App.Test.Controllers
 {
     public class PartialResponseFieldsExtensionsTest
     {
@@ -11,7 +11,7 @@ namespace OpenSim.WebServer.App.Test
         public void UnfoldFieldsTree()
         {
             // Arrange
-            var fields = BuildFieds();
+            var fields = BuildFields();
 
             // Act
             var tree = fields.UnfoldFieldsTree();
@@ -37,7 +37,7 @@ namespace OpenSim.WebServer.App.Test
         public void GetNodeByPath()
         {
             // Arrange 
-            var fields = BuildFieds();
+            var fields = BuildFields();
 
             // Act 
             var tree = fields.UnfoldFieldsTree();
@@ -51,7 +51,7 @@ namespace OpenSim.WebServer.App.Test
         public void GetLeafNodeByPath()
         {
             // Arrange 
-            var fields = BuildFieds();
+            var fields = BuildFields();
 
             // Act 
             var tree = fields.UnfoldFieldsTree();
@@ -61,7 +61,7 @@ namespace OpenSim.WebServer.App.Test
             Assert.Equal("_links", node.Value);
         }
 
-        private static IEnumerable<IEnumerable<string>> BuildFieds() =>
+        private static IEnumerable<IEnumerable<string>> BuildFields() =>
             new[]
             {
                 "_embedded/servers/name",

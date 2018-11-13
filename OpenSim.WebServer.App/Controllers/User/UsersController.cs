@@ -4,13 +4,13 @@ using OpenSim.WebServer.Model;
 namespace OpenSim.WebServer.Controllers
 {
     [ApiVersion("1.0")]
-    [Produces("application/json")]
+    [Produces("application/hal+json")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly IUserRepository repo;
 
-        public UserController(IUserRepository repo)
+        public UsersController(IUserRepository repo)
         {
             this.repo = repo;
         }
@@ -20,17 +20,17 @@ namespace OpenSim.WebServer.Controllers
         //[HttpGet]
         //public IEnumerable<User> Get() => repo.GetAll();
 
-        //// GET: api/Server/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public IActionResult Get(int id)
-        //{
-        //    var user = repo.Get(id);
+        // GET: api/User/5
+        [HttpGet("{id}", Name = "Get")]
+        public IActionResult Get(int id)
+        {
+            var user = repo.Get(id);
 
-        //    if (user == null)
-        //        return NotFound();
+            if (user == null)
+                return NotFound();
 
-        //    return new ObjectResult(user);
-        //}
+            return new ObjectResult(new UserInfoResource(user));
+        }
 
         // GET: api/User/5/details
         //[HttpGet("{id}/details")]
@@ -62,15 +62,15 @@ namespace OpenSim.WebServer.Controllers
         //{
         //    if (user == null || user.Id != id)
         //        return BadRequest();
-        
+
         //    var todo = repo.Get(id);
         //    if (todo == null)
         //        return NotFound();
-        
+
         //    repo.Update(user);
         //    return new NoContentResult();
         //}
-        
+
         //// DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]
         //public IActionResult Delete(int id)
@@ -78,7 +78,7 @@ namespace OpenSim.WebServer.Controllers
         //    var sever = repo.Get(id);
         //    if (repo == null)
         //        return NotFound();
-            
+
         //    repo.Remove(id);
         //    return new NoContentResult();
         //}

@@ -53,7 +53,43 @@ namespace OpenSim.WebServer.Controllers
 
             return new ObjectResult(new ServerResource(server).EmbedRelations(Request, embeddedRelationsSchema));
         }
-        
+
+        // GET: api/v1/Servers/5/simulations
+        [HttpGet("{id}/simulations")]
+        public SimulationCollection GetSimulations(long id)
+        {
+            var server = serversRepo.Get(id);
+
+            // TODO handle it properly
+            //if (simulation == null)
+            //    return NotFound();
+
+            if (server.Simulations == null)
+                return new SimulationCollection(Enumerable.Empty<SimulationResource>().ToList());
+
+            return new SimulationCollection(server.Simulations
+                .Select(simulation => new SimulationResource(simulation)
+                    .EmbedRelations(Request, embeddedRelationsSchema)).ToList());
+        }
+
+        // GET: api/v1/Servers/5/presentations
+        [HttpGet("{id}/presentations")]
+        public PresentationCollection GetPresentations(long id)
+        {
+            var server = serversRepo.Get(id);
+
+            // TODO handle it properly
+            //if (simulation == null)
+            //    return NotFound();
+
+            if (server.Presentations == null)
+                return new PresentationCollection(Enumerable.Empty<PresentationResource>().ToList());
+
+            return new PresentationCollection(server.Presentations
+                .Select(presentation => new PresentationResource(presentation)
+                    .EmbedRelations(Request, embeddedRelationsSchema)).ToList());
+        }
+
         // POST: api/v1/Servers
         [HttpPost]
         public IActionResult Post([FromBody]ServerResource serverResource)

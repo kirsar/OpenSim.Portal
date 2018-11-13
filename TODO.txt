@@ -1,13 +1,12 @@
 Portal Todo:
-15.0 figure out errors after migration to ASP Core 2.1 / Webhal.Api
-18  figure out why server is null after created on form
 15.11 refactor new-simulation with promises 
-15.25 try to merge getters and queries for model
 15.3 PR to hal-4-angular to extend get() with options
 15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation)
 15.5 Should I use IAsyncResult for collections?
 16  home page
 20  clean unneeded asp and npm references
+20.1 improve POST, take a look into hal-angular POST (set props instead of links)
+20.2 use fields? in POST, pass request builder to creation form
 21  why signletone is reconstructed after accessed before WebHost.Build() is called?
 25  separate app / client / controllers parts into projects
 30  rename to Portal
@@ -28,6 +27,8 @@ Done:
 15.1  dynamic embedding of linked resource based on ?fields  
 15.2 PR to PartialResponse to expose public parsing of ?fields - not needed anymore, only one method used and it's copy pasted
 15.2 create new server dynamic loading of related sims and pres for selected simulation
+15.25 try to merge getters and queries for model
+18  figure out why server is null after created on form
 27  fix slow opening of server/id page => Replaced hrefs with router link to prevent whole page reload 
 55  regulate _embedded data for pure HAL without ?fields
 52  why servers are not loaded from first attempt (fixed by Webhal.Api owners)

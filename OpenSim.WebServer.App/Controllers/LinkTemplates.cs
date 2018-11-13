@@ -8,6 +8,9 @@ namespace OpenSim.WebServer.Controllers
         {
             public static Link GetServers => new Link("servers", "~/servers");
             public static Link GetServer => new Link("servers", "~/servers/{id}");
+            public static Link Author => new Link("author", "~/users/{id}");
+            public static Link GetSimulations => new Link("simulations", "~/servers/{id}/simulations");
+            public static Link GetPresentations => new Link("presentations", "~/servers/{id}/presentations");
         }
 
         public static class Simulations

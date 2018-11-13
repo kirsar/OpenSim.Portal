@@ -26,6 +26,8 @@ export class NewServerFormComponent {
     public isInvalid(): boolean {
         if (!this.components.hasSelection)
             return true;
+        if (this.server.name == undefined)
+            return true;
         if (this.server.name!.length === 0)
             return true;
 
@@ -39,19 +41,23 @@ export class NewServerFormComponent {
         this.components.presentations.filter(s => s.isSelected).forEach(
             p => this.server.addPresentation(p.presentation));
 
+        const newServer = this.server;
+        this.buildDefaultServer();
+
         // TODO use current user as author
-        this.serversService.post(this.server).subscribe(
+        this.serversService.post(newServer).subscribe(
             res => {
-                this.buildDefaultServer();
                 this.components.setDefaultSelection();
                 if (res instanceof Server)
                     this.serverCreated.emit(res);
             });
     }
 
+    // construct full object before assignment, change detection can occur 
     private buildDefaultServer() : Server {
-        this.server = new Server();
-        this.server.name = 'New Server 1';
+        const newServer = new Server();
+        newServer.name = 'New Server 1';
+        this.server = newServer; 
         return this.server;
     }
 }

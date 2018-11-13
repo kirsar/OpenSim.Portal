@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
 
@@ -30,8 +31,8 @@ namespace OpenSim.WebServer.Controllers
         public bool IsCustomUiAvailable { get; set; }
 
         public UserInfoResource Author { get; set; }
-        public IEnumerable<SimulationResource> Simulations { get; set; } 
-        public IEnumerable<PresentationResource> Presentations { get; set; }
+        public IEnumerable<SimulationResource> Simulations { get; set; }
+        public IEnumerable<PresentationResource> Presentations { get; set; } = Enumerable.Empty<PresentationResource>();
 
         public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
             EmbedRelations(embeddedFieldNode, schema, schema.Server);
@@ -52,13 +53,21 @@ namespace OpenSim.WebServer.Controllers
 
         protected override void CreateHypermedia()
         {
+            Links.Add(LinkTemplates.Servers.Author.CreateLink(new { id = server.Author.Id} ));
+
             if (server.Simulations != null)
-                foreach (var simulation in server.Simulations)
-                    Links.Add(LinkTemplates.Simulations.GetSimulation.CreateLink(new { id = simulation.Id }));
+                Links.Add(LinkTemplates.Servers.GetSimulations.CreateLink(new { id = Id }));
+
+            //if (server.Simulations != null)
+            //    foreach (var simulation in server.Simulations)
+            //        Links.Add(LinkTemplates.Simulations.GetSimulation.CreateLink(new { id = simulation.Id }));
 
             if (server.Presentations != null)
-                foreach (var presentation in server.Presentations)
-                    Links.Add(LinkTemplates.Presentations.GetPresentation.CreateLink(new { id = presentation.Id }));
+                Links.Add(LinkTemplates.Servers.GetPresentations.CreateLink(new { id = Id }));
+
+            //if (server.Presentations != null)
+            //    foreach (var presentation in server.Presentations)
+            //        Links.Add(LinkTemplates.Presentations.GetPresentation.CreateLink(new { id = presentation.Id }));
         }
 
         #endregion

@@ -10,7 +10,7 @@
                         </div>
                         <a class="column-name" [routerLink]="['/servers/' + server.id]">{{ server.name }}</a>
                         <div class="column-author">
-                            <span>{{ server.author.name }}</span>
+                            <span>{{ server.author?.name }}</span>
                         </div>
                     </div>
                 

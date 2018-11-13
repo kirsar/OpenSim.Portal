@@ -14,9 +14,20 @@ export class Server extends EmbeddingResource {
     public name?: string;
     public description?: string;
 
-    public get author(): User { return this._embedded.author; }
-    public get simulations(): Simulation[] { return this._embedded.simulations; }
-    public get presentations(): Presentation[] { return this._embedded.presentations; }
+    public get author(): User | undefined {
+        return this.getSelfQueryResource(User, 'author',
+            () => this._embedded.author, (value: User) => this._embedded.author = value);
+    }
+       
+    public get simulations(): Simulation[] {
+        return this.getSelfQueryResourceArray(Simulation, 'simulations',
+            () => this._embedded.simulations, (value: Simulation[]) => this._embedded.simulations = value);
+    }
+
+    public get presentations(): Presentation[] {
+        // TODO empty arrays are not supported by WebApi.Hal so no self-query
+        return this._embedded.presentations;
+    }
 
     public addSimulation(simulation: Simulation) {
         this._links.simulations.push(simulation._links.self);

@@ -25,7 +25,7 @@ namespace OpenSim.WebServer.App.Test.Controllers
         }
 
         [Fact]
-        public void EmbedTwoLevelReleations()
+        public void EmbedTwoLevelRelations()
         {
             // Arrange
             var serverResource = new ServerResource(CreateServerModel());
