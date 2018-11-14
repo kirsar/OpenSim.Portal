@@ -9,20 +9,19 @@ export class SimulationItem {
         private readonly components: ComponentCollection) {
     }
 
-    private _isSelected = false;
-    private isRelationsLoaded = false;
+    private isSelectedValue = false;
     private references: Simulation[] = [];
     private presentations: Presentation[] = [];
 
     public get id(): number | undefined { return this.simulation.id; }
     public get name(): string | undefined { return this.simulation.name; }
 
-    public get isSelected(): boolean { return this._isSelected; }
+    public get isSelected(): boolean { return this.isSelectedValue; }
 
     public set isSelected(value: boolean) {
-        this._isSelected = value;
+        this.isSelectedValue = value;
 
-        if (!this._isSelected)
+        if (!this.isSelectedValue)
             return;
 
         this.loadRelations();
@@ -33,7 +32,6 @@ export class SimulationItem {
             ([references, presentations]) => {
                 this.references = references;
                 this.presentations = presentations;
-                this.isRelationsLoaded = true;
                 this.selectRelations();
             },
             error => console.error(error));
