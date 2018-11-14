@@ -11,7 +11,7 @@ export abstract  class EmbeddingResource extends Resource {
     protected _embedded: any = new Object();
 
     // TODO: current back end hateaos implementations doesn't send null and empty list resources
-    // we need to know if we requested resource and it's null/[0] or we haven't requested yet
+    // we need to know if we requested resource and it's null/empty array or we haven't requested yet
     private queriedRelations = new Set<string>(); 
 
     protected getSelfQueryResource<T extends Resource>(
