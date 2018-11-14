@@ -25,8 +25,8 @@ export class Server extends EmbeddingResource {
     }
 
     public get presentations(): Presentation[] {
-        // TODO empty arrays are not supported by WebApi.Hal so no self-query
-        return this._embedded.presentations;
+        return this.getSelfQueryResourceArray(Presentation, 'presentations',
+            () => this._embedded.presentations, (value: Presentation[]) => this._embedded.presentations = value);
     }
 
     public addSimulation(simulation: Simulation) {

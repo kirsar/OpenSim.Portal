@@ -10,6 +10,10 @@ export abstract  class EmbeddingResource extends Resource {
     public id?: number;
     protected _embedded: any = new Object();
 
+    // TODO: current back end hateaos implementations doesn't send null and empty list resources
+    // we need to know if we requested resource and it's null/[0] or we haven't requested yet
+    private queriedRelations = new Set<string>(); 
+
     protected getSelfQueryResource<T extends Resource>(
             type: { new(): T; },
             relation: string,
@@ -22,6 +26,11 @@ export abstract  class EmbeddingResource extends Resource {
         const value = getter(this._embedded);
         if (value != undefined)
             return value;
+
+        if (this.queriedRelations.has(relation))
+            return undefined;
+
+        this.queriedRelations.add(relation);
 
         this.getRelation(type, relation).subscribe(res => setter(res));
         return undefined;
@@ -38,6 +47,11 @@ export abstract  class EmbeddingResource extends Resource {
         const value = getter(this._embedded);
         if (value != undefined)
             return value;
+
+        if (this.queriedRelations.has(relation))
+            return [];
+
+        this.queriedRelations.add(relation);
 
         this.getRelationArray(type, relation).subscribe(res => setter(res));
         return [];
