@@ -1,9 +1,6 @@
 ﻿import { Observable, of } from 'rxjs';
 import { Resource, ResourceHelper } from 'hal-4-angular';
-
-export class ValueAndStream<T> {
-    public constructor(public value: T, public stream: Observable<T>) { }
-}
+import { ValueAndStream } from './value-and-stream';
 
 export abstract  class EmbeddingResource extends Resource {
     public constructor() {
@@ -16,20 +13,21 @@ export abstract  class EmbeddingResource extends Resource {
 
     // TODO: current back end hateoas implementations doesn't send null and empty list resources
     // we need to know if we requested resource and it's null/empty array or we haven't requested yet
+    // and it's still possible yet to have one extra request in case of empty collection
     private queriedRelations = new Set<string>(); 
 
+    private get isLocal(): boolean { return this.id == undefined; }
+
     protected getOrQueryResource<T extends Resource>(
-            type: { new(): T; },
-            relation: string,
-            getter: (embedded: any) => T,
+        type: { new(): T; },
+        relation: string,
+        getter: (embedded: any) => T,
         setter: (value: T) => void)
         : ValueAndStream<T | undefined> 
     {
-        if (this.id == undefined) // TODO is it ok for locally created objects?
-            return new ValueAndStream(undefined, of(undefined));
-
         const value = getter(this._embedded);
-        if (value != undefined)
+
+        if (this.isLocal || value != undefined)
             return new ValueAndStream(value, of(value));
 
         if (this.queriedRelations.has(relation))
@@ -49,13 +47,12 @@ export abstract  class EmbeddingResource extends Resource {
         setter: (value: T[]) => void)
         : ValueAndStream<T[]>
     {
-        if (this.id == undefined) // TODO is it ok for locally created objects?
-            return new ValueAndStream([], of([]));
-
         const value = getter(this._embedded);
-        if (value != undefined)
+
+        if (this.isLocal || value != undefined)
             return new ValueAndStream(value, of(value));
 
+        // waiting for response yet
         if (this.queriedRelations.has(relation))
             return new ValueAndStream([], of([]));
 

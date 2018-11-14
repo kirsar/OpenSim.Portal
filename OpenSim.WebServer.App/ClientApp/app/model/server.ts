@@ -31,6 +31,11 @@ export class Server extends EmbeddingResource {
 
     public addSimulation(simulation: Simulation) {
         this._links.simulations.push(simulation._links.self);
+
+        //if (this._embedded.simulations == undefined)
+        //    this._embedded.simulations = [];
+
+        //this._embedded.simulations.push(simulation);
     }
 
     public addPresentation(presentation: Presentation) {

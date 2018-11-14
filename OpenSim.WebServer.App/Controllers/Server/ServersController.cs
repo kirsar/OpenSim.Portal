@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.Query.Expressions;
+using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -97,58 +99,50 @@ namespace OpenSim.WebServer.Controllers
             if (serverResource == null)
                 return BadRequest();
 
+            //return CreatedAtRoute("Get", new { id = id }, server);
+            return Get(AddToRepo(serverResource));
+        }
+
+        // TODO handle errors
+        private long AddToRepo(ServerResource serverResource)
+        {
             var server = new Server
             {
                 Name = serverResource.Name,
                 Description = serverResource.Description,
-                // TODO current
-                Author = usersRepo.GetAll().First()
+                Author = usersRepo.GetAll().First()       // TODO current user
             };
-            
-            foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Simulations.GetSimulation.Rel))
-            {
-                // TODO handle error
-                // TODO replace this by something smarter
-                var id = long.Parse(link.Href.Substring(link.Rel.Length + 2), NumberStyles.Any, CultureInfo.InvariantCulture);
-                var simulation = simulationsRepo.Get(id);
-                server.AddSimulation(simulation);
-            }
 
-            foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Presentations.GetPresentation.Rel))
-            {
-                // TODO handle error
-                // TODO replace this by something smarter
-                var id = long.Parse(link.Href.Substring(link.Rel.Length + 2), NumberStyles.Any, CultureInfo.InvariantCulture);
-                var presentation = presentationsRepo.Get(id);
-                server.AddPresentation(presentation);
-            }
+            foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Servers.GetSimulations.Rel))
+                server.AddSimulation(simulationsRepo.Get(link.GetId()));
+           
+            foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Servers.GetPresentations.Rel))
+                server.AddPresentation(presentationsRepo.Get(link.GetId()));
 
             serversRepo.Add(server);
-
-            //return CreatedAtRoute("Get", new { id = server.Id }, server);
-            return Get(server.Id);
+            return server.Id;
         }
-        
+
         // PUT: api/v1/Servers/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]ServerResource server)
-        {
-            if (server == null || server.Id != id)
-                return BadRequest();
-        
-            var todo = serversRepo.Get(id);
-            if (todo == null)
-                return NotFound();
-        
-            serversRepo.Update(new Server
-            {
-                Id = server.Id,
-                // TODO
-            });
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, [FromBody]ServerResource server)
+        //{
+        //    if (server == null || server.Id != id)
+        //        return BadRequest();
 
-            return new NoContentResult();
-        }
-        
+        //    var todo = serversRepo.Get(id);
+        //    if (todo == null)
+        //        return NotFound();
+
+        //    serversRepo.Update(new Server
+        //    {
+        //        Id = server.Id,
+        //        // TODO
+        //    });
+
+        //    return new NoContentResult();
+        //}
+
         // DELETE: api/v1/ApiWithActions/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
