@@ -8,25 +8,32 @@ export class Simulation extends EmbeddingResource {
     public description?: string;
 
     public get author(): User | undefined {
-        return this.getSelfQueryResource(User, 'author',
-            () => this._embedded.author, (value: User) => this._embedded.author = value);
+        return this.getOrQueryResource(User, 'author',
+            () => this._embedded.author, (value: User)=> this._embedded.author = value).value;
     }
 
     public get references(): Simulation[] {
-        return this.getSelfQueryResourceArray(Simulation, 'references',
-            () => this._embedded.references, value => this._embedded.references = value);
+        return this.getOrQueryResourceArray(Simulation, 'references',
+            () => this._embedded.references, value => this._embedded.references = value).value;
     }
 
     public get consumers(): Simulation[] {
-        return this.getSelfQueryResourceArray(Simulation, 'consumers',
-            () => this._embedded.consumers, value => this._embedded.consumers = value);
+        return this.getOrQueryResourceArray(Simulation, 'consumers',
+            () => this._embedded.consumers, value => this._embedded.consumers = value).value;
     }
 
     public get presentations(): Presentation[] {
-        return this.getSelfQueryResourceArray(Presentation, 'presentations',
-            () => this._embedded.presentations, value => this._embedded.presentations = value);
+        return this.getOrQueryResourceArray(Presentation, 'presentations',
+            () => this._embedded.presentations, value => this._embedded.presentations = value).value;
     }
 
-    public queryReferences(): Observable<Simulation[]> { return this.getRelationArray(Simulation, 'references'); }
-    public queryPresentations(): Observable<Presentation[]> { return this.getRelationArray(Presentation, 'presentations'); }
+    public queryReferences(): Observable<Simulation[]> { 
+        return this.getOrQueryResourceArray(Simulation, 'references',
+            () => this._embedded.references, value => this._embedded.references = value).stream;
+    }
+
+    public queryPresentations(): Observable<Presentation[]> {
+        return this.getOrQueryResourceArray(Presentation, 'presentations',
+            () => this._embedded.presentations, value => this._embedded.presentations = value).stream;
+    }
 }

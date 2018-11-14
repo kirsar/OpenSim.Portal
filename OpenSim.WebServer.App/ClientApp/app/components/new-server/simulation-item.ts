@@ -25,10 +25,7 @@ export class SimulationItem {
         if (!this._isSelected)
             return;
 
-        if (this.isRelationsLoaded)
-            this.selectRelations();
-        else 
-            this.loadRelations();
+        this.loadRelations();
     }
 
     private loadRelations() {

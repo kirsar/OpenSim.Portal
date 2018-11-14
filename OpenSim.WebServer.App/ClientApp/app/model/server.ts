@@ -15,18 +15,18 @@ export class Server extends EmbeddingResource {
     public description?: string;
 
     public get author(): User | undefined {
-        return this.getSelfQueryResource(User, 'author',
-            () => this._embedded.author, (value: User) => this._embedded.author = value);
+        return this.getOrQueryResource(User, 'author',
+            () => this._embedded.author, (value: User) => this._embedded.author = value).value;
     }
        
     public get simulations(): Simulation[] {
-        return this.getSelfQueryResourceArray(Simulation, 'simulations',
-            () => this._embedded.simulations, (value: Simulation[]) => this._embedded.simulations = value);
+        return this.getOrQueryResourceArray(Simulation, 'simulations',
+            () => this._embedded.simulations, (value: Simulation[]) => this._embedded.simulations = value).value;
     }
 
     public get presentations(): Presentation[] {
-        return this.getSelfQueryResourceArray(Presentation, 'presentations',
-            () => this._embedded.presentations, (value: Presentation[]) => this._embedded.presentations = value);
+        return this.getOrQueryResourceArray(Presentation, 'presentations',
+            () => this._embedded.presentations, (value: Presentation[]) => this._embedded.presentations = value).value;
     }
 
     public addSimulation(simulation: Simulation) {
