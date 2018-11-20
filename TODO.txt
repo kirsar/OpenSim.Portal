@@ -2,19 +2,31 @@ Portal Todo:
 15.3 PR to hal-4-angular to extend get(id) with options
 15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation)
 15.11 refactor new-simulation with promises 
+
 20  clean unneeded asp and npm references
-21  why signletone is reconstructed after accessed before WebHost.Build() is called?
-25  separate app / client / controllers parts into projects
+25  separate app / client / controllers parts into projects. Host pure angular
+
 58  web api with pagination / curies
     PR to WebApi.hal for empty collections
 	figure out why embedded resource arrays are not replaced by _links in POST
-57.1 allow to click play / stop (servers/server) for own server and put
+
+	authentication / identity / angular intercept
+	generic error rediret
+
+21  why signletone is reconstructed after accessed before WebHost.Build() is called?
 15.5 Should I use IAsyncResult for collections?
+
+60  move data to postgres (or MS?)
+    deploy in docker
+    host on AWS
 50  ensure I'm selfhost and why I need OWIN then?
+
 16  home page
 110 how I can use html <map>
+
 57  rename servers into server config, introduce runnable instance of server as separate portal entity
-60  move data to postgres (or MS?)
+57.1 allow to click play / stop (servers/server) for own server and put
+
 70  mobile adaptive ui for server list
 100 post css for webpack
 30  rename to Portal
