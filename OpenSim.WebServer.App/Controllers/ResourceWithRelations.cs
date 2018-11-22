@@ -15,19 +15,19 @@ namespace OpenSim.WebServer.Controllers
             this.model = model;
         }
 
-        public abstract void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema);
+        public abstract void EmbedRelations(IEnumerable<FieldsTreeNode> fields, IEmbeddedRelationsSchema schema);
 
-        protected internal void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema, 
+        protected internal void EmbedRelations(IEnumerable<FieldsTreeNode> fields, IEmbeddedRelationsSchema schema, 
             ResourseEmbeddedRelationsSchema<TResource, TModel> resourseSchema)
         {
-            foreach (var relationNode in embeddedFieldNode.Nodes)
+            foreach (var relationNode in fields)
                 EmbedRelation(relationNode, schema, resourseSchema);
         }
 
         private void EmbedRelation(FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema, 
-            ResourseEmbeddedRelationsSchema<TResource, TModel> resourseSchema)
+            ResourseEmbeddedRelationsSchema<TResource, TModel> resourceSchema)
         {
-            var relation = resourseSchema[relationNode.Value]((TResource)this, model);
+            var relation = resourceSchema[relationNode.Value]((TResource)this, model);
             if (relation == null)
                 return;
 
@@ -42,9 +42,9 @@ namespace OpenSim.WebServer.Controllers
 
             if (relation is IEnumerable<IResourceWithRelations> relations)
                 foreach (var item in relations)
-                    item.EmbedRelations(embeddedOfRelation, schema);
+                    item.EmbedRelations(embeddedOfRelation.Nodes, schema);
             else
-                ((IResourceWithRelations) relation).EmbedRelations(embeddedOfRelation, schema);
+                ((IResourceWithRelations) relation).EmbedRelations(embeddedOfRelation.Nodes, schema);
         }
     }
 }

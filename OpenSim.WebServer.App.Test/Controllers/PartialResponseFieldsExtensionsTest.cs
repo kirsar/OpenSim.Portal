@@ -17,10 +17,10 @@ namespace OpenSim.WebServer.App.Test.Controllers
             var tree = fields.UnfoldFieldsTree();
 
             // Assert
-            Assert.Equal("_embedded", tree.Value);
-            Assert.Single(tree.Nodes);
+            Assert.Equal("_embedded", tree.Single().Value);
+            Assert.Single(tree.Single().Nodes);
 
-            var server = tree.Nodes.Single();
+            var server = tree.Single().Nodes.Single();
             Assert.Equal(5, server.Nodes.Count());
 
             var serverEmbedded = server.Nodes.Single(n => n.Value == "_embedded");
@@ -41,7 +41,7 @@ namespace OpenSim.WebServer.App.Test.Controllers
 
             // Act 
             var tree = fields.UnfoldFieldsTree();
-            var node = tree.GetByPath("_embedded/servers/_embedded/presentations");
+            var node = tree.Single().GetByPath("_embedded/servers/_embedded/presentations");
 
             // Assert
             Assert.Equal("presentations", node.Value);
@@ -55,7 +55,7 @@ namespace OpenSim.WebServer.App.Test.Controllers
 
             // Act 
             var tree = fields.UnfoldFieldsTree();
-            var node = tree.GetByPath("_embedded/servers/_embedded/author/_links");
+            var node = tree.Single().GetByPath("_embedded/servers/_embedded/author/_links");
 
             // Assert
             Assert.Equal("_links", node.Value);

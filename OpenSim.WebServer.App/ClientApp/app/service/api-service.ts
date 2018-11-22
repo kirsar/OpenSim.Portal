@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core'
 import { Observable } from 'rxjs';
-import { RestService, HalOptions } from 'hal-4-angular'
+import { RestService, HalOptions, HalParam } from 'hal-4-angular'
 import { EmbeddingResource } from '../model/embedding-resource';
 import { RequestBuilder } from './request-builder/request-builder-interface'
 import { map } from 'rxjs/operators'
@@ -19,21 +19,38 @@ export abstract class ApiService<T extends EmbeddingResource> {
     
     // TODO make PR in fork hal-4-angular to support options in get(id)
     public get(id: number, builder?: RequestBuilder<T>): Observable<T | undefined> {
-        return this.getAll(builder).pipe(map(items => items ? items.find(item => item.id == id) : undefined));
+        return this.service.get(id, this.buildResourceParams(builder));
     }
 
     public post(resource: T): Observable<Observable<never> | T> {
         return this.service.create(resource);
     }
 
-    private buildOptions(builder?: RequestBuilder<T>): HalOptions {
-        return builder != undefined ? {
-            params: [
+    private buildResourceCollectionParams(builder?: RequestBuilder<T>): HalParam[] {
+        return builder != undefined
+            ? [
                 {
                     key: 'fields',
                     value: `_embedded/${this.resource}(${builder.build()})`
                 }
             ]
-        } : {};
+            : [];
+    }
+
+    private buildResourceParams(builder?: RequestBuilder<T>): HalParam[] {
+        return builder != undefined
+            ? [
+                {
+                    key: 'fields',
+                    value: `${builder.build()}`
+                }
+            ]
+            : [];
+    }
+
+    private buildOptions(builder?: RequestBuilder<T>): HalOptions {
+        return builder != undefined
+            ? { params: this.buildResourceCollectionParams(builder) }
+            : {};
     }
 }

@@ -22,16 +22,13 @@ namespace OpenSim.WebServer.App.Controllers
             return true;
         }
 
-        public static FieldsTreeNode UnfoldFieldsTree(this IEnumerable<IEnumerable<string>> fieldsParts)
+        public static IEnumerable<FieldsTreeNode> UnfoldFieldsTree(this IEnumerable<IEnumerable<string>> fieldsParts)
         {
             var nodes = GetNodes(fieldsParts).ToList();
             if (nodes.Count == 0)
                 throw new ArgumentException("Fields collection should not be empty", nameof(fieldsParts));
             
-            if (nodes.Count > 1)
-                throw new ArgumentException("Fields collection doesn't have common parent for every field paths", nameof(fieldsParts));
-
-            return nodes.First();
+            return nodes;
         }
 
         private static IEnumerable<FieldsTreeNode> GetNodes(IEnumerable<IEnumerable<string>> paths) => 
@@ -41,7 +38,7 @@ namespace OpenSim.WebServer.App.Controllers
                 grouping.Key, 
                 childrenPaths.Any() ? GetNodes(childrenPaths) : Enumerable.Empty<FieldsTreeNode>());
 
-        internal static FieldsTreeNode GetEmbeddedNode(this FieldsTreeNode node) =>
-            node.Nodes.FirstOrDefault(n => n.Value == "_embedded");
+        internal static FieldsTreeNode GetEmbeddedField(this IEnumerable<FieldsTreeNode> fields) =>
+            fields.FirstOrDefault(n => n.Value == "_embedded");
     }
 }

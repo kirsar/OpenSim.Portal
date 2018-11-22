@@ -46,14 +46,14 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Servers/5
         [HttpGet("{id}")]
-        public IActionResult Get(long id)
+        public ActionResult<ServerResource> Get(long id)
         {
             var server = serversRepo.Get(id);
 
             if (server == null)
                 return NotFound();
 
-            return new ObjectResult(new ServerResource(server).EmbedRelations(Request, embeddedRelationsSchema));
+            return new ServerResource(server).EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // GET: api/v1/Servers/5/simulations
@@ -94,7 +94,7 @@ namespace OpenSim.WebServer.Controllers
 
         // POST: api/v1/Servers
         [HttpPost]
-        public IActionResult Post([FromBody]ServerResource serverResource)
+        public ActionResult<ServerResource> Post([FromBody]ServerResource serverResource)
         {
             if (serverResource == null)
                 return BadRequest();
