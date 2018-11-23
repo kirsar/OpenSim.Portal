@@ -11,11 +11,6 @@ export abstract  class EmbeddingResource extends Resource {
     public id?: number;
     protected _embedded: any = new Object();
 
-    // TODO: current back end hateoas implementations doesn't send null and empty list resources
-    // we need to know if we requested resource and it's null/empty array or we haven't requested yet
-    // and it's still possible yet to have one extra request in case of empty collection
-    private queriedRelations = new Set<string>(); 
-
     private get isLocal(): boolean { return this.id == undefined; }
 
     protected getOrQueryResource<T extends Resource>(
@@ -30,12 +25,7 @@ export abstract  class EmbeddingResource extends Resource {
         if (this.isLocal || value != undefined)
             return new ValueAndStream(value, of(value));
 
-        if (this.queriedRelations.has(relation))
-            return new ValueAndStream(undefined, of(undefined));
-
-        this.queriedRelations.add(relation);
-
-        const  stream = this.getRelation(type, relation);
+        const stream = this.getRelation(type, relation);
         stream.subscribe(res => setter(res));
         return new ValueAndStream<T | undefined>(undefined, stream);
     }
@@ -51,12 +41,6 @@ export abstract  class EmbeddingResource extends Resource {
 
         if (this.isLocal || value != undefined)
             return new ValueAndStream(value, of(value));
-
-        // waiting for response yet
-        if (this.queriedRelations.has(relation))
-            return new ValueAndStream([], of([]));
-
-        this.queriedRelations.add(relation);
 
         const stream = this.getRelationArray(type, relation);
         stream.subscribe(res => setter(res));

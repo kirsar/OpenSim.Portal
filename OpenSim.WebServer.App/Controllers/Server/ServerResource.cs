@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -31,9 +31,13 @@ namespace OpenSim.WebServer.Controllers
         public bool IsCustomUiAvailable { get; set; }
 
         public UserInfoResource Author { get; set; }
-        public IEnumerable<SimulationResource> Simulations { get; set; }
-        public IEnumerable<PresentationResource> Presentations { get; set; } = Enumerable.Empty<PresentationResource>();
 
+        public IResourceList Simulations { get; set; } = 
+            new ResourceList<SimulationResource>(LinkTemplates.Servers.GetSimulations.Rel);
+
+        public IResourceList Presentations { get; set; } = 
+            new ResourceList<PresentationResource>(LinkTemplates.Servers.GetPresentations.Rel);
+    
         public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
             EmbedRelations(embeddedFieldNode, schema, schema.Server);
 
