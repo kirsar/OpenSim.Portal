@@ -38,7 +38,7 @@ namespace OpenSim.WebServer.App.Controllers
                 grouping.Key, 
                 childrenPaths.Any() ? GetNodes(childrenPaths) : Enumerable.Empty<FieldsTreeNode>());
 
-        internal static FieldsTreeNode GetEmbeddedField(this IEnumerable<FieldsTreeNode> fields) =>
+        internal static FieldsTreeNode GetEmbeddedFieldNode(this IEnumerable<FieldsTreeNode> fields) =>
             fields.FirstOrDefault(n => n.Value == "_embedded");
     }
 }

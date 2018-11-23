@@ -28,14 +28,14 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/presentations/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<PresentationResource> Get(int id)
         {
             var presentation = repo.Get(id);
 
             if (presentation == null)
                 return NotFound();
 
-            return new ObjectResult(new PresentationResource(presentation).EmbedRelations(Request, embeddedRelationsSchema));
+            return new PresentationResource(presentation).EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // POST: api/v1/presentations/5

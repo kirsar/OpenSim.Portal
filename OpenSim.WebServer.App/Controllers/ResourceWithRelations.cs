@@ -15,13 +15,13 @@ namespace OpenSim.WebServer.Controllers
             this.model = model;
         }
 
-        public abstract void EmbedRelations(IEnumerable<FieldsTreeNode> fields, IEmbeddedRelationsSchema schema);
+        public abstract void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema);
 
-        protected internal void EmbedRelations(IEnumerable<FieldsTreeNode> fields, IEmbeddedRelationsSchema schema, 
-            ResourseEmbeddedRelationsSchema<TResource, TModel> resourseSchema)
+        protected internal void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema, 
+            ResourseEmbeddedRelationsSchema<TResource, TModel> resourceSchema)
         {
-            foreach (var relationNode in fields)
-                EmbedRelation(relationNode, schema, resourseSchema);
+            foreach (var relationNode in embeddedFieldNode.Nodes)
+                EmbedRelation(relationNode, schema, resourceSchema);
         }
 
         private void EmbedRelation(FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema, 
@@ -36,15 +36,15 @@ namespace OpenSim.WebServer.Controllers
 
         private static void EmbedRelationsOfRelation(object relation, FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema)
         {
-            var embeddedOfRelation = relationNode.GetEmbeddedNode();
+            var embeddedOfRelation = relationNode.Nodes.GetEmbeddedFieldNode();
             if (embeddedOfRelation == null)
                 return;
 
             if (relation is IEnumerable<IResourceWithRelations> relations)
                 foreach (var item in relations)
-                    item.EmbedRelations(embeddedOfRelation.Nodes, schema);
+                    item.EmbedRelations(embeddedOfRelation, schema);
             else
-                ((IResourceWithRelations) relation).EmbedRelations(embeddedOfRelation.Nodes, schema);
+                ((IResourceWithRelations) relation).EmbedRelations(embeddedOfRelation, schema);
         }
     }
 }

@@ -1,7 +1,9 @@
 Portal Todo:
+    unit tests for single resource 
 15.3 PR to hal-4-angular to extend get(id) with options
 15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation)
 15.11 refactor new-simulation with promises 
+	clean up Post and embedded relations
 
 20  clean unneeded asp and npm references
 25  separate app / client / controllers parts into projects. Host pure angular

@@ -23,8 +23,8 @@ namespace OpenSim.WebServer.Controllers
         public IEnumerable<SimulationResource> Consumers { get; set; }
         public IEnumerable<PresentationResource> Presentations { get; set; }
 
-        public override void EmbedRelations(IEnumerable<FieldsTreeNode> fields, IEmbeddedRelationsSchema schema) =>
-            EmbedRelations(fields, schema, schema.Simulation);
+        public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
+            EmbedRelations(embeddedFieldNode, schema, schema.Simulation);
      
         #region HAL
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Controllers;
 using OpenSim.WebServer.Model;
@@ -55,7 +54,7 @@ namespace OpenSim.WebServer.App.Test.Controllers
             return server;
         }
 
-        private IEnumerable<FieldsTreeNode> CreateFieldsTree()
+        private FieldsTreeNode CreateFieldsTree()
         {
             return new[]
             {
@@ -63,10 +62,11 @@ namespace OpenSim.WebServer.App.Test.Controllers
                 "_embedded/author/name",
             }
             .Select(f => f.Split('/'))
-            .UnfoldFieldsTree();
+            .UnfoldFieldsTree()
+            .Single();
         }
 
-        private IEnumerable<FieldsTreeNode> CreateTwoLevelFieldsTree()
+        private FieldsTreeNode CreateTwoLevelFieldsTree()
         {
             return new[]
                 {
@@ -75,7 +75,8 @@ namespace OpenSim.WebServer.App.Test.Controllers
                     "_embedded/author/name",
                 }
                 .Select(f => f.Split('/'))
-                .UnfoldFieldsTree();
+                .UnfoldFieldsTree()
+                .Single();
         }
     }
 }

@@ -34,14 +34,14 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Simulations/5
         [HttpGet("{id}")]
-        public IActionResult Get(long id)
+        public ActionResult<SimulationResource> Get(long id)
         {
             var simulation = simulationRepo.Get(id);
 
             if (simulation == null)
                 return NotFound();
 
-            return new ObjectResult(new SimulationResource(simulation).EmbedRelations(Request, embeddedRelationsSchema));
+            return new SimulationResource(simulation).EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // GET: api/v1/Simulations/5/references
@@ -82,7 +82,7 @@ namespace OpenSim.WebServer.Controllers
 
         // POST: api/v1/Simulations
         [HttpPost]
-        public IActionResult Post([FromBody]JObject json)
+        public ActionResult<SimulationResource> Post([FromBody]JObject json)
         {
             var simulations = simulationRepo.GetAll();
 

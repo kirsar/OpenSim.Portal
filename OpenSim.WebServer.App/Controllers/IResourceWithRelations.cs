@@ -5,6 +5,6 @@ namespace OpenSim.WebServer.Controllers
 {
     public interface IResourceWithRelations
     {
-        void EmbedRelations(IEnumerable<FieldsTreeNode> fields, IEmbeddedRelationsSchema schema);
+        void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema);
     }
 }

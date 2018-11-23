@@ -11,11 +11,11 @@ namespace OpenSim.WebServer.Controllers
             where T : IResourceWithRelations
         {
             var fields = request.GetFieldsDefinition();
-            var embeddedField = fields.GetEmbeddedField();
+            var embeddedField = fields.GetEmbeddedFieldNode();
             if (embeddedField == null)
                 return resource;
 
-            resource.EmbedRelations(fields, embeddedRelationsSchema);
+            resource.EmbedRelations(embeddedField, embeddedRelationsSchema);
 
             return resource;
         }
@@ -24,12 +24,12 @@ namespace OpenSim.WebServer.Controllers
             where T : IResourceWithRelations
         {
             var fields = request.GetFieldsDefinition();
-            var embeddedField = fields.FirstOrDefault().GetEmbeddedNode();
+            var embeddedField = fields.FirstOrDefault()?.Nodes.GetEmbeddedFieldNode();
             if (embeddedField == null)
                 return resources;
 
             foreach (var resource in resources)
-                resource.EmbedRelations(embeddedField.Nodes, embeddedRelationsSchema);
+                resource.EmbedRelations(embeddedField, embeddedRelationsSchema);
 
             return resources;
         }
