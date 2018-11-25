@@ -1,6 +1,6 @@
-﻿import { EmbeddingResource } from '../../model/embedding-resource';
+﻿import { Resource, } from 'hal-4-angular';
 
-export abstract class RequestBuilder<T extends EmbeddingResource> {
+export abstract class RequestBuilder<T extends Resource> {
     private params: string[] = [];
 
     protected constructor(private readonly defaultParams: string[]) {
@@ -8,7 +8,7 @@ export abstract class RequestBuilder<T extends EmbeddingResource> {
         defaultParams.push('_links');
     }
 
-    protected addRelation<TResource extends EmbeddingResource, TBuilder extends RequestBuilder<TResource>>(
+    protected addRelation<TResource extends Resource, TBuilder extends RequestBuilder<TResource>>(
         builderFactory: { new(): TBuilder; }, relation: string, builder?: TBuilder) {
             this.addParam(`${relation}(${(builder ? builder : new builderFactory()).build()})`);
     }

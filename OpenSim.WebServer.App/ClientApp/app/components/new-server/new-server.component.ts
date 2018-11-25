@@ -44,7 +44,6 @@ export class NewServerFormComponent {
         const newServer = this.server;
         this.buildDefaultServer();
 
-        // TODO use current user as author
         this.serversService.post(newServer).subscribe(
             res => {
                 this.components.setDefaultSelection();

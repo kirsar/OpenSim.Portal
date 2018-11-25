@@ -1,6 +1,8 @@
 ﻿import { Observable, of } from 'rxjs';
 import { Resource, ResourceHelper } from 'hal-4-angular';
 import { ValueAndStream } from './value-and-stream';
+import { RequestBuilder } from './../service/request-builder/request-builder-interface'
+import { HalOptionsBuilder } from './../service/hal-options-builder'
 
 export abstract  class EmbeddingResource extends Resource {
     public constructor() {
@@ -45,7 +47,8 @@ export abstract  class EmbeddingResource extends Resource {
         type: { new(): T; },
         relation: string,
         getter: (embedded: any) => T[],
-        setter: (value: T[]) => void)
+        setter: (value: T[]) => void,
+        builder?: RequestBuilder<T>)
         : ValueAndStream<T[]>
     {
         const value = getter(this._embedded);
@@ -55,8 +58,8 @@ export abstract  class EmbeddingResource extends Resource {
 
         if (relation in this.queriedRelations)
             return new ValueAndStream([], this.queriedRelations[relation] as Observable<T[]>);
-
-        const stream = this.getRelationArray(type, relation);
+        
+        const stream = this.getRelationArray2(type, relation, builder);
 
         stream.subscribe(res => {
             setter(res);
@@ -67,7 +70,7 @@ export abstract  class EmbeddingResource extends Resource {
         return new ValueAndStream([], stream);
     }
 
-    public getRelation<T extends Resource>(type: { new(): T; }, relation: string): Observable<T> {
+    private getRelation<T extends Resource>(type: { new(): T; }, relation: string): Observable<T> {
         if (!(relation in this._links))
             return of();
 
@@ -76,13 +79,13 @@ export abstract  class EmbeddingResource extends Resource {
         return super.getRelation(type, relation);
     }
 
-    public getRelationArray<T extends Resource>(type: { new(): T; }, relation: string): Observable<T[]> {
+    private getRelationArray2<T extends Resource>(type: { new(): T; }, relation: string, builder?: RequestBuilder<T>): Observable<T[]> {
         if (!(relation in this._links))
             return of([]);
 
         this.fixLinkUri(relation);
 
-        return super.getRelationArray(type, relation);
+        return super.getRelationArray(type, relation, undefined, HalOptionsBuilder.buildOptionsForResource(builder));
     }
 
     // TODO hot fix for request with relative uri sent from Resource
