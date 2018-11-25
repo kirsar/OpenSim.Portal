@@ -11,6 +11,8 @@ export abstract  class EmbeddingResource extends Resource {
     public id?: number;
     protected _embedded: any = new Object();
 
+    private queriedRelations: { [relation: string]: any; } = {};
+
     private get isLocal(): boolean { return this.id == undefined; }
 
     protected getOrQueryResource<T extends Resource>(
@@ -25,8 +27,12 @@ export abstract  class EmbeddingResource extends Resource {
         if (this.isLocal || value != undefined)
             return new ValueAndStream(value, of(value));
 
+        if (relation in this.queriedRelations)
+            return new ValueAndStream(undefined, this.queriedRelations[relation] as Observable<T | undefined>);
+
         const stream = this.getRelation(type, relation);
         stream.subscribe(res => setter(res));
+        this.queriedRelations[relation] = stream;
         return new ValueAndStream<T | undefined>(undefined, stream);
     }
 
@@ -42,8 +48,12 @@ export abstract  class EmbeddingResource extends Resource {
         if (this.isLocal || value != undefined)
             return new ValueAndStream(value, of(value));
 
+        if (relation in this.queriedRelations)
+            return new ValueAndStream([], this.queriedRelations[relation] as Observable<T[]>);
+
         const stream = this.getRelationArray(type, relation);
         stream.subscribe(res => setter(res));
+        this.queriedRelations[relation] = stream;
         return new ValueAndStream([], stream);
     }
 
