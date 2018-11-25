@@ -31,10 +31,12 @@ export abstract  class EmbeddingResource extends Resource {
             return new ValueAndStream(undefined, this.queriedRelations[relation] as Observable<T | undefined>);
 
         const stream = this.getRelation(type, relation);
+
         stream.subscribe(res => {
             setter(res);
             delete this.queriedRelations[relation];
         });
+
         this.queriedRelations[relation] = stream;
         return new ValueAndStream<T | undefined>(undefined, stream);
     }
