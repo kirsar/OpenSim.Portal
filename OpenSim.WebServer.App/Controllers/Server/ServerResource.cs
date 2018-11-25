@@ -31,12 +31,8 @@ namespace OpenSim.WebServer.Controllers
         public bool IsCustomUiAvailable { get; set; }
 
         public UserInfoResource Author { get; set; }
-
-        public IResourceList Simulations { get; set; } = 
-            new ResourceList<SimulationResource>(LinkTemplates.Servers.GetSimulations.Rel);
-
-        public IResourceList Presentations { get; set; } = 
-            new ResourceList<PresentationResource>(LinkTemplates.Servers.GetPresentations.Rel);
+        public ResourceList<SimulationResource> Simulations { get; set; }
+        public ResourceList<PresentationResource> Presentations { get; set; }
     
         public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
             EmbedRelations(embeddedFieldNode, schema, schema.Server);
