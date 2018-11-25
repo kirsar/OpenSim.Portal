@@ -1,6 +1,4 @@
 Portal Todo:
-    unit tests for single resource 
-15.3 PR to hal-4-angular to extend get(id) with options
 15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation)
 15.11 refactor new-simulation with promises 
 	clean up Post and embedded relations
@@ -15,6 +13,8 @@ Portal Todo:
 	authentication / identity / angular intercept
 	generic error rediret
 
+	back end L1 tests 
+	
 21  why signletone is reconstructed after accessed before WebHost.Build() is called?
 15.5 Should I use IAsyncResult for collections?
 
@@ -38,10 +38,11 @@ Done:
 14  gitignore per solution
 15  reusable code for ts for hal
 15.1 disable post server if no simulation selected
-15.1  dynamic embedding of linked resource based on ?fields  
+15.1 dynamic embedding of linked resource based on ?fields  
 15.2 PR to PartialResponse to expose public parsing of ?fields - not needed anymore, only one method used and it's copy pasted
 15.2 create new server dynamic loading of related sims and pres for selected simulation
 15.25 try to merge getters and queries for model
+15.3 PR to hal-4-angular to extend get(id) with options
 20.1 improve POST, take a look into hal-angular POST (set props instead of links)
 20.2 use fields? in POST, pass request builder to creation form - not needed
 18  figure out why server is null after created on form
