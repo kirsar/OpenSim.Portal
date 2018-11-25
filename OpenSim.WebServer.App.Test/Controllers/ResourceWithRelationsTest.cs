@@ -18,7 +18,7 @@ namespace OpenSim.WebServer.App.Test.Controllers
             serverResource.EmbedRelations(CreateFieldsTree(), new EmbeddedRelationsSchema());
 
             // Assert
-            Assert.Equal(2, serverResource.Simulations.Count());
+            Assert.Equal(2, serverResource.Simulations.Count);
             Assert.Equal("Sim1", serverResource.Simulations.ElementAt(0).Name);
             Assert.Equal("Sim2", serverResource.Simulations.ElementAt(1).Name);
             Assert.Equal("User", serverResource.Author.Name);

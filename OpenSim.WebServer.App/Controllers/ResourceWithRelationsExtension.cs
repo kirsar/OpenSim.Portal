@@ -24,7 +24,8 @@ namespace OpenSim.WebServer.Controllers
             where T : IResourceWithRelations
         {
             var fields = request.GetFieldsDefinition();
-            var embeddedField = fields.FirstOrDefault()?.Nodes.GetEmbeddedFieldNode();
+            var collectionNode = fields.FirstOrDefault()?.Nodes.Single();
+            var embeddedField = collectionNode?.Nodes.GetEmbeddedFieldNode();
             if (embeddedField == null)
                 return resources;
 
