@@ -4,7 +4,7 @@ import { ValueAndStream } from './value-and-stream';
 import { RequestBuilder } from './../service/request-builder/request-builder-interface'
 import { HalOptionsBuilder } from './../service/hal-options-builder'
 
-export abstract  class EmbeddingResource extends Resource {
+export abstract class EmbeddingResource extends Resource {
     public constructor() {
         super();
         this._links = new Object();
@@ -32,7 +32,7 @@ export abstract  class EmbeddingResource extends Resource {
         if (relation in this.queriedRelations)
             return new ValueAndStream(undefined, this.queriedRelations[relation] as Observable<T | undefined>);
 
-        const stream = this.getRelation(type, relation);
+        const stream = this.getRelationWithEmbedded(type, relation);
 
         stream.subscribe(res => {
             setter(res);
@@ -59,7 +59,7 @@ export abstract  class EmbeddingResource extends Resource {
         if (relation in this.queriedRelations)
             return new ValueAndStream([], this.queriedRelations[relation] as Observable<T[]>);
         
-        const stream = this.getRelationArray2(type, relation, builder);
+        const stream = this.getRelationArrayWithEmbedded(type, relation, builder);
 
         stream.subscribe(res => {
             setter(res);
@@ -70,7 +70,7 @@ export abstract  class EmbeddingResource extends Resource {
         return new ValueAndStream([], stream);
     }
 
-    private getRelation<T extends Resource>(type: { new(): T; }, relation: string): Observable<T> {
+    private getRelationWithEmbedded<T extends Resource>(type: { new(): T; }, relation: string): Observable<T> {
         if (!(relation in this._links))
             return of();
 
@@ -79,13 +79,13 @@ export abstract  class EmbeddingResource extends Resource {
         return super.getRelation(type, relation);
     }
 
-    private getRelationArray2<T extends Resource>(type: { new(): T; }, relation: string, builder?: RequestBuilder<T>): Observable<T[]> {
+    private getRelationArrayWithEmbedded<T extends Resource>(type: { new(): T; }, relation: string, builder?: RequestBuilder<T>): Observable<T[]> {
         if (!(relation in this._links))
             return of([]);
 
         this.fixLinkUri(relation);
 
-        return super.getRelationArray(type, relation, undefined, HalOptionsBuilder.buildOptionsForResource(builder));
+        return super.getRelationArray(type, relation, undefined, HalOptionsBuilder.buildOptionsForCollection(relation, builder));
     }
 
     // TODO hot fix for request with relative uri sent from Resource

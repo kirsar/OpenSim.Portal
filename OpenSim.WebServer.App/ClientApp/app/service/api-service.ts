@@ -1,7 +1,6 @@
 import { Injector } from '@angular/core'
 import { Observable } from 'rxjs';
-import { RestService, HalOptions, HalParam } from 'hal-4-angular'
-import { EmbeddingResource } from '../model/embedding-resource';
+import { RestService } from 'hal-4-angular'
 import { Resource } from 'hal-4-angular';
 import { RequestBuilder } from './request-builder/request-builder-interface'
 import { HalOptionsBuilder } from './hal-options-builder'
@@ -20,7 +19,7 @@ export abstract class ApiService<T extends Resource> {
     }
     
     public get(id: number, builder?: RequestBuilder<T>): Observable<T | undefined> {
-        return this.service.get(id, HalOptionsBuilder.buildResourceParams(builder));
+        return this.service.get(id, HalOptionsBuilder.buildParamsForResource(builder));
     }
 
     public post(resource: T): Observable<Observable<never> | T> {

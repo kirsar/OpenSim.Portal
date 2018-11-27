@@ -1,10 +1,11 @@
 Portal Todo:
-15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation)
     PR to WebApi.hal for empty collections
 	clean up Post and embedded relations
+	explicit diference for resource.Embed and resourceCollection.Embed extensions
 	unify relation schema and link templates
 15.11 refactor new-simulation with promises 
-
+	try to use fetched resource when navigating from 'list' to 'details' and rely on dynamic relation loading
+	
     authentication / identity / angular intercept
 	generic error rediret
 
@@ -43,6 +44,7 @@ Done:
 15.2 create new server dynamic loading of related sims and pres for selected simulation
 15.25 try to merge getters and queries for model
 15.3 PR to hal-4-angular to extend get(id) with options
+15.4 PR to hal-4-angular to instantiate all resources in relations tree (_embedded ref. in simulation) - done by repo owner, supported
 20.1 improve POST, take a look into hal-angular POST (set props instead of links)
 20.2 use fields? in POST, pass request builder to creation form - not needed
 18  figure out why server is null after created on form

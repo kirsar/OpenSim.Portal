@@ -2,6 +2,8 @@
 import { Simulation } from '../../model/simulation'
 import { Presentation } from '../../model/presentation'
 import { ComponentCollection } from './components-collection'
+import { SimulationRequestBuilder } from './../../service/request-builder/simulation.builder'
+import { PresentationRequestBuilder } from './../../service/request-builder/presentation.builder'
 
 export class SimulationItem {
     public constructor(
@@ -12,6 +14,9 @@ export class SimulationItem {
     private isSelectedValue = false;
     private references: Simulation[] = [];
     private presentations: Presentation[] = [];
+
+    private simulationBuilder = new SimulationRequestBuilder().withAuthor();
+    private presentationBuilder = new PresentationRequestBuilder().withAuthor();
 
     public get id(): number | undefined { return this.simulation.id; }
     public get name(): string | undefined { return this.simulation.name; }
@@ -28,7 +33,10 @@ export class SimulationItem {
     }
 
     private loadRelations() {
-        forkJoin(this.simulation.queryReferences(), this.simulation.queryPresentations()).subscribe(
+        forkJoin(
+            this.simulation.queryReferences(this.simulationBuilder),
+            this.simulation.queryPresentations(this.presentationBuilder))
+            .subscribe(
             ([references, presentations]) => {
                 this.references = references;
                 this.presentations = presentations;
