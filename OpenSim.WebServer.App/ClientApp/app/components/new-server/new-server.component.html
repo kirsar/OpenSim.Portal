@@ -20,7 +20,7 @@
         <div class="form-group" *ngFor="let simulation of components.simulations">
             <input type="checkbox" name="isSelected"
                    [checked]="simulation.isSelected" (change)="simulation.isSelected = !simulation.isSelected">
-            {{ simulation.name }} by {{ simulation.author?.name }}
+            {{ simulation.name }}
         </div>
     </div>
 
@@ -30,7 +30,7 @@
         <div class="form-group" *ngFor="let presentation of components.presentations">
             <input type="checkbox"
                    [(ngModel)]="presentation.isSelected" name="isSelected">
-            {{ presentation.name }} by {{ presentation.author?.name }}
+            {{ presentation.name }}
         </div>
     </div>
 
