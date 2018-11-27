@@ -58,8 +58,12 @@ namespace OpenSim.WebServer.Controllers
                 return new SimulationCollection(Enumerable.Empty<SimulationResource>().ToList());
 
             return new SimulationCollection(simulation.References
-                .Select(reference => new SimulationResource(reference)
-                .EmbedRelations(Request, embeddedRelationsSchema)).ToList());
+                .Select(reference => new SimulationResource(reference) { Rel = LinkTemplates.Simulations.GetReference.Rel })
+                .ToList()
+                .EmbedRelations(Request, embeddedRelationsSchema))
+            {
+                Rel = LinkTemplates.Simulations.GetReferences.Href
+            };
         }
 
         // GET: api/v1/Simulations/5/presentations
@@ -76,8 +80,12 @@ namespace OpenSim.WebServer.Controllers
                 return new PresentationCollection(Enumerable.Empty<PresentationResource>().ToList());
 
             return new PresentationCollection(simulation.Presentations
-                .Select(presentation => new PresentationResource(presentation)
-                    .EmbedRelations(Request, embeddedRelationsSchema)).ToList());
+                .Select(presentation => new PresentationResource(presentation) { Rel = LinkTemplates.Simulations.GetPresentation.Rel })
+                .ToList()
+                .EmbedRelations(Request, embeddedRelationsSchema))
+            {
+                Rel = LinkTemplates.Simulations.GetPresentations.Rel
+            };
         }
 
         // POST: api/v1/Simulations
