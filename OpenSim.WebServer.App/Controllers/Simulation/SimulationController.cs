@@ -26,7 +26,8 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Simulations
         [HttpGet]
-        public SimulationCollection Get() => new SimulationCollection(simulationRepo
+        public SimulationCollection Get() => 
+            new SimulationCollection(simulationRepo
             .GetAll()
             .Select(simulation => new SimulationResource(simulation))
             .ToList())
@@ -53,9 +54,6 @@ namespace OpenSim.WebServer.Controllers
             if (simulation == null)
                 return NotFound();
 
-            if (simulation.References == null)
-                return new SimulationCollection(Enumerable.Empty<SimulationResource>().ToList());
-
             return new SimulationCollection(simulation.References
                 .Select(reference => new SimulationResource(reference, LinkTemplates.Simulations.GetReferences.Rel))
                 .ToList())
@@ -70,9 +68,6 @@ namespace OpenSim.WebServer.Controllers
 
             if (simulation == null)
                 return NotFound();
-
-            if (simulation.Presentations == null)
-                return new PresentationCollection(Enumerable.Empty<PresentationResource>().ToList());
 
             return new PresentationCollection(simulation.Presentations
                 .Select(presentation => new PresentationResource(presentation, LinkTemplates.Simulations.GetPresentations.Rel))

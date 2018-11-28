@@ -32,14 +32,12 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Servers
         [HttpGet]
-        public ServerCollection Get()
-        {
-            return new ServerCollection(serversRepo
+        public ServerCollection Get() => 
+            new ServerCollection(serversRepo
                 .GetAll()
                 .Select(server => new ServerResource(server))
                 .ToList())
                 .EmbedRelations(Request, embeddedRelationsSchema);
-        }
 
         // GET: api/v1/Servers/5
         [HttpGet("{id}")]
@@ -62,9 +60,6 @@ namespace OpenSim.WebServer.Controllers
             if (server == null)
                 return NotFound();
 
-            if (server.Simulations == null)
-                return new SimulationCollection(Enumerable.Empty<SimulationResource>().ToList());
-
             return new SimulationCollection(server.Simulations
                 .Select(simulation => new SimulationResource(simulation))
                 .ToList())
@@ -80,9 +75,6 @@ namespace OpenSim.WebServer.Controllers
             if (server == null)
                 return NotFound();
 
-            if (server.Presentations == null)
-                return new PresentationCollection(Enumerable.Empty<PresentationResource>().ToList());
-
             return new PresentationCollection(server.Presentations
                 .Select(presentation => new PresentationResource(presentation))
                 .ToList())
@@ -91,13 +83,8 @@ namespace OpenSim.WebServer.Controllers
 
         // POST: api/v1/Servers
         [HttpPost]
-        public ActionResult<ServerResource> Post([FromBody]ServerResource serverResource)
-        {
-            if (serverResource == null)
-                return BadRequest();
-
-            return Get(AddToRepo(serverResource));
-        }
+        public ActionResult<ServerResource> Post([FromBody]ServerResource serverResource) => 
+            serverResource != null ? Get(AddToRepo(serverResource)) : BadRequest();
 
         // TODO handle errors
         private long AddToRepo(ServerResource serverResource)
