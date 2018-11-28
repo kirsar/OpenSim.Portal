@@ -53,10 +53,5 @@ namespace OpenSim.WebServer.Controllers
                 EmbedRelations<PresentationCollection, PresentationResource>(collection, request, schema);
 
         #endregion
-
-        private static IEnumerable<FieldsTreeNode> GetFieldsDefinition(this HttpRequest request) => 
-            request.TryGetFields(out var fields) 
-                ? fields.Values.Select(f => f.Parts).UnfoldFieldsTree() 
-                : Enumerable.Empty<FieldsTreeNode>();
     }
 }

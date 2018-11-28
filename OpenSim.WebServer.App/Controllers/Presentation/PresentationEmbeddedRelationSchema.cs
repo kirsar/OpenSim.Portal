@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using OpenSim.WebServer.Model;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -7,13 +8,12 @@ namespace OpenSim.WebServer.Controllers
     {
         public PresentationEmbeddedRelationSchema()
         {
-            RegisterEmbeddedRelation(LinkTemplates.Presentations.Author.Rel,
-                (resource, model) => resource.Author =
-                    new UserInfoResource(model.Author, LinkTemplates.Presentations.Author.Rel));
+            RegisterEmbeddedRelation(LinkTemplates.Presentations.Author.Rel, (resource, model, relationName) => 
+                resource.Author = new UserInfoResource(model.Author, LinkTemplates.Presentations.Author.Rel));
 
-            RegisterEmbeddedRelation(LinkTemplates.Presentations.GetSimulations.Rel, (resource, model) =>
-                resource.Simulations = model.Simulations
-                    ?.Select(s => new SimulationResource(s, LinkTemplates.Presentations.GetSimulations.Rel)).ToList());
+            RegisterEmbeddedRelation(LinkTemplates.Simulations.GetSimulations.Rel, (resource, model, relationName) =>
+                resource.Simulations = new ResourceList<SimulationResource>(relationName, 
+                    model.Simulations.Select(s => new SimulationResource(s, relationName))));
         }
     }
 }

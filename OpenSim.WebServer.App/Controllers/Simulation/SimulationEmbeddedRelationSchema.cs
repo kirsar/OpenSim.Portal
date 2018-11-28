@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using OpenSim.WebServer.Model;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -7,17 +8,20 @@ namespace OpenSim.WebServer.Controllers
     {
         public SimulationEmbeddedRelationSchema()
         {
-            RegisterEmbeddedRelation(LinkTemplates.Simulations.Author.Rel, (resource, model) => 
-                resource.Author = new UserInfoResource(model.Author, LinkTemplates.Simulations.Author.Rel));
+            RegisterEmbeddedRelation(LinkTemplates.Simulations.Author.Rel, (resource, model, relationName) => 
+                resource.Author = new UserInfoResource(model.Author, relationName));
 
-            RegisterEmbeddedRelation(LinkTemplates.Simulations.GetReferences.Rel, (resource, model) => 
-                resource.References = model.References?.Select(s => new SimulationResource(s, LinkTemplates.Simulations.GetReference.Rel)).ToList());
+            RegisterEmbeddedRelation(LinkTemplates.Simulations.GetReferences.Rel, (resource, model, relationName) => 
+                resource.References = new ResourceList<SimulationResource>(relationName, 
+                    model.References.Select(s => new SimulationResource(s, relationName))));
 
-            RegisterEmbeddedRelation(LinkTemplates.Simulations.GetConsumers.Rel, (resource, model) => 
-                resource.Consumers = model.Consumers?.Select(s => new SimulationResource(s, LinkTemplates.Simulations.GetConsumers.Rel)).ToList());
+            RegisterEmbeddedRelation(LinkTemplates.Simulations.GetConsumers.Rel, (resource, model, relationName) => 
+                resource.Consumers = new ResourceList<SimulationResource>(relationName, 
+                    model.Consumers.Select(s => new SimulationResource(s, relationName))));
 
-            RegisterEmbeddedRelation(LinkTemplates.Simulations.GetPresentations.Rel, (resource, model) => 
-                resource.Presentations = model.Presentations?.Select(p => new PresentationResource(p, LinkTemplates.Simulations.GetPresentations.Rel)).ToList());
+            RegisterEmbeddedRelation(LinkTemplates.Simulations.GetPresentations.Rel, (resource, model, relationName) => 
+                resource.Presentations = new ResourceList<PresentationResource>(relationName, 
+                    model.Presentations.Select(p => new PresentationResource(p, relationName))));
         }
     }
 }

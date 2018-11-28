@@ -8,6 +8,11 @@ namespace OpenSim.WebServer.App.Controllers
 {
     public static class PartialResponseFieldsExtensions
     {
+        internal static IEnumerable<FieldsTreeNode> GetFieldsDefinition(this HttpRequest request) =>
+            request.TryGetFields(out var fields)
+                ? fields.Values.Select(f => f.Parts).UnfoldFieldsTree()
+                : Enumerable.Empty<FieldsTreeNode>();
+
         internal static bool TryGetFields(this HttpRequest request, out Fields result)
         {
             if (!request.Query.ContainsKey("fields"))

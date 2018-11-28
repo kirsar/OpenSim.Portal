@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -23,9 +24,9 @@ namespace OpenSim.WebServer.Controllers
         public string Description => simulation.Description;
 
         public UserInfoResource Author { get; set; }
-        public IEnumerable<SimulationResource> References { get; set; }
-        public IEnumerable<SimulationResource> Consumers { get; set; }
-        public IEnumerable<PresentationResource> Presentations { get; set; }
+        public ResourceList<SimulationResource> References { get; set; }
+        public ResourceList<SimulationResource> Consumers { get; set; }
+        public ResourceList<PresentationResource> Presentations { get; set; }
 
         public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
             EmbedRelations(embeddedFieldNode, schema, schema.Simulation);

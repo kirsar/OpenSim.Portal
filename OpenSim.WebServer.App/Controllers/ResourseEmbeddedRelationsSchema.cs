@@ -6,12 +6,12 @@ namespace OpenSim.WebServer.Controllers
 {
     public abstract class ResourseEmbeddedRelationsSchema<TResource, TModel> where TResource : IResource
     {
-        private Dictionary<string, Func<TResource, TModel, object>> embedActions =
-            new Dictionary<string, Func<TResource, TModel, object>>();
+        private Dictionary<string, Func<TResource, TModel, string, object>> embedActions =
+            new Dictionary<string, Func<TResource, TModel, string, object>>();
 
-        public Func<TResource, TModel, object> this[string relationName] => embedActions[relationName];
+        public Func<TResource, TModel, string, object> this[string relationName] => embedActions[relationName];
 
-        protected void RegisterEmbeddedRelation(string relationName, Func<TResource, TModel, object> embedAction) =>
+        public void RegisterEmbeddedRelation(string relationName, Func<TResource, TModel, string, object> embedAction) =>
             embedActions.Add(relationName, embedAction);
     }
 }

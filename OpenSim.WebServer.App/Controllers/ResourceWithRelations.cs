@@ -27,7 +27,7 @@ namespace OpenSim.WebServer.Controllers
         private void EmbedRelation(FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema, 
             ResourseEmbeddedRelationsSchema<TResource, TModel> resourceSchema)
         {
-            var relation = resourceSchema[relationNode.Value]((TResource)this, model);
+            var relation = resourceSchema[relationNode.Value]((TResource)this, model, relationNode.Value);
             if (relation == null)
                 return;
 
