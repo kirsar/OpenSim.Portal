@@ -8,8 +8,13 @@ namespace OpenSim.WebServer.Controllers
         {
             public static Link GetServers => new Link("servers", "~/servers");
             public static Link GetServer => new Link("servers", "~/servers/{id}");
+
             public static Link Author => new Link("author", "~/users/{id}");
+
+            public static Link GetSimulation => new Link("simulations", "~/simulations/{id}");
             public static Link GetSimulations => new Link("simulations", "~/servers/{id}/simulations");
+
+            public static Link GetPresentation => new Link("presentations", "~/presentations/{id}");
             public static Link GetPresentations => new Link("presentations", "~/servers/{id}/presentations");
         }
 
@@ -17,6 +22,8 @@ namespace OpenSim.WebServer.Controllers
         {
             public static Link GetSimulations => new Link("simulations", "~/simulations");
             public static Link GetSimulation => new Link("simulations", "~/simulations/{id}");
+
+            public static Link Author => new Link("author", "~/users/{id}");
 
             public static Link GetReference => new Link("references", "~/simulations/{id}");
             public static Link GetReferences => new Link("references", "~/simulations/{id}/references");
@@ -32,6 +39,11 @@ namespace OpenSim.WebServer.Controllers
         {
             public static Link GetPresentations => new Link("presentations", "~/presentations");
             public static Link GetPresentation => new Link("presentations", "~/presentations/{id}");
+
+            public static Link Author => new Link("author", "~/users/{id}");
+
+            public static Link GetSimulations => new Link("simulations", "~/presentations/{id}/simulations");
+            public static Link GetSimulation => new Link("simulations", "~/simulations/{id}");
         }
 
         public static class Users

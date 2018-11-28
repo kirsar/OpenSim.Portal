@@ -7,8 +7,13 @@ namespace OpenSim.WebServer.Controllers
     {
         public PresentationEmbeddedRelationSchema()
         {
-            RegisterEmbeddedRelation("author", (resource, model) => resource.Author = new UserInfoResource(model.Author) { Rel = "author" });
-            RegisterEmbeddedRelation("simulations", (resource, model) => resource.Simulations = model.Simulations?.Select(s => new SimulationResource(s)).ToList());
+            RegisterEmbeddedRelation(LinkTemplates.Presentations.Author.Rel,
+                (resource, model) => resource.Author =
+                    new UserInfoResource(model.Author, LinkTemplates.Presentations.Author.Rel));
+
+            RegisterEmbeddedRelation(LinkTemplates.Presentations.GetSimulations.Rel, (resource, model) =>
+                resource.Simulations = model.Simulations
+                    ?.Select(s => new SimulationResource(s, LinkTemplates.Presentations.GetSimulations.Rel)).ToList());
         }
     }
 }

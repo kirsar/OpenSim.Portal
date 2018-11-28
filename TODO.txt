@@ -1,7 +1,4 @@
 Portal Todo:
-    clean up Post and embedded relations
-	explicit diference for resource.Embed and resourceCollection.Embed extensions
-	unify relation schema and link templates
 15.11 refactor new-simulation with promises 
 	try to use fetched resource when navigating from 'list' to 'details' and rely on dynamic relation loading
 	
@@ -34,6 +31,7 @@ Portal Todo:
 30  rename to Portal
 
 Done:
+    explicit diference for resource.Embed and resourceCollection.Embed extensions
 2   configure new server and post
 14  gitignore per solution
 15  reusable code for ts for hal

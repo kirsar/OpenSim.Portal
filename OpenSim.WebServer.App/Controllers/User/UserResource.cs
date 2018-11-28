@@ -3,13 +3,18 @@ using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class UserInfoResource : Representation
+    public sealed class UserInfoResource : Representation
     {
         private readonly User user;
 
         public UserInfoResource(User user)
         {
             this.user = user;
+        }
+
+        public UserInfoResource(User user, string relationName) : this(user)
+        {
+            Rel = relationName;
         }
 
         public long Id => user.Id;

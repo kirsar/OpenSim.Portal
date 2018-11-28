@@ -4,13 +4,18 @@ using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class PresentationResource : ResourceWithRelations<PresentationResource, Presentation>
+    public sealed class PresentationResource : ResourceWithRelations<PresentationResource, Presentation>
     {
         private readonly Presentation presentation;
 
         public PresentationResource(Presentation presentation) : base(presentation)
         {
             this.presentation = presentation;
+        }
+
+        public PresentationResource(Presentation presentation, string relationName) : this(presentation)
+        {
+            Rel = relationName;
         }
 
         public long Id => presentation.Id;
@@ -40,8 +45,11 @@ namespace OpenSim.WebServer.Controllers
         protected override void CreateHypermedia()
         {
             if (presentation.Simulations != null)
-                foreach (var simulation in presentation.Simulations)
-                     Links.Add(LinkTemplates.Simulations.GetSimulation.CreateLink(new { id = simulation.Id }));
+                Links.Add(LinkTemplates.Presentations.GetSimulations.CreateLink(new { id = Id }));
+
+            //if (presentation.Simulations != null)
+            //    foreach (var simulation in presentation.Simulations)
+            //         Links.Add(LinkTemplates.Presentations.GetSimulation.CreateLink(new { id = simulation.Id }));
         }
 
         #endregion

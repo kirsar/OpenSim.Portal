@@ -29,8 +29,8 @@ namespace OpenSim.WebServer.Controllers
         public SimulationCollection Get() => new SimulationCollection(simulationRepo
             .GetAll()
             .Select(simulation => new SimulationResource(simulation))
-            .ToList()
-            .EmbedRelations(Request, embeddedRelationsSchema));
+            .ToList())
+            .EmbedRelations(Request, embeddedRelationsSchema);
 
         // GET: api/v1/Simulations/5
         [HttpGet("{id}")]
@@ -46,46 +46,38 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Simulations/5/references
         [HttpGet("{id}/references")]
-        public SimulationCollection GetReferences(long id)
+        public ActionResult<SimulationCollection> GetReferences(long id)
         {
             var simulation = simulationRepo.Get(id);
 
-            // TODO handle it properly
-            //if (simulation == null)
-            //    return NotFound();
+            if (simulation == null)
+                return NotFound();
 
             if (simulation.References == null)
                 return new SimulationCollection(Enumerable.Empty<SimulationResource>().ToList());
 
             return new SimulationCollection(simulation.References
-                .Select(reference => new SimulationResource(reference) { Rel = LinkTemplates.Simulations.GetReference.Rel })
-                .ToList()
-                .EmbedRelations(Request, embeddedRelationsSchema))
-            {
-                Rel = LinkTemplates.Simulations.GetReferences.Href
-            };
+                .Select(reference => new SimulationResource(reference, LinkTemplates.Simulations.GetReferences.Rel))
+                .ToList())
+                .EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // GET: api/v1/Simulations/5/presentations
         [HttpGet("{id}/presentations")]
-        public PresentationCollection GetPresentations(long id)
+        public ActionResult<PresentationCollection> GetPresentations(long id)
         {
             var simulation = simulationRepo.Get(id);
 
-            // TODO handle it properly
-            //if (simulation == null)
-            //    return NotFound();
+            if (simulation == null)
+                return NotFound();
 
             if (simulation.Presentations == null)
                 return new PresentationCollection(Enumerable.Empty<PresentationResource>().ToList());
 
             return new PresentationCollection(simulation.Presentations
-                .Select(presentation => new PresentationResource(presentation) { Rel = LinkTemplates.Simulations.GetPresentation.Rel })
-                .ToList()
-                .EmbedRelations(Request, embeddedRelationsSchema))
-            {
-                Rel = LinkTemplates.Simulations.GetPresentations.Rel
-            };
+                .Select(presentation => new PresentationResource(presentation, LinkTemplates.Simulations.GetPresentations.Rel))
+                .ToList())
+                .EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // POST: api/v1/Simulations
@@ -108,37 +100,6 @@ namespace OpenSim.WebServer.Controllers
                reference.AddConsumer(simulation);
 
             return Get(simulation.Id);
-        }
-
-        // PUT: api/v1/Simulations/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Simulation server)
-        {
-            if (server == null || server.Id != id)
-                return BadRequest();
-        
-            var todo = simulationRepo.Get(id);
-            if (todo == null)
-                return NotFound();
-        
-            simulationRepo.Update(new Simulation
-            {
-                Id = server.Id,
-                // TODO
-            });
-
-            return new NoContentResult();
-        }
-
-        // DELETE: api/ApiWithAction/5
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            if (simulationRepo.Get(id) == null)
-                return NotFound();
-            
-            simulationRepo.Remove(id);
-            return new NoContentResult();
         }
     }
 }

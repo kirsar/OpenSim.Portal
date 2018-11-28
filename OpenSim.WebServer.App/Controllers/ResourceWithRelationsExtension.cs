@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using OpenSim.WebServer.App.Controllers;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -20,20 +21,38 @@ namespace OpenSim.WebServer.Controllers
             return resource;
         }
 
-        internal static List<T> EmbedRelations<T>(this List<T> resources, HttpRequest request, IEmbeddedRelationsSchema embeddedRelationsSchema) 
-            where T : IResourceWithRelations
+        internal static TCollection EmbedRelations<TCollection, TResource>(this TCollection collection, 
+            HttpRequest request, IEmbeddedRelationsSchema embeddedRelationsSchema) 
+            where TCollection : SimpleListRepresentation<TResource>
+            where TResource : IResourceWithRelations
         {
             var fields = request.GetFieldsDefinition();
             var collectionNode = fields.FirstOrDefault()?.Nodes.Single();
             var embeddedField = collectionNode?.Nodes.GetEmbeddedFieldNode();
             if (embeddedField == null)
-                return resources;
+                return collection;
 
-            foreach (var resource in resources)
+            foreach (var resource in collection.ResourceList)
                 resource.EmbedRelations(embeddedField, embeddedRelationsSchema);
 
-            return resources;
+            return collection;
         }
+
+        #region Inference Helpers
+
+        internal static ServerCollection EmbedRelations(this ServerCollection collection,
+            HttpRequest request, IEmbeddedRelationsSchema schema) =>
+                EmbedRelations<ServerCollection, ServerResource>(collection, request, schema);
+
+        internal static SimulationCollection EmbedRelations(this SimulationCollection collection,
+            HttpRequest request, IEmbeddedRelationsSchema schema) =>
+                EmbedRelations<SimulationCollection, SimulationResource>(collection, request, schema);
+
+        internal static PresentationCollection EmbedRelations(this PresentationCollection collection,
+            HttpRequest request, IEmbeddedRelationsSchema schema) =>
+                EmbedRelations<PresentationCollection, PresentationResource>(collection, request, schema);
+
+        #endregion
 
         private static IEnumerable<FieldsTreeNode> GetFieldsDefinition(this HttpRequest request) => 
             request.TryGetFields(out var fields) 

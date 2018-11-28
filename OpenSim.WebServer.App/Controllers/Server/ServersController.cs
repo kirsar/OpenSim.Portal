@@ -1,10 +1,7 @@
-﻿using System.Globalization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using Microsoft.EntityFrameworkCore.Query.Expressions;
 using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
-using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -40,8 +37,8 @@ namespace OpenSim.WebServer.Controllers
             return new ServerCollection(serversRepo
                 .GetAll()
                 .Select(server => new ServerResource(server))
-                .ToList()
-                .EmbedRelations(Request, embeddedRelationsSchema));
+                .ToList())
+                .EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // GET: api/v1/Servers/5
@@ -58,40 +55,38 @@ namespace OpenSim.WebServer.Controllers
 
         // GET: api/v1/Servers/5/simulations
         [HttpGet("{id}/simulations")]
-        public SimulationCollection GetSimulations(long id)
+        public ActionResult<SimulationCollection> GetSimulations(long id)
         {
             var server = serversRepo.Get(id);
 
-            // TODO handle it properly
-            //if (simulation == null)
-            //    return NotFound();
+            if (server == null)
+                return NotFound();
 
             if (server.Simulations == null)
                 return new SimulationCollection(Enumerable.Empty<SimulationResource>().ToList());
 
             return new SimulationCollection(server.Simulations
                 .Select(simulation => new SimulationResource(simulation))
-                .ToList()
-                .EmbedRelations(Request, embeddedRelationsSchema));
+                .ToList())
+                .EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // GET: api/v1/Servers/5/presentations
         [HttpGet("{id}/presentations")]
-        public PresentationCollection GetPresentations(long id)
+        public ActionResult<PresentationCollection> GetPresentations(long id)
         {
             var server = serversRepo.Get(id);
 
-            // TODO handle it properly
-            //if (simulation == null)
-            //    return NotFound();
+            if (server == null)
+                return NotFound();
 
             if (server.Presentations == null)
                 return new PresentationCollection(Enumerable.Empty<PresentationResource>().ToList());
 
             return new PresentationCollection(server.Presentations
                 .Select(presentation => new PresentationResource(presentation))
-                .ToList()
-                .EmbedRelations(Request, embeddedRelationsSchema));
+                .ToList())
+                .EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // POST: api/v1/Servers
@@ -101,7 +96,6 @@ namespace OpenSim.WebServer.Controllers
             if (serverResource == null)
                 return BadRequest();
 
-            //return CreatedAtRoute("Get", new { id = id }, server);
             return Get(AddToRepo(serverResource));
         }
 
@@ -146,15 +140,15 @@ namespace OpenSim.WebServer.Controllers
         //}
 
         // DELETE: api/v1/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var sever = serversRepo.Get(id);
-            if (sever == null)
-                return NotFound();
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    var sever = serversRepo.Get(id);
+        //    if (sever == null)
+        //        return NotFound();
             
-            serversRepo.Remove(id);
-            return new NoContentResult();
-        }
+        //    serversRepo.Remove(id);
+        //    return new NoContentResult();
+        //}
     }
 }

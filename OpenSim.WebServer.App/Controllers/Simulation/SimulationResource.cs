@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OpenSim.WebServer.App.Controllers;
 using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
-    public class SimulationResource : ResourceWithRelations<SimulationResource, Simulation>
+    public sealed class SimulationResource : ResourceWithRelations<SimulationResource, Simulation>
     {
         private readonly Simulation simulation;
 
         public SimulationResource(Simulation simulation) : base(simulation)
         {
             this.simulation = simulation;
+        }
+
+        public SimulationResource(Simulation simulation, string relationName) : this(simulation)
+        {
+            Rel = relationName;
         }
 
         public long Id => simulation.Id;
