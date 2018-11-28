@@ -19,13 +19,15 @@ export class ServerComponent {
     { }
 
     public ngOnInit() {
-        this.subscription = this.route.params.subscribe(params =>
-            this.service.get(params['id'], new ServerRequestBuilder()
-                .withAuthor()
-                .withSimulations()
-                .withPresentations()).subscribe(
-                    (result: Server | undefined) => this.server = result,
-                    (error: any) => console.error(error)));
+        this.route.params.subscribe(params => this.server = params['server']);
+
+        //this.subscription = this.route.params.subscribe(params =>
+        //    this.service.get(params['id'], new ServerRequestBuilder()
+        //        .withAuthor()
+        //        .withSimulations()
+        //        .withPresentations()).subscribe(
+        //            (result: Server | undefined) => this.server = result,
+        //            (error: any) => console.error(error)));
     }
 
     public ngOnDestroy() {

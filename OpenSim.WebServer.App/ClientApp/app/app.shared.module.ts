@@ -52,7 +52,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'servers', component: ServersComponent },
-            { path: 'servers/:id', component: ServerComponent },
+            { path: 'servers/:server', component: ServerComponent },
             { path: 'simulations', component: SimulationsComponent },
             { path: 'simulations/:id', component: SimulationComponent },
             { path: 'presentations/:id', component: PresentationComponent },
