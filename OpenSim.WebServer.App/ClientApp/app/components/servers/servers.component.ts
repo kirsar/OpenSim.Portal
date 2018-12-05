@@ -1,6 +1,6 @@
 import { Component, } from '@angular/core';
 import { Server } from '../../model/server';
-import { ServersService } from '../../service/servers.service'
+import { StorageService } from '../../service/storage-service'
 import { ServerRequestBuilder } from '../../service/request-builder/server.builder'
 
 @Component({
@@ -11,12 +11,12 @@ import { ServerRequestBuilder } from '../../service/request-builder/server.build
 export class ServersComponent {
     public servers: Server[] = [];
    
-    constructor(private readonly service: ServersService) {
+    constructor(private readonly service: StorageService) {
         this.queryServers();
     }
 
     private queryServers = () => 
-        this.service.getAll(new ServerRequestBuilder()
+        this.service.getServers(new ServerRequestBuilder()
             .withSimulations()
             .withPresentations()
             .withAuthor()).subscribe(

@@ -14,6 +14,8 @@ import { ServersService } from './service/servers.service';
 import { SimulationsService } from './service/simulations.service';
 import { PresentationsService } from './service/presentations.service'
 
+import { StorageService } from './service/storage-service'
+
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
@@ -52,7 +54,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'servers', component: ServersComponent },
-            { path: 'servers/:server', component: ServerComponent },
+            { path: 'servers/:id', component: ServerComponent },
             { path: 'simulations', component: SimulationsComponent },
             { path: 'simulations/:id', component: SimulationComponent },
             { path: 'presentations/:id', component: PresentationComponent },
@@ -63,6 +65,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
         ServersService,
         SimulationsService,
         PresentationsService,
+        StorageService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
     ],
     bootstrap: [AppComponent]

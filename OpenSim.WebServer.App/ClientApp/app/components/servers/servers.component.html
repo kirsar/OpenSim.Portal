@@ -8,7 +8,7 @@
                             <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
                             <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
                         </div>
-                        <a class="column-name" [routerLink]="['/servers', server]">{{ server.name }}</a>
+                        <a class="column-name" [routerLink]="['/servers', server.id]">{{ server.name }}</a>
                         <div class="column-author">
                             <span>{{ server.author?.name }}</span>
                         </div>

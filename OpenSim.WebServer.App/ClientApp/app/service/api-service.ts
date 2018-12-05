@@ -4,7 +4,6 @@ import { RestService } from 'hal-4-angular'
 import { Resource } from 'hal-4-angular';
 import { RequestBuilder } from './request-builder/request-builder-interface'
 import { HalOptionsBuilder } from './hal-options-builder'
-import { map } from 'rxjs/operators'
 
 // TODO get type from T
 export abstract class ApiService<T extends Resource> {
