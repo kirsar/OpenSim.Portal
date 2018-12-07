@@ -1,4 +1,5 @@
 ﻿import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators'
 import { Resource, ResourceHelper } from 'hal-4-angular';
 import { ValueAndStream } from './value-and-stream';
 import { RequestBuilder } from './../service/request-builder/request-builder-interface'
@@ -32,12 +33,11 @@ export abstract class EmbeddingResource extends Resource {
         if (relation in this.queriedRelations)
             return new ValueAndStream(undefined, this.queriedRelations[relation] as Observable<T | undefined>);
 
-        const stream = this.getRelationWithEmbedded(type, relation);
-
-        stream.subscribe(res => {
+        const stream = this.getRelationWithEmbedded(type, relation).pipe(map(res => {
             setter(res);
             delete this.queriedRelations[relation];
-        });
+            return res;
+        }));
 
         this.queriedRelations[relation] = stream;
         return new ValueAndStream<T | undefined>(undefined, stream);
