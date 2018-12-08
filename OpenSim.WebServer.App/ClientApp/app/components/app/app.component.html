@@ -4,6 +4,10 @@
             <nav-menu></nav-menu>
         </div>
         <div class='col-sm-9 body-content'>
+            <div class="bg-danger text-white text-center p-2 m-2">
+                <h6 *ngFor="let error of errors">{{error}}</h6>
+            </div>
+            
             <router-outlet></router-outlet>
         </div>
     </div>
