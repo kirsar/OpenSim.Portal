@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using OpenSim.WebServer.App.Model;
 using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
@@ -11,16 +13,16 @@ namespace OpenSim.WebServer.Controllers
     public class SimulationsController : Controller
     {
         private readonly ISimulationRepository simulationRepo;
-        private readonly IUserRepository usersRepo;
+        private readonly UserManager<User> userManager;
         private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
         public SimulationsController(
             ISimulationRepository simulationRepo, 
-            IUserRepository usersRepo, 
+            UserManager<User> userManager, 
             IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.simulationRepo = simulationRepo;
-            this.usersRepo = usersRepo;
+            this.userManager = userManager;
             this.embeddedRelationsSchema = embeddedRelationsSchema;
         }
 
@@ -85,7 +87,7 @@ namespace OpenSim.WebServer.Controllers
             {
                 Name = json["name"].Value<string>(),
                 Description = json["description"].Value<string>(),
-                Author = usersRepo.GetAll().First(),
+                Author = userManager.Users.First(),
                 References = json["references"].Select(token => simulations.Single(s => s.Name == token.Value<string>())).ToList()
             };
 

@@ -1,5 +1,5 @@
-﻿using WebApi.Hal;
-using OpenSim.WebServer.Model;
+﻿using OpenSim.WebServer.App.Model;
+using WebApi.Hal;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -18,7 +18,7 @@ namespace OpenSim.WebServer.Controllers
         }
 
         public long Id => user.Id;
-        public string Name => user.Name;
+        public string Name => user.UserName;
         public string Description => user.Description;
 
         #region HAL

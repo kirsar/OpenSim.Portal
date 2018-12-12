@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using OpenSim.WebServer.App.Controllers;
+using OpenSim.WebServer.App.Model;
 using OpenSim.WebServer.Model;
 
 namespace OpenSim.WebServer.Controllers
@@ -13,20 +16,20 @@ namespace OpenSim.WebServer.Controllers
         private readonly IServerRepository serversRepo;
         private readonly ISimulationRepository simulationsRepo;
         private readonly IPresentationRepository presentationsRepo;
-        private readonly IUserRepository usersRepo;
+        private readonly UserManager<User> userManager;
         private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
         public ServersController(
             IServerRepository serversRepo, 
             ISimulationRepository simulationsRepo,
             IPresentationRepository presentationsRepo,
-            IUserRepository usersRepo,
+            UserManager<User> userManager,
             IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.serversRepo = serversRepo;
             this.simulationsRepo = simulationsRepo;
             this.presentationsRepo = presentationsRepo;
-            this.usersRepo = usersRepo;
+            this.userManager = userManager;
             this.embeddedRelationsSchema = embeddedRelationsSchema;
         }
 
@@ -83,6 +86,7 @@ namespace OpenSim.WebServer.Controllers
 
         // POST: api/v1/Servers
         [HttpPost]
+        [Authorize]
         public ActionResult<ServerResource> Post([FromBody]ServerResource serverResource) => 
             serverResource != null ? Get(AddToRepo(serverResource)) : BadRequest();
 
@@ -93,7 +97,7 @@ namespace OpenSim.WebServer.Controllers
             {
                 Name = serverResource.Name,
                 Description = serverResource.Description,
-                Author = usersRepo.GetAll().First()       // TODO current user
+                Author = userManager.Users.First()       // TODO current user
             };
 
             foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Servers.GetSimulations.Rel))
