@@ -1,4 +1,4 @@
-<form id="new-server-form" #newServerForm="ngForm" *ngIf="components.simulations && components.presentations">
+<form id="new-server-form" #newServerForm="ngForm" *ngIf="isAuthenticated && components.simulations && components.presentations">
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" id="name" required

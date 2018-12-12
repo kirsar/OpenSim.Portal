@@ -3,6 +3,7 @@ import { Server } from '../../model/server';
 import { ServersService } from '../../service/servers.service';
 import { SimulationsService } from '../../service/simulations.service';
 import { PresentationsService } from '../../service/presentations.service';
+import { AuthenticationService } from '../../service/authentication-service'
 import { ComponentCollection } from './components-collection'
 
 @Component({
@@ -13,13 +14,15 @@ import { ComponentCollection } from './components-collection'
 export class NewServerFormComponent {
     constructor(
         private readonly serversService: ServersService,
-        simulationsService: SimulationsService,
-        presentationsService: PresentationsService) {
+        private readonly simulationsService: SimulationsService,
+        private readonly presentationsService: PresentationsService,
+        private readonly authenticationService: AuthenticationService) {
         this.components = new ComponentCollection(simulationsService, presentationsService);
     }
 
     private server = this.buildDefaultServer();
     public readonly components: ComponentCollection;
+    public get isAuthenticated(): boolean { return this.authenticationService.isAuthenticated; }
 
     @Output() public serverCreated = new EventEmitter<Server>();
 
