@@ -5,7 +5,7 @@
 
     <p>
         <span>By </span>
-        <a [routerLink]="['/users/' + presentation._embedded.author.id]">{{ presentation._embedded.author.name }}.</a>
+        <a [routerLink]="['/users/' + presentation.author.id]">{{ presentation._embedded.author.name }}.</a>
         <span>{{ presentation.author.description }} </span>
     </p>
 

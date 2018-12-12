@@ -10,8 +10,8 @@
 
     <p>
         <span>By </span>
-        <a [routerLink]="['/users/' + server._embedded.author.id]">{{ server._embedded.author.name }}.</a>
-        <span>{{ server._embedded.author.description }} </span>
+        <a [routerLink]="['/users/' + server.author.id]">{{ server._embedded.author.name }}.</a>
+        <span> {{ server.author.description }} </span>
     </p>
 
     <div class="divider">
@@ -19,7 +19,7 @@
     </div>
 
     <section class="item-container">
-        <figure class="simulation item" *ngFor="let simulation of server._embedded.simulations">
+        <figure class="simulation item" *ngFor="let simulation of server.simulations">
             <a class="link" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
             <p>{{ simulation.description }}</p>
         </figure>
@@ -30,7 +30,7 @@
     </div>
 
     <section class="item-container">
-        <figure class="presentation item" *ngFor="let presentation of server._embedded.presentations">
+        <figure class="presentation item" *ngFor="let presentation of server.presentations">
             <a class="link" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
 
             <p>{{ presentation.description }}</p>

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using OpenSim.WebServer.App.Controllers;
+using OpenSim.WebServer.App.Model;
 using OpenSim.WebServer.Controllers;
 using OpenSim.WebServer.Model;
 using Xunit;
@@ -41,9 +42,9 @@ namespace OpenSim.WebServer.App.Test.Controllers
 
         private static Server CreateServerModel()
         {
-            var simulation1 = new Simulation { Name = "Sim1", Author = new User { Name = "User1" } };
-            var simulation2 = new Simulation { Name = "Sim2", Author = new User { Name = "User2" } };
-            var author = new User { Name = "User" };
+            var simulation1 = new Simulation { Name = "Sim1", Author = new User("User1", string.Empty) };
+            var simulation2 = new Simulation { Name = "Sim2", Author = new User("User2", string.Empty) };
+            var author = new User("User", string.Empty);
 
             var server = new Server
             {

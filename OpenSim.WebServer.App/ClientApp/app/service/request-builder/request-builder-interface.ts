@@ -13,7 +13,7 @@ export abstract class RequestBuilder<T extends Resource> {
             this.addParam(`${relation}(${(builder ? builder : new builderFactory()).build()})`);
     }
 
-    private addParam(param: string) {
+    protected addParam(param: string) {
         this.params.push(param);
     }
 

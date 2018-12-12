@@ -5,13 +5,8 @@ namespace OpenSim.WebServer.App.Model
 {
     public sealed class User : IdentityUser<long>
     {
-        public User(long id, string userName) : this(id, userName, null)
+        public User(string userName, string description) : base(userName)
         {
-        }
-
-        public User(long id, string userName, string description) : base(userName)
-        {
-            Id = id;
             Description = description;
             SecurityStamp = Guid.NewGuid().ToString();
         }

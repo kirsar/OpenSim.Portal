@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OpenSim.WebServer.Model;
 
@@ -10,11 +10,11 @@ namespace OpenSim.WebServer.App.Model
     public static class Seed
     {
         private const string User1 = "user";
-        private const string User1Password = "User123";
+        private const string User1Password = "User123$";
         private const string User1Description = "Regular user";
 
-        private const string User2 = "Umbrella corp.";
-        private const string User2Password = "Umbrella123";
+        private const string User2 = "UmbrellaCorp";
+        private const string User2Password = "Umbrella123$";
         private const string User2Description = "Huge vendor of maritime simulators";
 
         private const string UserRole = "user";
@@ -30,16 +30,23 @@ namespace OpenSim.WebServer.App.Model
 
                 await roleManager.CreateAsync(new IdentityRole<long>(UserRole));
 
-                var user1 = new User(0, User1, User1Description);
-                await userManager.CreateAsync(user1, User1Password);
-                await userManager.AddToRoleAsync(user1, UserRole);
+                var user1 = new User(User1, User1Description);
+                ThrowIfError(await userManager.CreateAsync(user1, User1Password));
+                ThrowIfError(await userManager.AddToRoleAsync(user1, UserRole));
 
-                var user2 = new User(1, User2, User2Description);
-                await userManager.CreateAsync(user2, User2Password);
-                await userManager.AddToRoleAsync(user2, UserRole);
+                var user2 = new User(User2, User2Description);
+                ThrowIfError(await userManager.CreateAsync(user2, User2Password));
+                ThrowIfError(await userManager.AddToRoleAsync(user2, UserRole));
             }
         }
-        
+
+        private static void ThrowIfError(IdentityResult identityResult)
+        {
+            if (!identityResult.Succeeded)
+                throw new InvalidOperationException(identityResult.Errors
+                    .Aggregate(string.Empty, (r, e) => r += $"{e.Description}. "));
+        }
+
         public static async void SeedContent(this IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices.CreateScope())

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using OpenSim.WebServer.App.Model;
 using OpenSim.WebServer.Controllers;
 using OpenSim.WebServer.Model;
@@ -39,8 +40,7 @@ namespace OpenSim.WebServer.App.Startup
             //    options.Cookie.HttpOnly = false;
             //});
 
-            services.AddDbContext<UserDbContext>(options =>
-                options.UseInMemoryDatabase("OpenSim.Portal"));
+            services.AddDbContext<UserDbContext>(options => options.UseInMemoryDatabase("OpenSim.Portal"));
 
             services.AddIdentity<User, IdentityRole<long>>()
                 .AddEntityFrameworkStores<UserDbContext>();
