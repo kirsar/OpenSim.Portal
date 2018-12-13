@@ -16,8 +16,8 @@ export class SimulationsService extends ApiService<Simulation> {
     }
 
     public upload(content: any): Observable<Object> {
-        const httpOptions = { headers: new HttpHeaders({'Content-Type': 'application/hal+json'}) };
+        const options = { headers: new HttpHeaders({'Content-Type': 'application/hal+json'}) };
 
-        return this.http.post(`${this.externalConfigurationService.getRootUri()}\\${this.resource}`, content, httpOptions);
+        return this.http.post(`${this.externalConfigurationService.getRootUri()}\\${this.resource}`, content, options);
     }
 }

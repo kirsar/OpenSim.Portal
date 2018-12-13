@@ -11,31 +11,11 @@ namespace OpenSim.WebServer.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
-
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager)
+       
+        public UsersController(UserManager<User> userManager)
         {
             this.userManager = userManager;
-            this.signInManager = signInManager;
         }
-
-        [HttpPost]
-        public async void Login(string name, string password)
-        {
-            var user = await userManager.FindByNameAsync(name);
-            if (user != null)
-            {
-                await signInManager.SignOutAsync();
-                await signInManager.PasswordSignInAsync(user, password, false, false);
-            }
-        }
-
-        //[HttpPost]
-        //public async Task<IActionResult> Logout(string redirectUrl)
-        //{
-        //    await signInManager.SignOutAsync();
-        //    return Redirect(redirectUrl ?? "/");
-        //}
 
         // GET: api/v1/Users/5
         [HttpGet("{id}", Name = "Get")]
