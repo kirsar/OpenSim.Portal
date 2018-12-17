@@ -1,3 +1,7 @@
+<h4 *ngIf="showError" class="p-2 bg-danger text-white">
+    Invalid username or password
+</h4>
+
 <form novalidate #authForm="ngForm">
     <div class="form-group">
         <label>Name:</label>

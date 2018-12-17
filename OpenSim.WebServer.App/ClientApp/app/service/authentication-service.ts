@@ -1,9 +1,10 @@
 import { Injectable, Inject } from '@angular/core'
-import { Router } from '@angular/router'
+import { Router, RoutesRecognized  } from '@angular/router'
 import { Observable, of } from 'rxjs'
-import { HttpClient, HttpResponseBase, HttpHeaders } from '@angular/common/http/'
+import { HttpClient, HttpHeaders } from '@angular/common/http/'
 import { ExternalConfigurationHandlerInterface } from 'hal-4-angular'
 import { map, catchError } from 'rxjs/operators'
+import { filter, pairwise } from 'rxjs/operators'
 
 @Injectable()
 export class AuthenticationService {
@@ -11,7 +12,13 @@ export class AuthenticationService {
         private readonly router: Router,
         private readonly http: HttpClient,
         @Inject('ExternalConfigurationService') private readonly externalConfigurationService: ExternalConfigurationHandlerInterface) {
+        this.router.events.pipe(
+                filter(e => e instanceof RoutesRecognized),
+                pairwise())
+            .subscribe((event: any[]) => this.previousRoute = event[0].urlAfterRedirects);
     }
+
+    private previousRoute: string | undefined;
 
     public isAuthenticated: boolean = false;
 
@@ -22,6 +29,7 @@ export class AuthenticationService {
                 if (result != undefined) {
                     this.isAuthenticated = true;
 
+                    callbackUrl = callbackUrl != undefined ? callbackUrl : this.previousRoute;
                     if (callbackUrl != undefined)
                         this.router.navigateByUrl(callbackUrl);
                 }

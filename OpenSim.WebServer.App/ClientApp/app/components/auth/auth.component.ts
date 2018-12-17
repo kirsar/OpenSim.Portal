@@ -9,10 +9,15 @@ import { AuthenticationService } from '../../service/authentication-service'
 export class AuthComponent {
     private username?: string;
     private password?: string;
+    private showError = false;
 
     constructor(private readonly auth: AuthenticationService) {
     }
 
-    login() { this.auth.login(this.username!, this.password!).subscribe(_ => {}); }
+    login() {
+        this.showError = false;
+        this.auth.login(this.username!, this.password!).subscribe(success => {
+        this.showError = !success;
+    }); }
 }
 
