@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router'
 import { Server } from '../../model/server';
 import { ServersService } from '../../service/servers.service';
 import { SimulationsService } from '../../service/simulations.service';
@@ -13,6 +14,7 @@ import { ComponentCollection } from './components-collection'
 })
 export class NewServerFormComponent {
     constructor(
+        private readonly router: Router,
         private readonly serversService: ServersService,
         private readonly simulationsService: SimulationsService,
         private readonly presentationsService: PresentationsService,
@@ -27,6 +29,9 @@ export class NewServerFormComponent {
     @Output() public serverCreated = new EventEmitter<Server>();
 
     public isInvalid(): boolean {
+        if (!this.isAuthenticated)
+            return false;
+
         if (!this.components.hasSelection)
             return true;
         if (this.server.name == undefined)
@@ -38,6 +43,9 @@ export class NewServerFormComponent {
     }
 
     private onCreate() {
+        if (!this.checkAuth())
+            return;
+
         this.components.simulations.filter(s => s.isSelected).forEach(
             s => this.server.addSimulation(s.simulation));
          
@@ -55,6 +63,14 @@ export class NewServerFormComponent {
             });
     }
 
+    private checkAuth() {
+        if (this.isAuthenticated)
+            return true;
+
+        this.router.navigateByUrl('/login');
+        return false;
+    }
+   
     // construct full object before assignment, change detection can occur 
     private buildDefaultServer() : Server {
         const newServer = new Server();

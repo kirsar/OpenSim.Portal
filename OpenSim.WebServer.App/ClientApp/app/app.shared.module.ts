@@ -13,13 +13,13 @@ import { ExternalConfigurationService } from './service/external-configuration-s
 import { ServersService } from './service/servers.service';
 import { SimulationsService } from './service/simulations.service';
 import { PresentationsService } from './service/presentations.service'
-
 import { StorageService } from './service/storage-service'
 import { AuthenticationService } from './service/authentication-service'
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
+import { AuthComponent } from './components/auth/auth.component'
 
 import { ServersComponent } from './components/servers/servers.component';
 import { ServerComponent } from './components/server/server.component';
@@ -35,14 +35,15 @@ import { PresentationComponent } from './components/presentation/presentation.co
     declarations: [
         AppComponent,
         NavMenuComponent,
+        HomeComponent,
+        AuthComponent,
         ServersComponent,
         ServerComponent,
         NewServerFormComponent,
         SimulationsComponent,
         SimulationComponent,
         NewSimulationFormComponent,
-        PresentationComponent,
-        HomeComponent
+        PresentationComponent
     ],
     imports: [
         CommonModule,
@@ -54,6 +55,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
+            { path: 'login', component: AuthComponent },
             { path: 'servers', component: ServersComponent },
             { path: 'servers/:id', component: ServerComponent },
             { path: 'simulations', component: SimulationsComponent },

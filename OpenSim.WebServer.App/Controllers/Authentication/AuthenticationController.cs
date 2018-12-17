@@ -6,7 +6,7 @@ using OpenSim.WebServer.App.Model;
 namespace OpenSim.WebServer.Controllers
 {
     [ApiVersion("1.0")]
-    [Produces("application/json")]
+    [Produces("application/hal+json")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthenticationController : Controller
     {
@@ -24,35 +24,17 @@ namespace OpenSim.WebServer.Controllers
         {
             await signInManager.SignOutAsync();
 
-            var user = await userManager.FindByNameAsync(auth.UserName);
+            var user = await userManager.FindByNameAsync(auth.Username);
             if (user == null) return NotFound();
 
             var res = await signInManager.PasswordSignInAsync(user, auth.Password, false, false);
             return res.Succeeded ? new ActionResult<UserInfoResource>(new UserInfoResource(user)) : BadRequest(res.ToString());
         }
-
-        //[HttpPost]
-        //public async Task<ActionResult<UserInfoResource>> Post()
-        //{
-        //    var auth = new AuthenticationViewModel
-        //    {
-        //        UserName = "user",
-        //        Password = "User123$"
-        //    };
-
-        //    await signInManager.SignOutAsync();
-
-        //    var user = await userManager.FindByNameAsync(auth.UserName);
-        //    if (user == null) return NotFound();
-
-        //    var res = await signInManager.PasswordSignInAsync(user, auth.Password, false, false);
-        //    return res.Succeeded ? new ActionResult<UserInfoResource>(new UserInfoResource(user)) : BadRequest(res.ToString());
-        //}
     }
 
     public class AuthenticationViewModel
     {
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
     }
 }

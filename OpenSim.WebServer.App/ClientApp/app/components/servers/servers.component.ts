@@ -1,7 +1,6 @@
 import { Component, } from '@angular/core';
 import { Server } from '../../model/server';
 import { StorageService } from '../../service/storage-service'
-import { AuthenticationService } from '../../service/authentication-service'
 import { ServerRequestBuilder } from '../../service/request-builder/server.builder'
 
 @Component({
@@ -12,10 +11,8 @@ import { ServerRequestBuilder } from '../../service/request-builder/server.build
 export class ServersComponent {
     public servers: Server[] = [];
    
-    constructor(private readonly service: StorageService,
-        auth: AuthenticationService) {
+    constructor(private readonly service: StorageService) {
         this.queryServers();
-        //auth.login('user', 'User123$').subscribe();
     }
 
     private queryServers = () => 
