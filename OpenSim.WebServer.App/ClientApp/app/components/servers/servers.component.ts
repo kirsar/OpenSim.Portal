@@ -19,9 +19,7 @@ export class ServersComponent {
         this.service.getServers(new ServerRequestBuilder()
             .withSimulations()
             .withPresentations()
-            .withAuthor()).subscribe(
-                (servers: Server[]) => this.servers = servers,
-                (error: any) => console.error(error));
+            .withAuthor()).subscribe((servers: Server[]) => this.servers = servers);
 
     public onServerCreated(server: Server) {
         this.servers.push(server);

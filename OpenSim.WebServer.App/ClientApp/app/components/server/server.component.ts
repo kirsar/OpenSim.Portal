@@ -25,9 +25,7 @@ export class ServerComponent {
             this.storage.getServer(+params['id'], new ServerRequestBuilder()
                 .withAuthor()
                 .withSimulations()
-                .withPresentations()).subscribe(
-                    (result: Server | undefined) => this.server = result,
-                    (error: any) => console.error(error)));
+                .withPresentations()).subscribe((result: Server | undefined) => this.server = result));
     }
 
     public ngOnDestroy() {

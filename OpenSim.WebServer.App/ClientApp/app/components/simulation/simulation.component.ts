@@ -26,8 +26,7 @@ export class SimulationComponent {
                 .withReferences(new SimulationRequestBuilder().withAuthor())
                 .withConsumers(new SimulationRequestBuilder().withAuthor())
                 .withPresentations(new PresentationRequestBuilder().withAuthor())).subscribe(
-                    (result: Simulation | undefined) => this.simulation = result,
-                    (error: any) => console.error(error)));
+                    (result: Simulation | undefined) => this.simulation = result));
     }
 
     private ngOnDestroy() {

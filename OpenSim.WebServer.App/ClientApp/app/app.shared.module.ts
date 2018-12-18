@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,7 +14,9 @@ import { ServersService } from './service/servers.service';
 import { SimulationsService } from './service/simulations.service';
 import { PresentationsService } from './service/presentations.service'
 import { StorageService } from './service/storage-service'
+import { ErrorHandlerService } from './service/error-handler-service'
 import { AuthenticationService } from './service/authentication-service'
+import { NavigationService } from './service/navigation-service'
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -30,6 +32,11 @@ import { SimulationComponent } from './components/simulation/simulation.componen
 import { NewSimulationFormComponent } from './components/new-simulation/new-simulation.component';
 
 import { PresentationComponent } from './components/presentation/presentation.component';
+
+const errorHandlerFactory = (injector: Injector) => errorHandler != undefined ? errorHandler : errorHandler = new ErrorHandlerService(injector);
+let errorHandler: ErrorHandlerService;
+//function handler() { return errorHandler; }
+
 
 @NgModule({
     declarations: [
@@ -69,8 +76,11 @@ import { PresentationComponent } from './components/presentation/presentation.co
         SimulationsService,
         PresentationsService,
         StorageService,
+        NavigationService,
         AuthenticationService,
-        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
+        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
+        { provide: ErrorHandlerService, useFactory: errorHandlerFactory, deps: [Injector] },
+        { provide: ErrorHandler, useFactory: errorHandlerFactory, deps: [Injector] }
     ],
     bootstrap: [AppComponent]
 })
