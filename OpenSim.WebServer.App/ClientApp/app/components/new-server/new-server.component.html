@@ -1,43 +1,45 @@
 <form id="new-server-form" #newServerForm="ngForm" *ngIf="components.simulations && components.presentations">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" required
-               [(ngModel)]="server.name" name="name"
-               #name="ngModel">
-    </div>
-    <div [hidden]="name.valid"
-         class="alert alert-danger warning">
-        Name is required
-    </div>
-
-    <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" class="form-control" id="description"
-               [(ngModel)]="server.description" name="description">
-    </div>
-
-    <div class="simulations">
-        <div class="form-group" *ngFor="let simulation of components.simulations">
-            <input type="checkbox" name="isSelected"
-                   [checked]="simulation.isSelected" (change)="simulation.isSelected = !simulation.isSelected">
-            {{ simulation.name }}
+    <div *ngIf="isAuthenticated">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" required
+                   [(ngModel)]="server.name" name="name"
+                   #name="ngModel">
         </div>
-    </div>
+        <div [hidden]="name.valid"
+             class="alert alert-danger warning">
+            Name is required
+        </div>
 
-    <hr>
-   
-    <div class="presentations">
-        <div class="form-group" *ngFor="let presentation of components.presentations">
-            <input type="checkbox"
-                   [(ngModel)]="presentation.isSelected" name="isSelected">
-            {{ presentation.name }}
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description"
+                   [(ngModel)]="server.description" name="description">
+        </div>
+
+        <div class="simulations">
+            <div class="form-group" *ngFor="let simulation of components.simulations">
+                <input type="checkbox" name="isSelected"
+                       [checked]="simulation.isSelected" (change)="simulation.isSelected = !simulation.isSelected">
+                {{ simulation.name }}
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="presentations">
+            <div class="form-group" *ngFor="let presentation of components.presentations">
+                <input type="checkbox"
+                       [(ngModel)]="presentation.isSelected" name="isSelected">
+                {{ presentation.name }}
+            </div>
         </div>
     </div>
 
     <button type="submit" class="btn btn-success submit"
             (click)="onCreate(); newServerForm.reset()"
             [disabled]="isInvalid()">
-        Create
+        Create New Server
     </button>
 </form>
 

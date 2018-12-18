@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OpenSim.WebServer.Model;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using OpenSim.WebServer.App.Model;
 
 namespace OpenSim.WebServer.Controllers
 {
@@ -8,18 +10,18 @@ namespace OpenSim.WebServer.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UsersController : Controller
     {
-        private readonly IUserRepository repo;
-
-        public UsersController(IUserRepository repo)
+        private readonly UserManager<User> userManager;
+       
+        public UsersController(UserManager<User> userManager)
         {
-            this.repo = repo;
+            this.userManager = userManager;
         }
 
         // GET: api/v1/Users/5
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<UserInfoResource> Get(int id)
+        public ActionResult<UserInfoResource> Get(long id)
         {
-            var user = repo.Get(id);
+            var user = userManager.Users.SingleOrDefault(u => u.Id == id);
 
             if (user == null)
                 return NotFound();

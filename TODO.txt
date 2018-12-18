@@ -1,29 +1,32 @@
 Portal Todo:
-15.11 refactor new-simulation with promises 
-	
-    authentication / identity / angular intercept
-	generic error rediret
+    generic error redirect
 
 20  clean unneeded asp and npm references
 25  separate app / client / controllers parts into projects. Host pure angular
+    migrate ng7
+	redo PR to hal-4-angular in original author repo
 
 58  web api with pagination / curies
 	
 	back end L1 tests 
-	
-21  why signletone is reconstructed after accessed before WebHost.Build() is called?
-15.5 Should I use IAsyncResult for collections?
 
+15.11 refactor new-simulation with promises (exercise in rx)
+	
 60  move data to postgres (or MS?)
     deploy in docker
+50  OWIN / Katana / Kestrel / Selfhost 
     host on AWS
-50  ensure I'm selfhost and why I need OWIN then?
+
+	front end unit tests
+	front end e2e tests (selenium?)
 
 16  home page
 110 how I can use html <map>
 
+	use https to encrypt password
+
 57  rename servers into server config, introduce runnable instance of server as separate portal entity
-57.1 allow to click play / stop (servers/server) for own server and put
+57.1 allow to click play / stop (servers/server) for own server and put (or use SignalR)
 
 70  mobile adaptive ui for server list
 100 post css for webpack
@@ -51,7 +54,8 @@ Done:
 52  why servers are not loaded from first attempt (fixed by Webhal.Api owners)
 57  remove mixing of API and Front end hrefs in templates (don't use link from API to redirect)
     figure out why embedded resource arrays are not replaced by _links in POST. That's ok for now, no more time for HAL
-
+	authentication / identity / angular intercept
+	
 Platform Todo:
 18  think about API point plugin entry
 

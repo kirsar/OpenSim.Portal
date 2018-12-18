@@ -1,12 +1,16 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenSim.WebServer.App.Model;
 using OpenSim.WebServer.Controllers;
 using OpenSim.WebServer.Model;
 
@@ -28,7 +32,19 @@ namespace OpenSim.WebServer.App.Startup
                 .AddMvc(options => options.OutputFormatters.RemoveType<JsonOutputFormatter>())
                 .AddJsonHalFormatterServices();
 
-            services.AddSingleton<IUserRepository, UserRepository>();
+            //services.AddMemoryCache();
+            //services.AddSession(options =>
+            //{
+            //    options.Cookie.Name = "OpenSim.Portal";
+            //    options.Cookie.Expiration = TimeSpan.FromDays(7);
+            //    options.Cookie.HttpOnly = false;
+            //});
+
+            services.AddDbContext<UserDbContext>(options => options.UseInMemoryDatabase("OpenSim.Portal"));
+
+            services.AddIdentity<User, IdentityRole<long>>()
+                .AddEntityFrameworkStores<UserDbContext>();
+            
             services.AddSingleton<IServerRepository, ServerRepository>();
             services.AddSingleton<ISimulationRepository, SimulationRepository>();
             services.AddSingleton<IPresentationRepository, PresentationRepository>();
@@ -36,10 +52,10 @@ namespace OpenSim.WebServer.App.Startup
             services.AddSingleton<IEmbeddedRelationsSchema, EmbeddedRelationsSchema>();
 
             services.AddApiVersioning(o =>
-                {
-                    o.AssumeDefaultVersionWhenUnspecified = true;
-                    o.DefaultApiVersion = new ApiVersion(1, 0);
-                });
+            {
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,8 +74,9 @@ namespace OpenSim.WebServer.App.Startup
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            //app.UseSession();
+            app.UseAuthentication();
             app.UseStaticFiles();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -70,6 +87,9 @@ namespace OpenSim.WebServer.App.Startup
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+
+            app.SeedIdentity();
+            app.SeedContent();
         }
     }
 }

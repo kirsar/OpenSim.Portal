@@ -12,6 +12,7 @@
 
 #new-server-form {
     grid-column: 2/2;
+    margin-top: 20px;
 }
 
 #server-list expandable-list-item {

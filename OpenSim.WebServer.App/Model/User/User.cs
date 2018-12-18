@@ -1,11 +1,16 @@
-﻿namespace OpenSim.WebServer.Model
+﻿using System;
+using Microsoft.AspNetCore.Identity;
+
+namespace OpenSim.WebServer.App.Model
 {
-    public class User
+    public sealed class User : IdentityUser<long>
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
+        public User(string userName, string description) : base(userName)
+        {
+            Description = description;
+            SecurityStamp = Guid.NewGuid().ToString();
+        }
+
         public string Description { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
     }
 }

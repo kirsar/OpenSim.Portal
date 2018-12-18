@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using OpenSim.WebServer.App.Model;
 
 namespace OpenSim.WebServer.Model
 {

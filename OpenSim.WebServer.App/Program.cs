@@ -17,8 +17,6 @@ namespace OpenSim.WebServer.App
                 .UseStartup<Startup.Startup>()
                 .Build();
 
-            new Repository(host.Services).Seed();
-
             return host;
         }
     }

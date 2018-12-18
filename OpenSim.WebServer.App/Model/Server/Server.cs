@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using OpenSim.WebServer.App.Model;
 
 namespace OpenSim.WebServer.Model
 {
