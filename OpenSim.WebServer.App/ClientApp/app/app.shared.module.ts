@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,7 +16,7 @@ import { PresentationsService } from './service/presentations.service'
 import { StorageService } from './service/storage-service'
 import { ErrorHandlerService } from './service/error-handler-service'
 import { AuthenticationService } from './service/authentication-service'
-
+import { NavigationService } from './service/navigation-service'
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -33,8 +33,10 @@ import { NewSimulationFormComponent } from './components/new-simulation/new-simu
 
 import { PresentationComponent } from './components/presentation/presentation.component';
 
-const errorHandler = new ErrorHandlerService();
-function handler() { return errorHandler; }
+const errorHandlerFactory = (injector: Injector) => errorHandler != undefined ? errorHandler : errorHandler = new ErrorHandlerService(injector);
+let errorHandler: ErrorHandlerService;
+//function handler() { return errorHandler; }
+
 
 @NgModule({
     declarations: [
@@ -74,11 +76,11 @@ function handler() { return errorHandler; }
         SimulationsService,
         PresentationsService,
         StorageService,
+        NavigationService,
         AuthenticationService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
-        { provide: ErrorHandlerService, useFactory: handler },
-        { provide: ErrorHandler, useFactory: handler },
-        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
+        { provide: ErrorHandlerService, useFactory: errorHandlerFactory, deps: [Injector] },
+        { provide: ErrorHandler, useFactory: errorHandlerFactory, deps: [Injector] }
     ],
     bootstrap: [AppComponent]
 })

@@ -1,33 +1,30 @@
-﻿import { ErrorHandler, Injectable } from '@angular/core';
-import { Router, RoutesRecognized } from '@angular/router'
+﻿import { Injectable, Injector } from '@angular/core';
+import { Router } from '@angular/router'
 import { HttpErrorResponse } from '@angular/common/http';
+import { NavigationService } from './navigation-service'
 import { Observable, Subject } from 'rxjs';
-import { filter, pairwise } from 'rxjs/operators'
-
 
 @Injectable()
-export class ErrorHandlerService implements ErrorHandler {
+export class ErrorHandlerService {
 
     private subject = new Subject<string[]>();
-    private previousRoute: string | undefined;
-
-    public constructor(private readonly router: Router) {
-        this.router.events.pipe(
-                filter(e => e instanceof RoutesRecognized),
-                pairwise())
-            .subscribe((event: any[]) => this.previousRoute = event[0].urlAfterRedirects);
+    
+    public constructor(private readonly injector: Injector) {
     }
 
     public handleError(error: any) {
         setTimeout(() => {
             if (error instanceof HttpErrorResponse) {
                 this.subject.next([error.statusText]);
-                this.router.navigateByUrl(this.previousRoute!);
+
+                const previousRoute = this.injector.get(NavigationService).previousRoute;
+                if (previousRoute != undefined)
+                    this.injector.get(Router).navigateByUrl('/servers');
             }
             else
                 this.subject.next(error.message != undefined ? error.message : error.toString());
 
-            throw error;
+            //throw error;
         });
     }
 

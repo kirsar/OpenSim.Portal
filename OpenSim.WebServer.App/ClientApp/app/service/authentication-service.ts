@@ -1,37 +1,33 @@
 import { Injectable, Inject } from '@angular/core'
-import { Router, RoutesRecognized  } from '@angular/router'
+import { Router } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http/'
 import { ExternalConfigurationHandlerInterface } from 'hal-4-angular'
+import { NavigationService } from './navigation-service'
 import { map, catchError } from 'rxjs/operators'
-import { filter, pairwise } from 'rxjs/operators'
 
 @Injectable()
 export class AuthenticationService {
     constructor(
-        private readonly router: Router,
         private readonly http: HttpClient,
+        private readonly router: Router,
+        private readonly navigation: NavigationService,
         @Inject('ExternalConfigurationService') private readonly externalConfigurationService: ExternalConfigurationHandlerInterface) {
-        this.router.events.pipe(
-                filter(e => e instanceof RoutesRecognized),
-                pairwise())
-            .subscribe((event: any[]) => this.previousRoute = event[0].urlAfterRedirects);
     }
-
-    private previousRoute: string | undefined;
 
     public isAuthenticated: boolean = false;
 
     public login(name: string, password: string, callbackUrl?: string): Observable<boolean> {
         this.isAuthenticated = false;
+        const self = this;
         return this.post(name, password).pipe(
             map((result: any) => {
                 if (result != undefined) {
                     this.isAuthenticated = true;
 
-                    callbackUrl = callbackUrl != undefined ? callbackUrl : this.previousRoute;
+                    callbackUrl = callbackUrl != undefined ? callbackUrl : self.navigation.previousRoute;
                     if (callbackUrl != undefined)
-                        this.router.navigateByUrl(callbackUrl);
+                        self.router.navigateByUrl(callbackUrl);
                 }
 
                 return this.isAuthenticated;
@@ -45,7 +41,6 @@ export class AuthenticationService {
     public logout() {
         this.isAuthenticated = false;
         this.post('', '');
-        //this.router.navigateByUrl('/login');
     }
 
     private post(name: string, password: string): Observable<Object> {
