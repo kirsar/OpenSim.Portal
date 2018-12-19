@@ -9,7 +9,7 @@ import { ErrorHandlerService} from '../../service/error-handler-service'
 export class AppComponent {
     private errors: string[] = [];
 
-    constructor(private readonly errorHandler: ErrorHandlerService) {
-        errorHandler.errors.subscribe(errors => this.errors = errors);
+    constructor(/*private readonly errorHandler: ErrorHandlerService*/) {
+        //errorHandler.errors.subscribe(errors => this.errors = errors);
     }
 }

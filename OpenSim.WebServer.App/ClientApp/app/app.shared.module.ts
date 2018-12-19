@@ -14,7 +14,7 @@ import { ServersService } from './service/servers.service';
 import { SimulationsService } from './service/simulations.service';
 import { PresentationsService } from './service/presentations.service'
 import { StorageService } from './service/storage-service'
-import { ErrorHandlerService } from './service/error-handler-service'
+//import { ErrorHandlerService } from './service/error-handler-service'
 import { AuthenticationService } from './service/authentication-service'
 import { NavigationService } from './service/navigation-service'
 
@@ -34,8 +34,8 @@ import { NewSimulationFormComponent } from './components/new-simulation/new-simu
 
 import { PresentationComponent } from './components/presentation/presentation.component';
 
-const errorHandler = new ErrorHandlerService();
-function handler() { return errorHandler; }
+//const errorHandler = new ErrorHandlerService();
+//function handler() { return errorHandler; }
 
 @NgModule({
     declarations: [
@@ -77,9 +77,8 @@ function handler() { return errorHandler; }
         StorageService,
         NavigationService,
         AuthenticationService,
-        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
-        { provide: ErrorHandlerService, useFactory: handler },
-        { provide: ErrorHandler, useFactory: handler },
+        //{ provide: ErrorHandlerService, useFactory: handler },
+        //{ provide: ErrorHandler, useFactory: handler },
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
     ],
     bootstrap: [AppComponent]
