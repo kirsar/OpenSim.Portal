@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,8 +14,10 @@ import { ServersService } from './service/servers.service';
 import { SimulationsService } from './service/simulations.service';
 import { PresentationsService } from './service/presentations.service'
 import { StorageService } from './service/storage-service'
+import { ErrorHandlerService } from './service/error-handler-service'
 import { AuthenticationService } from './service/authentication-service'
 import { NavigationService } from './service/navigation-service'
+
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -31,6 +33,9 @@ import { SimulationComponent } from './components/simulation/simulation.componen
 import { NewSimulationFormComponent } from './components/new-simulation/new-simulation.component';
 
 import { PresentationComponent } from './components/presentation/presentation.component';
+
+const errorHandler = new ErrorHandlerService();
+function handler() { return errorHandler; }
 
 @NgModule({
     declarations: [
@@ -72,6 +77,9 @@ import { PresentationComponent } from './components/presentation/presentation.co
         StorageService,
         NavigationService,
         AuthenticationService,
+        { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService },
+        { provide: ErrorHandlerService, useFactory: handler },
+        { provide: ErrorHandler, useFactory: handler },
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
     ],
     bootstrap: [AppComponent]
