@@ -15,6 +15,7 @@ import { SimulationsService } from './service/simulations.service';
 import { PresentationsService } from './service/presentations.service'
 import { StorageService } from './service/storage-service'
 import { AuthenticationService } from './service/authentication-service'
+import { NavigationService } from './service/navigation-service'
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -69,6 +70,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
         SimulationsService,
         PresentationsService,
         StorageService,
+        NavigationService,
         AuthenticationService,
         { provide: 'ExternalConfigurationService', useClass: ExternalConfigurationService }
     ],
