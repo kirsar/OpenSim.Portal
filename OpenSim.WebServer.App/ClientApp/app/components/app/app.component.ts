@@ -1,5 +1,4 @@
 import { Component } from '@angular/core'
-import { Router } from '@angular/router'
 import { ErrorHandlerService} from '../../service/error-handler-service'
 
 @Component({
@@ -10,15 +9,7 @@ import { ErrorHandlerService} from '../../service/error-handler-service'
 export class AppComponent {
     private errors: string[] = [];
 
-    constructor(
-        private readonly errorHandler: ErrorHandlerService,
-        private readonly router: Router) {
-        errorHandler.errors.subscribe(errors => {
-            this.errors = errors;
-        });
-
-        router.events.subscribe(_ => {
-            //this.errors = [];
-        });
+    constructor(private readonly errorHandler: ErrorHandlerService) {
+        errorHandler.errors.subscribe(errors => this.errors = errors);
     }
 }
