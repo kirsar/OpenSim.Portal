@@ -1,5 +1,4 @@
 Portal Todo:
-    generic error redirect
 
 20  clean unneeded asp and npm references
 25  separate app / client / controllers parts into projects. Host pure angular
@@ -31,6 +30,9 @@ Portal Todo:
 70  mobile adaptive ui for server list
 100 post css for webpack
 30  rename to Portal
+
+    finalize error handling: by some reason, http error is report somewhere (in hal?) and it's too late to survive
+	inject Navigation Service with APP_INITIALIZER, learn how to use it and avoid circular dependencies
 
 Done:
  	try to use fetched resource when navigating from 'list' to 'details' and rely on dynamic relation loading

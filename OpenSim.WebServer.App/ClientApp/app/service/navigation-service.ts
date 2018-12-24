@@ -6,6 +6,9 @@ import { filter, pairwise } from 'rxjs/operators'
 export class NavigationService {
     constructor(
         private readonly router: Router) {
+    }
+
+    public init() {
         this.router.events.pipe(
                 filter(e => e instanceof RoutesRecognized),
                 pairwise())
