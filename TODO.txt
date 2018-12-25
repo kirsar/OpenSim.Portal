@@ -1,7 +1,6 @@
 Portal Todo:
 
 25  separate app / client / controllers parts into projects. Host pure angular
-	redo PR to hal-4-angular in original author repo
 	fix exception in new server form
 	fix identity problem in unit tests
 	
@@ -37,7 +36,8 @@ learning deeper:
 	inject Navigation Service with APP_INITIALIZER, learn how to use it and avoid circular dependencies
 
 Done:
-    migrate ng7
+    redo PR to hal-4-angular in original author (masvis) repo
+	migrate ng7
 30  rename to Portal
 20  clean unneeded asp and npm references
  	try to use fetched resource when navigating from 'list' to 'details' and rely on dynamic relation loading
