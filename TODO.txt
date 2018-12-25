@@ -1,11 +1,13 @@
 Portal Todo:
 
-20  clean unneeded asp and npm references
 25  separate app / client / controllers parts into projects. Host pure angular
-    migrate ng7
 	redo PR to hal-4-angular in original author repo
-
+	fix exception in new server form
+	fix identity problem in unit tests
+	
 58  web api with pagination / curies
+
+	use some material. For login form, replace expander?,..
 	
 	back end L1 tests 
 
@@ -29,12 +31,15 @@ Portal Todo:
 
 70  mobile adaptive ui for server list
 100 post css for webpack
-30  rename to Portal
 
+learning deeper:
     finalize error handling: by some reason, http error is report somewhere (in hal?) and it's too late to survive
 	inject Navigation Service with APP_INITIALIZER, learn how to use it and avoid circular dependencies
 
 Done:
+    migrate ng7
+30  rename to Portal
+20  clean unneeded asp and npm references
  	try to use fetched resource when navigating from 'list' to 'details' and rely on dynamic relation loading
     explicit diference for resource.Embed and resourceCollection.Embed extensions
 2   configure new server and post

@@ -1,0 +1,58 @@
+﻿using System.Linq;
+using Microsoft.AspNetCore.Http;
+using OpenSim.Portal.Controllers.Presentation;
+using OpenSim.Portal.Controllers.Server;
+using OpenSim.Portal.Controllers.Simulation;
+using WebApi.Hal;
+
+namespace OpenSim.Portal.Controllers
+{
+    internal static class ResourceWithRelationsExtension
+    {
+        internal static T EmbedRelations<T>(this T resource, HttpRequest request, IEmbeddedRelationsSchema embeddedRelationsSchema) 
+            where T : IResourceWithRelations
+        {
+            var fields = request.GetFieldsDefinition();
+            var embeddedField = fields.GetEmbeddedFieldNode();
+            if (embeddedField == null)
+                return resource;
+
+            resource.EmbedRelations(embeddedField, embeddedRelationsSchema);
+
+            return resource;
+        }
+
+        internal static TCollection EmbedRelations<TCollection, TResource>(this TCollection collection, 
+            HttpRequest request, IEmbeddedRelationsSchema embeddedRelationsSchema) 
+            where TCollection : SimpleListRepresentation<TResource>
+            where TResource : IResourceWithRelations
+        {
+            var fields = request.GetFieldsDefinition();
+            var collectionNode = fields.FirstOrDefault()?.Nodes.Single();
+            var embeddedField = collectionNode?.Nodes.GetEmbeddedFieldNode();
+            if (embeddedField == null)
+                return collection;
+
+            foreach (var resource in collection.ResourceList)
+                resource.EmbedRelations(embeddedField, embeddedRelationsSchema);
+
+            return collection;
+        }
+
+        #region Inference Helpers
+
+        internal static ServerCollection EmbedRelations(this ServerCollection collection,
+            HttpRequest request, IEmbeddedRelationsSchema schema) =>
+                EmbedRelations<ServerCollection, ServerResource>(collection, request, schema);
+
+        internal static SimulationCollection EmbedRelations(this SimulationCollection collection,
+            HttpRequest request, IEmbeddedRelationsSchema schema) =>
+                EmbedRelations<SimulationCollection, SimulationResource>(collection, request, schema);
+
+        internal static PresentationCollection EmbedRelations(this PresentationCollection collection,
+            HttpRequest request, IEmbeddedRelationsSchema schema) =>
+                EmbedRelations<PresentationCollection, PresentationResource>(collection, request, schema);
+
+        #endregion
+    }
+}

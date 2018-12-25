@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portal", "Portal\Portal.csproj", "{EF2DFF0C-D33D-4432-9D86-52D2CB4E7E36}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portal.Test", "Portal.Test\Portal.Test.csproj", "{A1A59EAB-00CB-4F23-B449-54E014090E3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF2DFF0C-D33D-4432-9D86-52D2CB4E7E36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF2DFF0C-D33D-4432-9D86-52D2CB4E7E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF2DFF0C-D33D-4432-9D86-52D2CB4E7E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF2DFF0C-D33D-4432-9D86-52D2CB4E7E36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1A59EAB-00CB-4F23-B449-54E014090E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1A59EAB-00CB-4F23-B449-54E014090E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1A59EAB-00CB-4F23-B449-54E014090E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1A59EAB-00CB-4F23-B449-54E014090E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {115C9510-A370-454A-A443-83857ED76E3A}
+	EndGlobalSection
+EndGlobal
