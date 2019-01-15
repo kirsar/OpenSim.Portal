@@ -8,7 +8,7 @@ import { NavigationService } from '../../service/navigation-service'
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    private errors: string[] = [];
+    public errors: string[] = [];
 
     // TODO figure out APP_INITIALIZER and resolving cycles with Injector
     // for now, claiming Navigation here to make it collect data from start of app

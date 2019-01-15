@@ -14,8 +14,10 @@ export class NewSimulationFormComponent {
         private readonly changeDetection: ChangeDetectorRef) { }
 
     private message: string = '';
-    private simulation?: SimulationContent; 
     private content?: any;
+
+    public simulation?: SimulationContent;
+    public isValid = () => this.content !== undefined && this.content !== null;
 
     @Output() public simulationCreated = new EventEmitter<Simulation>();
 
@@ -48,9 +50,15 @@ export class NewSimulationFormComponent {
             this.message = droppedFile.fileEntry.name + 'is not a paltform compatible simulation file';
     }
 
-    private isValid = () => this.content !== undefined && this.content !== null;
-    
-    private onUpload() {
+    public fileOver(event: UploadEvent) {
+
+    }
+
+    public fileLeave(event: UploadEvent) {
+
+    }
+
+    public onUpload() {
         this.service.upload(this.content).subscribe(
             res => this.simulationCreated.emit(res as Simulation));
 

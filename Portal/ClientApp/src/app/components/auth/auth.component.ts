@@ -7,9 +7,9 @@ import { AuthenticationService } from '../../service/authentication-service'
     styleUrls: ['./auth.component.css']
 })
 export class AuthComponent {
-    private username?: string;
-    private password?: string;
-    private showError = false;
+    public username?: string;
+    public password?: string;
+    public showError = false;
 
     constructor(private readonly auth: AuthenticationService) {
     }

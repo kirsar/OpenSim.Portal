@@ -10,7 +10,7 @@ import { PresentationRequestBuilder } from '../../service/request-builder/presen
     styleUrls: ['./simulations.component.css']
 })
 export class SimulationsComponent {
-    private simulations: Simulation[] = [];
+    public simulations: Simulation[] = [];
 
     constructor(private readonly service: SimulationsService) {
         this.querySimulations();
