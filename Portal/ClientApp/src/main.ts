@@ -8,6 +8,10 @@ export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
 }
 
+export function getBaseUrlStandAlone() {
+    return 'http://localhost:5000/';
+}
+
 const providers = [
   { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
 ];

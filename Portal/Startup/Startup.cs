@@ -84,6 +84,7 @@ namespace OpenSim.Portal.Startup
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseCors(cors => cors.WithOrigins("http://localhost:4200").AllowAnyHeader());
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -98,15 +99,7 @@ namespace OpenSim.Portal.Startup
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start-dev");
-                }
-                else
-                {
-                    spa.UseAngularCliServer(npmScript: "start-prod");
-                }
+                spa.UseAngularCliServer(env.IsDevelopment() ? "start-dev" : "start-prod");
             });
 
             app.SeedIdentity();

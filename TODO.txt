@@ -1,7 +1,6 @@
 Portal Todo:
 
-25  separate app / client / controllers parts into projects. Host pure angular
-	fix exception in new server form
+25  fix exception in new server form
 	fix identity problem in unit tests
 	
 58  web api with pagination / curies
@@ -62,7 +61,8 @@ Done:
 57  remove mixing of API and Front end hrefs in templates (don't use link from API to redirect)
     figure out why embedded resource arrays are not replaced by _links in POST. That's ok for now, no more time for HAL
 	authentication / identity / angular intercept
-	
+	separate app / client / controllers parts into projects. Host pure angular - ready for separation, CORS enabled, but don't need it now
+		
 Platform Todo:
 18  think about API point plugin entry
 
