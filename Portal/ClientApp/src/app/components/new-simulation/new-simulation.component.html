@@ -1,0 +1,26 @@
+<div>
+    <div>
+        <file-drop headertext="Drop archive with you simulation here" 
+                   (onFileDrop)="dropped($event)" 
+                   (onFileOver)="fileOver($event)" 
+                   (onFileLeave)="fileLeave($event)">
+        </file-drop>
+    </div>
+    
+    <div id="details" *ngIf="simulation">
+        <div><span>Name: {{ simulation.name }}</span></div>
+        <div><span>Description: {{ simulation.description }}</span></div>
+        <div><span>References:</span></div>
+        <ul>
+            <li class="referenced-item" *ngFor="let reference of simulation.references"> {{ reference }}</li>
+        </ul>
+    </div>
+    
+    <div id="error" *ngIf="!isValid()">{{ message }}</div>
+
+    <button class="btn btn-success submit"
+            (click)="onUpload()"
+            [disabled]="!isValid()">
+        Upload
+    </button>
+</div>
