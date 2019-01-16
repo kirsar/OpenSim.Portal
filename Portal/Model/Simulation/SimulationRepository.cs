@@ -1,36 +1,37 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Linq;
+using OpenSim.Portal.Model.User;
 
 namespace OpenSim.Portal.Model.Simulation
 {
     public class SimulationRepository : ISimulationRepository
     {
-        private ConcurrentDictionary<long, Simulation> simulations = new ConcurrentDictionary<long, Simulation>();
-        private int currentId;
-
-        private int GetId() => currentId++;
-
-        public void Add(Simulation simulation)
+        public SimulationRepository(PortalDbContext context)
         {
-            var id = GetId();
-            simulation.Id = id;
-            simulations[id] = simulation;
+            this.context = context;
         }
+
+        public IQueryable<Simulation> GetAll() => context.Simulations;
 
         public Simulation Get(long id)
         {
-            simulations.TryGetValue(id, out var simulation);
-            return simulation;
+            throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Simulation> GetAll() => simulations.Values;
+        public void Add(Simulation simulation)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public Simulation Remove(long id)
         {
-            simulations.TryRemove(id, out var simulation);
-            return simulation;
+            throw new System.NotImplementedException();
         }
 
-        public void Update(Simulation simulation) => simulations[simulation.Id] = simulation;
+        public void Update(Simulation simulation)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private readonly PortalDbContext context;
     }
 }

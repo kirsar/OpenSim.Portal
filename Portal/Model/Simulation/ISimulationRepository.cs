@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace OpenSim.Portal.Model.Simulation
 {
     public interface ISimulationRepository
     {
-        void Add(Simulation simulation);
-        IEnumerable<Simulation> GetAll();
+        IQueryable<Simulation> GetAll();
         Simulation Get(long id);
+        void Add(Simulation simulation);
         Simulation Remove(long id);
         void Update(Simulation simulation);
     }

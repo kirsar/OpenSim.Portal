@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace OpenSim.Portal.Model.Server
 {
     public interface IServerRepository
     {
-        void Add(Server server);
-        IEnumerable<Server> GetAll();
+        IQueryable<Server> GetAll();
         Server Get(long id);
+        void Add(Server server);
         Server Remove(long id);
         void Update(Server server);
     }

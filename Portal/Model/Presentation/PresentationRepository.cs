@@ -1,36 +1,37 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Linq;
+using OpenSim.Portal.Model.User;
 
 namespace OpenSim.Portal.Model.Presentation
 {
     public class PresentationRepository : IPresentationRepository
     {
-        private ConcurrentDictionary<long, Presentation> presentations = new ConcurrentDictionary<long, Presentation>();
-        private int currentId;
-
-        private int GetId() => currentId++;
-
-        public void Add(Presentation presentation)
+        public PresentationRepository(PortalDbContext context)
         {
-            var id = GetId();
-            presentation.Id = id;
-            presentations[id] = presentation;
+            this.context = context;
         }
+
+        private readonly PortalDbContext context;
+
+        public IQueryable<Presentation> GetAll() => context.Presentations;
 
         public Presentation Get(long id)
         {
-            presentations.TryGetValue(id, out var presentation);
-            return presentation;
+            throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Presentation> GetAll() => presentations.Values;
-
+        public void Add(Presentation simulation)
+        {
+            throw new System.NotImplementedException();
+        }
+        
         public Presentation Remove(long id)
         {
-            presentations.TryRemove(id, out var presentation);
-            return presentation;
+            throw new System.NotImplementedException();
         }
 
-        public void Update(Presentation presentation) => presentations[presentation.Id] = presentation;
+        public void Update(Presentation simulation)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -50,10 +50,12 @@ namespace OpenSim.Portal.Startup
 
             services.AddIdentity<User, IdentityRole<long>>()
                 .AddEntityFrameworkStores<UserDbContext>();
-            
-            services.AddSingleton<IServerRepository, ServerRepository>();
-            services.AddSingleton<ISimulationRepository, SimulationRepository>();
-            services.AddSingleton<IPresentationRepository, PresentationRepository>();
+
+            services.AddDbContext<PortalDbContext>(builder =>
+                builder.UseSqlServer(Configuration["Data:ConnectionString"]));
+            services.AddTransient<IServerRepository, ServerRepositoryStub>();
+            services.AddTransient<ISimulationRepository, SimulationRepositoryStub>();
+            services.AddTransient<IPresentationRepository, PresentationRepository>();
 
             services.AddSingleton<IEmbeddedRelationsSchema, EmbeddedRelationsSchema>();
 
