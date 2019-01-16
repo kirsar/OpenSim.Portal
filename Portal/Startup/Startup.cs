@@ -77,14 +77,19 @@ namespace OpenSim.Portal.Startup
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
             }
 
             //app.UseSession();
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            app.UseCors(cors => cors.WithOrigins("http://localhost:4200").AllowAnyHeader());
+
+            app.UseCors(cors => cors.WithOrigins(
+                "http://localhost:4200",
+                "http://localhost:5000")
+                .AllowAnyHeader());
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
