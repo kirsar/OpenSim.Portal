@@ -5,8 +5,8 @@ namespace OpenSim.Portal.Controllers.Presentation
 {
     public class PresentationCollection : CollectionRepresentation<PresentationResource>
     {
-        public PresentationCollection(IEnumerable<PresentationResource> presentations) : 
-            base(LinkTemplates.Simulations.GetPresentations.Href, presentations)
+        public PresentationCollection(string resourceName, IEnumerable<PresentationResource> presentations) : 
+            base(resourceName, presentations)
         {
         }
 

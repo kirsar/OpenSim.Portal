@@ -5,8 +5,8 @@ namespace OpenSim.Portal.Controllers.Server
 {
     public class ServerCollection : CollectionRepresentation<ServerResource>
     {
-        public ServerCollection(IEnumerable<ServerResource> servers) : 
-            base(LinkTemplates.Servers.GetServers.Href, servers)
+        public ServerCollection(string resourceName, IEnumerable<ServerResource> servers) : 
+            base(resourceName, servers)
         {
         }
 

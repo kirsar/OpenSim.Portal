@@ -29,10 +29,8 @@ namespace OpenSim.Portal.Controllers.Simulation
         // GET: api/v1/Simulations
         [HttpGet]
         public SimulationCollection Get() => 
-            new SimulationCollection(simulationRepo
-            .GetAll()
-            .Select(simulation => new SimulationResource(simulation))
-            .ToList())
+            new SimulationCollection(LinkTemplates.Simulations.GetSimulations.Rel,
+                    simulationRepo.GetAll().Select(simulation => new SimulationResource(simulation)))
             .EmbedRelations(Request, embeddedRelationsSchema);
 
         // GET: api/v1/Simulations/5
@@ -56,9 +54,8 @@ namespace OpenSim.Portal.Controllers.Simulation
             if (simulation == null)
                 return NotFound();
 
-            return new SimulationCollection(simulation.References
-                .Select(reference => new SimulationResource(reference, LinkTemplates.Simulations.GetReferences.Rel))
-                .ToList())
+            return new SimulationCollection(LinkTemplates.Simulations.GetReferences.Rel, 
+                    simulation.References.Select(reference => new SimulationResource(reference, LinkTemplates.Simulations.GetReferences.Rel)))
                 .EmbedRelations(Request, embeddedRelationsSchema);
         }
 
@@ -71,9 +68,8 @@ namespace OpenSim.Portal.Controllers.Simulation
             if (simulation == null)
                 return NotFound();
 
-            return new PresentationCollection(simulation.Presentations
-                .Select(presentation => new PresentationResource(presentation, LinkTemplates.Simulations.GetPresentations.Rel))
-                .ToList())
+            return new PresentationCollection(LinkTemplates.Simulations.GetPresentations.Rel,
+                    simulation.Presentations.Select(presentation => new PresentationResource(presentation, LinkTemplates.Simulations.GetPresentations.Rel)))
                 .EmbedRelations(Request, embeddedRelationsSchema);
         }
 

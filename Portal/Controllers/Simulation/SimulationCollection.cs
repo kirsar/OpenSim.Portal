@@ -5,8 +5,8 @@ namespace OpenSim.Portal.Controllers.Simulation
 {
     public class SimulationCollection : CollectionRepresentation<SimulationResource>
     {
-        public SimulationCollection(IEnumerable<SimulationResource> simulations) : 
-            base(LinkTemplates.Simulations.GetSimulations.Href, simulations)
+        public SimulationCollection(string resourceName, IEnumerable<SimulationResource> simulations) : 
+            base(resourceName, simulations)
         {
         }
 

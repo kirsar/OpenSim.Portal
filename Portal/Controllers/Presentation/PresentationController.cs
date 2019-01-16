@@ -20,10 +20,8 @@ namespace OpenSim.Portal.Controllers.Presentation
 
         // GET: api/v1/presentations
         [HttpGet]
-        public PresentationCollection Get() => new PresentationCollection(repo
-            .GetAll()
-            .Select(presentation => new PresentationResource(presentation))
-            .ToList())
+        public PresentationCollection Get() => new PresentationCollection(LinkTemplates.Presentations.GetPresentations.Rel,
+                repo.GetAll().Select(presentation => new PresentationResource(presentation)))
             .EmbedRelations(Request, embeddedRelationsSchema);
 
         // GET: api/v1/presentations/5

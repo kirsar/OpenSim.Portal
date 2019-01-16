@@ -22,7 +22,7 @@ namespace OpenSim.Portal.Controllers.Server
         private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
         public ServersController(
-            IServerRepository serversRepo, 
+            IServerRepository serversRepo,
             ISimulationRepository simulationsRepo,
             IPresentationRepository presentationsRepo,
             UserManager<Model.User.User> userManager,
@@ -37,11 +37,9 @@ namespace OpenSim.Portal.Controllers.Server
 
         // GET: api/v1/Servers
         [HttpGet]
-        public ServerCollection Get() => 
-            new ServerCollection(serversRepo
-                .GetAll()
-                .Select(server => new ServerResource(server))
-                .ToList())
+        public ServerCollection Get() =>
+            new ServerCollection(LinkTemplates.Servers.GetServers.Rel,
+                    serversRepo.GetAll().Select(server => new ServerResource(server)))
                 .EmbedRelations(Request, embeddedRelationsSchema);
 
         // GET: api/v1/Servers/5
@@ -65,9 +63,8 @@ namespace OpenSim.Portal.Controllers.Server
             if (server == null)
                 return NotFound();
 
-            return new SimulationCollection(server.Simulations
-                .Select(simulation => new SimulationResource(simulation))
-                .ToList())
+            return new SimulationCollection(LinkTemplates.Servers.GetSimulations.Rel,
+                    server.Simulations.Select(simulation => new SimulationResource(simulation)))
                 .EmbedRelations(Request, embeddedRelationsSchema);
         }
 
@@ -80,16 +77,15 @@ namespace OpenSim.Portal.Controllers.Server
             if (server == null)
                 return NotFound();
 
-            return new PresentationCollection(server.Presentations
-                .Select(presentation => new PresentationResource(presentation))
-                .ToList())
+            return new PresentationCollection(LinkTemplates.Servers.GetPresentations.Rel,
+                    server.Presentations.Select(presentation => new PresentationResource(presentation)))
                 .EmbedRelations(Request, embeddedRelationsSchema);
         }
 
         // POST: api/v1/Servers
         [HttpPost]
         [Authorize]
-        public ActionResult<ServerResource> Post([FromBody]ServerResource serverResource) => 
+        public ActionResult<ServerResource> Post([FromBody] ServerResource serverResource) =>
             serverResource != null ? Get(AddToRepo(serverResource)) : BadRequest();
 
         // TODO handle errors
@@ -99,12 +95,12 @@ namespace OpenSim.Portal.Controllers.Server
             {
                 Name = serverResource.Name,
                 Description = serverResource.Description,
-                Author = userManager.Users.First()       // TODO current user
+                Author = userManager.Users.First() // TODO current user
             };
 
             foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Servers.GetSimulations.Rel))
                 server.AddSimulation(simulationsRepo.Get(link.GetId()));
-           
+
             foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Servers.GetPresentations.Rel))
                 server.AddPresentation(presentationsRepo.Get(link.GetId()));
 
@@ -139,7 +135,7 @@ namespace OpenSim.Portal.Controllers.Server
         //    var sever = serversRepo.Get(id);
         //    if (sever == null)
         //        return NotFound();
-            
+
         //    serversRepo.Remove(id);
         //    return new NoContentResult();
         //}
