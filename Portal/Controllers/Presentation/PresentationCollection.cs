@@ -3,9 +3,10 @@ using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Presentation
 {
-    public class PresentationCollection : SimpleListRepresentation<PresentationResource>
+    public class PresentationCollection : CollectionRepresentation<PresentationResource>
     {
-        public PresentationCollection(IList<PresentationResource> presentations) : base(presentations)
+        public PresentationCollection(IEnumerable<PresentationResource> presentations) : 
+            base(LinkTemplates.Simulations.GetPresentations.Href, presentations)
         {
         }
 

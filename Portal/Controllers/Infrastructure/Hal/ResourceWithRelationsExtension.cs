@@ -24,7 +24,7 @@ namespace OpenSim.Portal.Controllers
 
         internal static TCollection EmbedRelations<TCollection, TResource>(this TCollection collection, 
             HttpRequest request, IEmbeddedRelationsSchema embeddedRelationsSchema) 
-            where TCollection : SimpleListRepresentation<TResource>
+            where TCollection : CollectionRepresentation<TResource>
             where TResource : IResourceWithRelations
         {
             var fields = request.GetFieldsDefinition();

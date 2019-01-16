@@ -3,9 +3,10 @@ using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Server
 {
-    public class ServerCollection : SimpleListRepresentation<ServerResource>
+    public class ServerCollection : CollectionRepresentation<ServerResource>
     {
-        public ServerCollection(IList<ServerResource> servers) : base(servers)
+        public ServerCollection(IEnumerable<ServerResource> servers) : 
+            base(LinkTemplates.Servers.GetServers.Href, servers)
         {
         }
 

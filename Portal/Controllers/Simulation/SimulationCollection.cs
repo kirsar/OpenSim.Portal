@@ -3,9 +3,10 @@ using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Simulation
 {
-    public class SimulationCollection : SimpleListRepresentation<SimulationResource>
+    public class SimulationCollection : CollectionRepresentation<SimulationResource>
     {
-        public SimulationCollection(IList<SimulationResource> simulations) : base(simulations)
+        public SimulationCollection(IEnumerable<SimulationResource> simulations) : 
+            base(LinkTemplates.Simulations.GetSimulations.Href, simulations)
         {
         }
 

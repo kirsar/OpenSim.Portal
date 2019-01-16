@@ -33,6 +33,7 @@ Portal Todo:
 learning deeper:
     finalize error handling: by some reason, http error is report somewhere (in hal?) and it's too late to survive
 	inject Navigation Service with APP_INITIALIZER, learn how to use it and avoid circular dependencies
+	auth-form: fix 'Form submission canceled because the form is not connected'
 
 Done:
     redo PR to hal-4-angular in original author (masvis) repo
