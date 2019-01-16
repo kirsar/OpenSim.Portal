@@ -70,10 +70,7 @@ namespace OpenSim.Portal.Startup
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                //{
-                //    HotModuleReplacement = true
-                //});
+                //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions { HotModuleReplacement = true );
             }
             else
             {
@@ -84,23 +81,11 @@ namespace OpenSim.Portal.Startup
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
             app.UseCors(cors => cors.WithOrigins(
                 "http://localhost:4200",
                 "http://localhost:5000")
                 .AllowAnyHeader());
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-
-                //routes.MapSpaFallbackRoute(
-                //    name: "spa-fallback",
-                //    defaults: new { controller = "Home", action = "Index" });
-            });
-
+            app.UseMvc();
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";

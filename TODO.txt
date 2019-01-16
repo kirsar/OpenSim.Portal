@@ -1,7 +1,5 @@
 Portal Todo:
 
-25  fix identity problem in unit tests
-	
 58  web api with pagination / curies
 
 	use some material. For login form, replace expander?,..
@@ -63,7 +61,7 @@ Done:
 	  authentication / identity / angular intercept
 	  separate app / client / controllers parts into projects. Host pure angular - ready for separation, CORS enabled, but don't need it now
 	  fix exception in new server form
-	
+	  fix identity problem in unit tests
 		
 Platform Todo:
 18  think about API point plugin entry
