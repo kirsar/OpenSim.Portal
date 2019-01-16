@@ -1,5 +1,9 @@
 Portal Todo:
-
+    move data to postgres (or MS?)
+    deploy in docker
+    host on AWS / Azure
+    OWIN / Katana / Kestrel / Selfhost 
+    
 58  web api with pagination / curies
 
 	use some material. For login form, replace expander?,..
@@ -7,11 +11,9 @@ Portal Todo:
 	back end L1 tests 
 
 15.11 refactor new-simulation with promises (exercise in rx)
-	
-60  move data to postgres (or MS?)
-    deploy in docker
-50  OWIN / Katana / Kestrel / Selfhost 
-    host on AWS
+
+	remember logged in user in cookie
+	use HTTP_INTERCEPTOR in angular for auth
 
 	front end unit tests
 	front end e2e tests (selenium?)
