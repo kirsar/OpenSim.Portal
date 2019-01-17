@@ -12,20 +12,20 @@ namespace OpenSim.Portal.Model
         public long AuthorId { get; set; }
 
         private ICollection<ServerSimulation> ServerSimulations { get; } = new List<ServerSimulation>();
-
         [NotMapped] public IEnumerable<Simulation> Simulations => ServerSimulations.Select(s => s.Simulation);
         public void AddSimulation(Simulation simulation) => ServerSimulations.Add(new ServerSimulation(this, simulation));
-
-
+        
         private ICollection<ServerPresentation> ServerPresentations { get; } = new List<ServerPresentation>();
-
         [NotMapped] public IEnumerable<Presentation> Presentations => ServerPresentations.Select(s => s.Presentation);
-
         public void AddPresentation(Presentation presentation) => ServerPresentations.Add(new ServerPresentation(this, presentation));
     }
 
     internal class ServerSimulation
     {
+        private ServerSimulation()
+        {
+        }
+
         public ServerSimulation(Server server, Simulation simulation)
         {
             Server = server;
@@ -42,6 +42,10 @@ namespace OpenSim.Portal.Model
 
     internal class ServerPresentation
     {
+        private ServerPresentation()
+        {
+        }
+
         public ServerPresentation(Server server, Presentation presentation)
         {
             Server = server;

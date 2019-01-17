@@ -16,9 +16,9 @@ namespace OpenSim.Portal.Model
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ServerSimulation>()
-                .HasKey(e => new { e.Server, e.Simulation });
+                .HasKey(e => new { e.ServerId, e.SimulationId });
             builder.Entity<ServerPresentation>()
-                .HasKey(e => new { e.Server, e.Presentation });
+                .HasKey(e => new { e.ServerId, e.PresentationId });
 
             builder.Entity<SimulationReference>()
                 .HasKey(e => new { e.SimulationId, e.ReferenceId });

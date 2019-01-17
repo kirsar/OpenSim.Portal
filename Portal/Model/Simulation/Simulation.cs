@@ -27,6 +27,10 @@ namespace OpenSim.Portal.Model
 
     internal class SimulationReference
     {
+        private SimulationReference()
+        {
+        }
+
         public SimulationReference(Simulation simulation, Simulation reference)
         {
             Simulation = simulation;
@@ -43,6 +47,10 @@ namespace OpenSim.Portal.Model
 
     internal class SimulationPresentation
     {
+        private SimulationPresentation()
+        {
+        }
+
         public SimulationPresentation(Simulation simulation, Presentation presentation)
         {
             Simulation = simulation;
