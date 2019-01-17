@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers
@@ -14,26 +15,28 @@ namespace OpenSim.Portal.Controllers
             this.model = model;
         }
 
-        public abstract void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema);
+        public abstract void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema,
+            UserManager<Model.User> userManager);
 
         protected internal void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema, 
-            ResourceEmbeddedRelationsSchema<TResource, TModel> resourceSchema)
-        {
+            ResourceEmbeddedRelationsSchema<TResource, TModel> resourceSchema, UserManager<Model.User> userManager)
+        { 
             foreach (var relationNode in embeddedFieldNode.Nodes)
-                EmbedRelation(relationNode, schema, resourceSchema);
+                EmbedRelation(relationNode, schema, resourceSchema, userManager);
         }
 
         private void EmbedRelation(FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema, 
-            ResourceEmbeddedRelationsSchema<TResource, TModel> resourceSchema)
+            ResourceEmbeddedRelationsSchema<TResource, TModel> resourceSchema, UserManager<Model.User> userManager)
         {
-            var relation = resourceSchema[relationNode.Value]((TResource)this, model, relationNode.Value);
+            var relation = resourceSchema[relationNode.Value]((TResource)this, model, relationNode.Value, userManager);
             if (relation == null)
                 return;
 
-            EmbedRelationsOfRelation(relation, relationNode, schema);
+            EmbedRelationsOfRelation(relation, relationNode, schema, userManager);
         }
 
-        private static void EmbedRelationsOfRelation(object relation, FieldsTreeNode relationNode, IEmbeddedRelationsSchema schema)
+        private static void EmbedRelationsOfRelation(object relation, FieldsTreeNode relationNode,
+            IEmbeddedRelationsSchema schema, UserManager<Model.User> userManager)
         {
             var embeddedOfRelation = relationNode.Nodes.GetEmbeddedFieldNode();
             if (embeddedOfRelation == null)
@@ -41,9 +44,9 @@ namespace OpenSim.Portal.Controllers
 
             if (relation is IEnumerable<IResourceWithRelations> relations)
                 foreach (var item in relations)
-                    item.EmbedRelations(embeddedOfRelation, schema);
+                    item.EmbedRelations(embeddedOfRelation, schema, userManager);
             else
-                ((IResourceWithRelations) relation).EmbedRelations(embeddedOfRelation, schema);
+                ((IResourceWithRelations) relation).EmbedRelations(embeddedOfRelation, schema, userManager);
         }
     }
 }

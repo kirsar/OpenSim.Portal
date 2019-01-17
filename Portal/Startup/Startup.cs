@@ -49,8 +49,8 @@ namespace OpenSim.Portal.Startup
 
             services.AddDbContext<PortalDbContext>(builder =>
                 builder.UseSqlServer(Configuration["Data:ConnectionString"]));
-            services.AddTransient<IServerRepository, ServerRepositoryStub>();
-            services.AddTransient<ISimulationRepository, SimulationRepositoryStub>();
+            services.AddTransient<IServerRepository, ServerRepository>();
+            services.AddTransient<ISimulationRepository, SimulationRepository>();
             services.AddTransient<IPresentationRepository, PresentationRepository>();
 
             services.AddSingleton<IEmbeddedRelationsSchema, EmbeddedRelationsSchema>();

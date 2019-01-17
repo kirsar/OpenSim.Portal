@@ -10,8 +10,8 @@ namespace OpenSim.Portal.Controllers.Server
     {
         public ServerEmbeddedRelationSchema()
         {
-            RegisterEmbeddedRelation(LinkTemplates.Servers.Author.Rel, (resource, model, relationName) =>
-                resource.Author = new UserInfoResource(model.Author, relationName));
+            RegisterEmbeddedRelation(LinkTemplates.Servers.Author.Rel, (resource, model, relationName, userManager) =>
+                resource.Author = new UserInfoResource(userManager.Users.Single(u => u.Id == model.AuthorId), relationName));
 
             RegisterEmbeddedRelation(LinkTemplates.Servers.GetSimulations.Rel, (resource, model, relationName) =>
                 resource.Simulations = new ResourceList<SimulationResource>(relationName,

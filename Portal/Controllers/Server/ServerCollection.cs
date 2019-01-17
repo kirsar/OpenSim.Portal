@@ -14,7 +14,7 @@ namespace OpenSim.Portal.Controllers.Server
 
         public override string Href
         {
-            get => LinkTemplates.Servers.GetServers.Href;
+            get => LinkTemplates.Servers.Get.Href;
             set { }
         }
 

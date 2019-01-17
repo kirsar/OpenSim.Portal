@@ -5,9 +5,9 @@ namespace OpenSim.Portal.Model
     public interface IPresentationRepository
     {
         IQueryable<Presentation> GetAll();
-        Presentation Get(long id);
-        void Add(Presentation simulation);
-        Presentation Remove(long id);
+        Presentation Get(int id);
+        void Add(Presentation presentation);
+        Presentation Remove(int id);
         void Update(Presentation simulation);
     }
 }

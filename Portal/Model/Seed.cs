@@ -87,7 +87,7 @@ namespace OpenSim.Portal.Model
                                   "such as drifting or" + DummyText,
                     AuthorId = corporation.Id,
                 };
-                seaCurrent.Presentations.Add(chart);
+                seaCurrent.AddPresentation(chart);
 
                 var simpleShip = new Simulation
                 {
@@ -97,13 +97,11 @@ namespace OpenSim.Portal.Model
                     AuthorId = user.Id,
                 };
 
-                simpleShip.References = new List<SimulationReference>
-                {
-                    new SimulationReference {Simulation = simpleShip, Reference = seaCurrent}
-                };
-
-                simpleShip.Presentations.Add(chart);
-                simpleShip.Presentations.Add(steeringPanel);
+                simpleShip.AddReference(simpleShip);
+                simpleShip.AddReference(seaCurrent);
+                
+                simpleShip.AddPresentation(chart);
+                simpleShip.AddPresentation(steeringPanel);
 
                 var dummy1 = new Simulation
                 {
@@ -144,14 +142,14 @@ namespace OpenSim.Portal.Model
                     AuthorId = corporation.Id,
                 };
 
-                server1.Simulations.Add(simpleShip);
-                server1.Simulations.Add(seaCurrent);
-                server1.Simulations.Add(dummy1);
-                server1.Simulations.Add(dummy2);
-                server1.Simulations.Add(dummy3);
-
-                server1.Presentations.Add(chart);
-                server1.Presentations.Add(steeringPanel);
+                server1.AddSimulation(simpleShip);
+                server1.AddSimulation(seaCurrent);
+                server1.AddSimulation(dummy1);
+                server1.AddSimulation(dummy2);
+                server1.AddSimulation(dummy3);
+                        
+                server1.AddPresentation(chart);
+                server1.AddPresentation(steeringPanel);
 
                 var server2 = new Server
                 {
@@ -160,7 +158,7 @@ namespace OpenSim.Portal.Model
                     AuthorId = user.Id,
                 };
 
-                server2.Simulations.Add(experimentalBuoy);
+                server2.AddSimulation(experimentalBuoy);
 
                 var simulations = services.GetService<ISimulationRepository>();
                 var presentations = services.GetService<IPresentationRepository>();

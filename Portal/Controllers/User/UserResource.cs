@@ -22,11 +22,11 @@ namespace OpenSim.Portal.Controllers.User
 
         #region HAL
 
-        public override string Rel { get; set; } = LinkTemplates.Users.User.Rel;
+        public override string Rel { get; set; } = LinkTemplates.Users.GetItem.Rel;
 
         public override string Href
         {
-            get => LinkTemplates.Users.User.CreateLink(new { id = Id }).Href;
+            get => LinkTemplates.Users.GetItem.CreateLink(new { id = Id }).Href;
             set { }
         }
 

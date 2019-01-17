@@ -17,7 +17,7 @@ namespace OpenSim.Portal.Model
             presentations[id] = presentation;
         }
 
-        public Presentation Get(long id)
+        public Presentation Get(int id)
         {
             presentations.TryGetValue(id, out var presentation);
             return presentation;
@@ -25,7 +25,7 @@ namespace OpenSim.Portal.Model
 
         public IQueryable<Presentation> GetAll() => presentations.Values.AsQueryable();
 
-        public Presentation Remove(long id)
+        public Presentation Remove(int id)
         {
             presentations.TryRemove(id, out var presentation);
             return presentation;

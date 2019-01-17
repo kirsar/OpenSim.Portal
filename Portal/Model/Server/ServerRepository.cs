@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using OpenSim.Portal.Model;
 
 namespace OpenSim.Portal.Model
 {
@@ -12,17 +11,15 @@ namespace OpenSim.Portal.Model
 
         public IQueryable<Server> GetAll() => context.Servers;
 
-        public Server Get(long id)
-        {
-            throw new System.NotImplementedException();
-        }
+        public Server Get(int id) => context.Servers.Find(id);
 
         public void Add(Server server)
         {
-            throw new System.NotImplementedException();
+            context.Servers.Add(server);
+            context.SaveChanges();
         }
 
-        public Server Remove(long id)
+        public Server Remove(int id)
         {
             throw new System.NotImplementedException();
         }

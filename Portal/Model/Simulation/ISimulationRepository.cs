@@ -5,9 +5,9 @@ namespace OpenSim.Portal.Model
     public interface ISimulationRepository
     {
         IQueryable<Simulation> GetAll();
-        Simulation Get(long id);
+        Simulation Get(int id);
         void Add(Simulation simulation);
-        Simulation Remove(long id);
+        Simulation Remove(int id);
         void Update(Simulation simulation);
     }
 }

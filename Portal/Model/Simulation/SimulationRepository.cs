@@ -10,19 +10,32 @@ namespace OpenSim.Portal.Model
             this.context = context;
         }
 
-        public IQueryable<Simulation> GetAll() => context.Simulations;
-
-        public Simulation Get(long id)
+        public IQueryable<Simulation> GetAll()
         {
-            throw new System.NotImplementedException();
+            var simulations = context.Simulations;
+
+            // for now fetching other way many to many relation always,
+            // but can improve and request only if embedded resource requested
+            foreach (var simulation in simulations)
+                QueryConsumers(simulation);
+
+            return simulations;
+        }
+
+        public Simulation Get(int id)
+        {
+            var simulation = context.Simulations.Find(id);
+            QueryConsumers(simulation);
+            return simulation;
         }
 
         public void Add(Simulation simulation)
         {
-            throw new System.NotImplementedException();
+            context.Simulations.Add(simulation);
+            context.SaveChanges();
         }
 
-        public Simulation Remove(long id)
+        public Simulation Remove(int id)
         {
             throw new System.NotImplementedException();
         }
@@ -31,6 +44,9 @@ namespace OpenSim.Portal.Model
         {
             throw new System.NotImplementedException();
         }
+
+        private void QueryConsumers(Simulation simulation) => 
+            simulation.Consumers = context.Simulations.Where(s => s.References.Contains(s));
 
         private readonly PortalDbContext context;
     }

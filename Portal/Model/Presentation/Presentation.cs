@@ -10,5 +10,8 @@ namespace OpenSim.Portal.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public long AuthorId { get; set; }
+
+        [NotMapped]
+        public IEnumerable<Simulation> Simulations { get; set; }
     }
 }

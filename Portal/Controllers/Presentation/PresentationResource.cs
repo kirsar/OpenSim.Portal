@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using OpenSim.Portal.Controllers.Simulation;
 using OpenSim.Portal.Controllers.User;
 
@@ -25,20 +26,23 @@ namespace OpenSim.Portal.Controllers.Presentation
         public UserInfoResource Author { get; set; }
         public IEnumerable<SimulationResource> Simulations { get; set; }
 
-        public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
-            EmbedRelations(embeddedFieldNode, schema, schema.Presentation);
+        public override void EmbedRelations(
+            FieldsTreeNode embeddedFieldNode, 
+            IEmbeddedRelationsSchema schema,
+            UserManager<Model.User> userManager) =>
+            EmbedRelations(embeddedFieldNode, schema, schema.Presentation, userManager);
         
         #region HAL
 
         public override string Rel
         {
-            get => LinkTemplates.Presentations.GetPresentation.Rel;
+            get => LinkTemplates.Presentations.GetItem.Rel;
             set { }
         }
 
         public override string Href
         {
-            get => LinkTemplates.Presentations.GetPresentation.CreateLink(new { id = Id }).Href;
+            get => LinkTemplates.Presentations.GetItem.CreateLink(new { id = Id }).Href;
             set { }
         }
 

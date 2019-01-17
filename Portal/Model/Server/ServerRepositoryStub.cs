@@ -18,7 +18,7 @@ namespace OpenSim.Portal.Model
             servers[id] = server;
         }
 
-        public Server Get(long id)
+        public Server Get(int id)
         {
             servers.TryGetValue(id, out var server);
             return server;
@@ -26,7 +26,7 @@ namespace OpenSim.Portal.Model
 
         public IQueryable<Server> GetAll() => servers.Values.AsQueryable();
 
-        public Server Remove(long id)
+        public Server Remove(int id)
         {
             servers.TryRemove(id, out var server);
             return server;
