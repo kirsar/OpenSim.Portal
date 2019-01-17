@@ -10,10 +10,10 @@ namespace OpenSim.Portal.Controllers.Authentication
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AuthenticationController : Controller
     {
-        private readonly UserManager<Model.User.User> userManager;
-        private readonly SignInManager<Model.User.User> signInManager;
+        private readonly UserManager<Model.User> userManager;
+        private readonly SignInManager<Model.User> signInManager;
 
-        public AuthenticationController(UserManager<Model.User.User> userManager, SignInManager<Model.User.User> signInManager)
+        public AuthenticationController(UserManager<Model.User> userManager, SignInManager<Model.User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;

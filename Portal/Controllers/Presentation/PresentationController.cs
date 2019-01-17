@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using OpenSim.Portal.Model.Presentation;
+using OpenSim.Portal.Model;
 
 namespace OpenSim.Portal.Controllers.Presentation
 {
@@ -43,7 +43,7 @@ namespace OpenSim.Portal.Controllers.Presentation
             if (presentation == null)
                 return BadRequest();
 
-            repo.Add(new Model.Presentation.Presentation
+            repo.Add(new Model.Presentation
             {
                 Name = presentation.Name,
                 // TODO

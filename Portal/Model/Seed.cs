@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using OpenSim.Portal.Model.Presentation;
-using OpenSim.Portal.Model.Server;
-using OpenSim.Portal.Model.Simulation;
 
 namespace OpenSim.Portal.Model
 {
@@ -27,16 +26,16 @@ namespace OpenSim.Portal.Model
             {
                 var provider = scope.ServiceProvider;
                 
-                var userManager = provider.GetService<UserManager<User.User>>();
+                var userManager = provider.GetService<UserManager<User>>();
                 var roleManager = provider.GetService<RoleManager<IdentityRole<long>>>();
 
                 await roleManager.CreateAsync(new IdentityRole<long>(UserRole));
 
-                var user1 = new User.User(User1, User1Description);
+                var user1 = new User(User1, User1Description);
                 ThrowIfError(await userManager.CreateAsync(user1, User1Password));
                 ThrowIfError(await userManager.AddToRoleAsync(user1, UserRole));
 
-                var user2 = new User.User(User2, User2Description);
+                var user2 = new User(User2, User2Description);
                 ThrowIfError(await userManager.CreateAsync(user2, User2Password));
                 ThrowIfError(await userManager.AddToRoleAsync(user2, UserRole));
             }
@@ -55,98 +54,113 @@ namespace OpenSim.Portal.Model
             {
                 var services = scope.ServiceProvider;
 
-                var userManager = services.GetService<UserManager<User.User>>();
+                var context = services.GetService<PortalDbContext>();
+                context.Database.Migrate();
 
+                if (context.Servers.Any())
+                    return;
+
+                var userManager = services.GetService<UserManager<User>>();
                 var user = await userManager.FindByNameAsync(User1);
                 var corporation = await userManager.FindByNameAsync(User2);
 
-                var seaCurrent = new Simulation.Simulation
+                // presentations
+                var chart = new Presentation
+                {
+                    Name = "Chart",
+                    Description = "Electronic chart in Mercator projection",
+                    AuthorId = corporation.Id,
+                };
+
+                var steeringPanel = new Presentation
+                {
+                    Name = "Steering Device",
+                    Description = "Basic steering panel with throttle and rudder control",
+                    AuthorId = user.Id,
+                };
+
+                // simulations
+                var seaCurrent = new Simulation
                 {
                     Name = "Sea Current",
                     Description = "Engine to provide sea current effects, applied to floating objects, " +
                                   "such as drifting or" + DummyText,
-                    Author = corporation,
+                    AuthorId = corporation.Id,
                 };
+                seaCurrent.Presentations.Add(chart);
 
-                var simpleShip = new Simulation.Simulation
+                var simpleShip = new Simulation
                 {
                     Name = "Simple Ship",
                     Description = "Simulation of simple ship without any mechanics or hydrodynamics. " +
                                   "Can be used to emulate far distance traffic" + DummyText,
-                    Author = user,
-                    References = new[] {seaCurrent}
+                    AuthorId = user.Id,
                 };
 
-                seaCurrent.Consumers = new[] {simpleShip};
+                simpleShip.References = new List<SimulationReference>
+                {
+                    new SimulationReference {Simulation = simpleShip, Reference = seaCurrent}
+                };
 
-                var dummy1 = new Simulation.Simulation
+                simpleShip.Presentations.Add(chart);
+                simpleShip.Presentations.Add(steeringPanel);
+
+                var dummy1 = new Simulation
                 {
                     Name = "Dummy Simulation 1",
                     Description = "Simulation of something without anything. " +
                                   "Can be used to emulate something" + DummyText,
-                    Author = user,
+                    AuthorId = user.Id,
                 };
 
-                var dummy2 = new Simulation.Simulation
+                var dummy2 = new Simulation
                 {
                     Name = "Dummy Simulation 2",
                     Description = "Simulation of something without anything. " +
                                   "Can be used to emulate something" + DummyText,
-                    Author = user,
+                    AuthorId = user.Id,
                 };
 
-                var dummy3 = new Simulation.Simulation
+                var dummy3 = new Simulation
                 {
                     Name = "Dummy Simulation 3",
                     Description = "Simulation of something without anything. " +
                                   "Can be used to emulate something" + DummyText,
-                    Author = user,
+                    AuthorId = user.Id,
                 };
 
-                var experimentalBuoy = new Simulation.Simulation
+                var experimentalBuoy = new Simulation
                 {
                     Name = "Hydrodynamic buoy",
                     Description = "Experimental model of buoy with full hydrodynamics",
-                    Author = user,
+                    AuthorId = user.Id,
                 };
 
-                var chart = new Presentation.Presentation
-                {
-                    Name = "Chart",
-                    Description = "Electronic chart in Mercator projection",
-                    Author = corporation,
-                    Simulations = new[] {simpleShip, seaCurrent}
-                };
-
-                var steeringPanel = new Presentation.Presentation
-                {
-                    Name = "Steering Device",
-                    Description = "Basic steering panel with throttle and rudder control",
-                    Author = user,
-                    Simulations = new[] {simpleShip}
-                };
-
-                simpleShip.Presentations = new[] {steeringPanel, chart};
-                seaCurrent.Presentations = new[] {chart};
-
-                var runningServer = new Server.Server
+                // servers
+                var server1 = new Server
                 {
                     Name = "Just some server",
                     Description = "Server to have some data available to test portal front-end",
-                    IsRunning = true,
-                    Author = corporation,
-                    Simulations = new[] {simpleShip, seaCurrent, dummy1, dummy2, dummy3},
-                    Presentations = new[] {steeringPanel, chart}
+                    AuthorId = corporation.Id,
                 };
 
-                var stoppedServer = new Server.Server
+                server1.Simulations.Add(simpleShip);
+                server1.Simulations.Add(seaCurrent);
+                server1.Simulations.Add(dummy1);
+                server1.Simulations.Add(dummy2);
+                server1.Simulations.Add(dummy3);
+
+                server1.Presentations.Add(chart);
+                server1.Presentations.Add(steeringPanel);
+
+                var server2 = new Server
                 {
                     Name = "Another test server",
                     Description = "One more entry to test portal front-end",
-                    Author = user,
-                    IsRunning = false,
-                    Simulations = new[] {experimentalBuoy}
+                    AuthorId = user.Id,
                 };
+
+                server2.Simulations.Add(experimentalBuoy);
 
                 var simulations = services.GetService<ISimulationRepository>();
                 var presentations = services.GetService<IPresentationRepository>();
@@ -162,8 +176,10 @@ namespace OpenSim.Portal.Model
                 presentations.Add(chart);
                 presentations.Add(steeringPanel);
 
-                servers.Add(runningServer);
-                servers.Add(stoppedServer);
+                servers.Add(server1);
+                servers.Add(server2);
+
+                context.SaveChanges();
             }
         }
 

@@ -1,33 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OpenSim.Portal.Model.Server
+namespace OpenSim.Portal.Model
 {
     public class Server
     {
-        private ICollection<Simulation.Simulation> simulations = new List<Simulation.Simulation>();
-        private ICollection<Presentation.Presentation> presentations = new List<Presentation.Presentation>();
+        public Server()
+        {
+            Simulations = new JoinCollectionFacade<Simulation, Server, JoinEntity<Server, Simulation>>(this, ServerSimulations);
+            Presentations = new JoinCollectionFacade<Presentation, Server, JoinEntity<Server, Presentation>>(this, ServerPresentations);
+        }
 
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsRunning { get; set; }
-        public bool IsCustomUiAvailable { get; set; }
-        public User.User Author { get; set; }
+        public long AuthorId { get; set; }
 
-        public IEnumerable<Simulation.Simulation> Simulations
-        {
-            get => simulations;
-            set => simulations = value.ToList();
-        }
+        private ICollection<JoinEntity<Server, Simulation>> ServerSimulations { get; } = new List<JoinEntity<Server, Simulation>>();
 
-        public IEnumerable<Presentation.Presentation> Presentations
-        {
-            get => presentations;
-            set => presentations = value.ToList();
-        }
+        [NotMapped]
+        public ICollection<Simulation> Simulations { get; }
 
-        public void AddSimulation(Simulation.Simulation simulation) => simulations.Add(simulation);
-        public void AddPresentation(Presentation.Presentation presentation) => presentations.Add(presentation);
+        private ICollection<JoinEntity<Server, Presentation>> ServerPresentations { get; } = new List<JoinEntity<Server, Presentation>>();
+
+        [NotMapped]
+        public ICollection<Presentation> Presentations { get; }
+
+        public void AddSimulation(Simulation simulation) => Simulations.Add(simulation);
+        public void AddPresentation(Presentation presentation) => Presentations.Add(presentation);
     }
 }

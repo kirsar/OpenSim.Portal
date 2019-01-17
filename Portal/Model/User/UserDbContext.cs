@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace OpenSim.Portal.Model.User
+namespace OpenSim.Portal.Model
 {
     public class UserDbContext : IdentityDbContext<User, IdentityRole<long>, long>
     {

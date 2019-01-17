@@ -5,7 +5,7 @@ using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Simulation
 {
-    public class SimulationEmbeddedRelationSchema : ResourceEmbeddedRelationsSchema<SimulationResource, Model.Simulation.Simulation>
+    public class SimulationEmbeddedRelationSchema : ResourceEmbeddedRelationsSchema<SimulationResource, Model.Simulation>
     {
         public SimulationEmbeddedRelationSchema()
         {

@@ -10,10 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenSim.Portal.Controllers;
 using OpenSim.Portal.Model;
-using OpenSim.Portal.Model.Presentation;
-using OpenSim.Portal.Model.Server;
-using OpenSim.Portal.Model.Simulation;
-using OpenSim.Portal.Model.User;
 
 namespace OpenSim.Portal.Startup
 {

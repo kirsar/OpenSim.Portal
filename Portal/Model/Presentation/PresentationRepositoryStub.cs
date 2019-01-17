@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
 
-namespace OpenSim.Portal.Model.Presentation
+namespace OpenSim.Portal.Model
 {
     public class PresentationRepositoryStub : IPresentationRepository
     {

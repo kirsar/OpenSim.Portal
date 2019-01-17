@@ -5,7 +5,7 @@ using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Presentation
 {
-    public class PresentationEmbeddedRelationSchema : ResourceEmbeddedRelationsSchema<PresentationResource, Model.Presentation.Presentation>
+    public class PresentationEmbeddedRelationSchema : ResourceEmbeddedRelationsSchema<PresentationResource, Model.Presentation>
     {
         public PresentationEmbeddedRelationSchema()
         {

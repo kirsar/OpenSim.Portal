@@ -4,16 +4,16 @@ using OpenSim.Portal.Controllers.User;
 
 namespace OpenSim.Portal.Controllers.Presentation
 {
-    public sealed class PresentationResource : ResourceWithRelations<PresentationResource, Model.Presentation.Presentation>
+    public sealed class PresentationResource : ResourceWithRelations<PresentationResource, Model.Presentation>
     {
-        private readonly Model.Presentation.Presentation presentation;
+        private readonly Model.Presentation presentation;
 
-        public PresentationResource(Model.Presentation.Presentation presentation) : base(presentation)
+        public PresentationResource(Model.Presentation presentation) : base(presentation)
         {
             this.presentation = presentation;
         }
 
-        public PresentationResource(Model.Presentation.Presentation presentation, string relationName) : this(presentation)
+        public PresentationResource(Model.Presentation presentation, string relationName) : this(presentation)
         {
             Rel = relationName;
         }

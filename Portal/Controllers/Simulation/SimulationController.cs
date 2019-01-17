@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using OpenSim.Portal.Controllers.Presentation;
-using OpenSim.Portal.Model.Simulation;
+using OpenSim.Portal.Model;
 
 namespace OpenSim.Portal.Controllers.Simulation
 {
@@ -13,12 +13,12 @@ namespace OpenSim.Portal.Controllers.Simulation
     public class SimulationsController : Controller
     {
         private readonly ISimulationRepository simulationRepo;
-        private readonly UserManager<Model.User.User> userManager;
+        private readonly UserManager<Model.User> userManager;
         private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
         public SimulationsController(
             ISimulationRepository simulationRepo, 
-            UserManager<Model.User.User> userManager, 
+            UserManager<Model.User> userManager, 
             IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.simulationRepo = simulationRepo;
@@ -79,7 +79,7 @@ namespace OpenSim.Portal.Controllers.Simulation
         {
             var simulations = simulationRepo.GetAll();
 
-            var simulation = new Model.Simulation.Simulation
+            var simulation = new Model.Simulation
             {
                 Name = json["name"].Value<string>(),
                 Description = json["description"].Value<string>(),

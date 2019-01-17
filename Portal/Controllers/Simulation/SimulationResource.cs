@@ -4,16 +4,16 @@ using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Simulation
 {
-    public sealed class SimulationResource : ResourceWithRelations<SimulationResource, Model.Simulation.Simulation>
+    public sealed class SimulationResource : ResourceWithRelations<SimulationResource, Model.Simulation>
     {
-        private readonly Model.Simulation.Simulation simulation;
+        private readonly Model.Simulation simulation;
 
-        public SimulationResource(Model.Simulation.Simulation simulation) : base(simulation)
+        public SimulationResource(Model.Simulation simulation) : base(simulation)
         {
             this.simulation = simulation;
         }
 
-        public SimulationResource(Model.Simulation.Simulation simulation, string relationName) : this(simulation)
+        public SimulationResource(Model.Simulation simulation, string relationName) : this(simulation)
         {
             Rel = relationName;
         }

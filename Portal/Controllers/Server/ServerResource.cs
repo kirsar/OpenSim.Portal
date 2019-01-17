@@ -5,15 +5,15 @@ using OpenSim.Portal.Controllers.User;
 
 namespace OpenSim.Portal.Controllers.Server
 {
-    public class ServerResource : ResourceWithRelations<ServerResource, Model.Server.Server>
+    public class ServerResource : ResourceWithRelations<ServerResource, Model.Server>
     {
-        private readonly Model.Server.Server server;
+        private readonly Model.Server server;
      
         public ServerResource() : base(null)
         {
         }
 
-        public ServerResource(Model.Server.Server server) : base(server)
+        public ServerResource(Model.Server server) : base(server)
         {
             this.server = server;
 

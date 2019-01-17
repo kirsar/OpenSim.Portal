@@ -9,9 +9,9 @@ namespace OpenSim.Portal.Controllers.User
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UsersController : Controller
     {
-        private readonly UserManager<Model.User.User> userManager;
+        private readonly UserManager<Model.User> userManager;
        
-        public UsersController(UserManager<Model.User.User> userManager)
+        public UsersController(UserManager<Model.User> userManager)
         {
             this.userManager = userManager;
         }

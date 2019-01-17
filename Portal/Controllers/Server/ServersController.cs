@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenSim.Portal.Controllers.Presentation;
 using OpenSim.Portal.Controllers.Simulation;
-using OpenSim.Portal.Model.Presentation;
-using OpenSim.Portal.Model.Server;
-using OpenSim.Portal.Model.Simulation;
+using OpenSim.Portal.Model;
 
 namespace OpenSim.Portal.Controllers.Server
 {
@@ -18,14 +16,14 @@ namespace OpenSim.Portal.Controllers.Server
         private readonly IServerRepository serversRepo;
         private readonly ISimulationRepository simulationsRepo;
         private readonly IPresentationRepository presentationsRepo;
-        private readonly UserManager<Model.User.User> userManager;
+        private readonly UserManager<Model.User> userManager;
         private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
         public ServersController(
             IServerRepository serversRepo,
             ISimulationRepository simulationsRepo,
             IPresentationRepository presentationsRepo,
-            UserManager<Model.User.User> userManager,
+            UserManager<Model.User> userManager,
             IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.serversRepo = serversRepo;
@@ -91,7 +89,7 @@ namespace OpenSim.Portal.Controllers.Server
         // TODO handle errors
         private long AddToRepo(ServerResource serverResource)
         {
-            var server = new Model.Server.Server
+            var server = new Model.Server
             {
                 Name = serverResource.Name,
                 Description = serverResource.Description,

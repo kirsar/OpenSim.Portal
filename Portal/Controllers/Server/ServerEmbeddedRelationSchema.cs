@@ -6,7 +6,7 @@ using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Server
 {
-    public class ServerEmbeddedRelationSchema : ResourceEmbeddedRelationsSchema<ServerResource, Model.Server.Server>
+    public class ServerEmbeddedRelationSchema : ResourceEmbeddedRelationsSchema<ServerResource, Model.Server>
     {
         public ServerEmbeddedRelationSchema()
         {

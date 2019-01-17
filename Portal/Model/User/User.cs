@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace OpenSim.Portal.Model.User
+namespace OpenSim.Portal.Model
 {
     public sealed class User : IdentityUser<long>
     {

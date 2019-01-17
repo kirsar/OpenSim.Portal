@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OpenSim.Portal.Model.Server
+namespace OpenSim.Portal.Model
 {
     public class ServerRepositoryStub : IServerRepository
     {

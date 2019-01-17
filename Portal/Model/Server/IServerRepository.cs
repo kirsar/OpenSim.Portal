@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace OpenSim.Portal.Model.Server
+namespace OpenSim.Portal.Model
 {
     public interface IServerRepository
     {

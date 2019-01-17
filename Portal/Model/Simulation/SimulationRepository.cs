@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using OpenSim.Portal.Model.User;
+using OpenSim.Portal.Model;
 
-namespace OpenSim.Portal.Model.Simulation
+namespace OpenSim.Portal.Model
 {
     public class SimulationRepository : ISimulationRepository
     {
