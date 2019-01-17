@@ -163,14 +163,14 @@ namespace OpenSim.Portal.Migrations
             modelBuilder.Entity("OpenSim.Portal.Model.SimulationReference", b =>
                 {
                     b.HasOne("OpenSim.Portal.Model.Simulation", "Reference")
-                        .WithMany()
+                        .WithMany("SimulationReferencesBackRef")
                         .HasForeignKey("ReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OpenSim.Portal.Model.Simulation", "Simulation")
-                        .WithMany()
+                        .WithMany("SimulationReferences")
                         .HasForeignKey("SimulationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

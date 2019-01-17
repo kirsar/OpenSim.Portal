@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace OpenSim.Portal.Model
 {
@@ -9,7 +10,9 @@ namespace OpenSim.Portal.Model
             this.context = context;
         }
 
-        public IQueryable<Server> GetAll() => context.Servers;
+        public IQueryable<Server> GetAll() => context.Servers
+            .Include(e => e.Simulations)
+            .Include(e => e.Presentations);
 
         public Server Get(int id) => context.Servers.Find(id);
 

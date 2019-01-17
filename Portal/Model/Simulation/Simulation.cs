@@ -7,22 +7,25 @@ namespace OpenSim.Portal.Model
 {
     public class Simulation
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public long AuthorId { get; set; }
 
-        private ICollection<SimulationReference> SimulationReferences { get; } = new List<SimulationReference>();
+        internal ICollection<SimulationReference> SimulationReferences { get; } = new List<SimulationReference>();
         [NotMapped] public IEnumerable<Simulation> References => SimulationReferences.Select(p => p.Reference);
         public void AddReference(Simulation reference) => SimulationReferences.Add(new SimulationReference(this, reference));
 
-
-        private ICollection<SimulationPresentation> SimulationPresentations { get; } = new List<SimulationPresentation>();
+        internal ICollection<SimulationPresentation> SimulationPresentations { get; } = new List<SimulationPresentation>();
         [NotMapped] public IEnumerable<Presentation> Presentations => SimulationPresentations.Select(p => p.Presentation);
         public void AddPresentation(Presentation presentation) => SimulationPresentations.Add(new SimulationPresentation(this, presentation));
 
         [NotMapped]
         public IEnumerable<Simulation> Consumers { get; set; }
+
+        internal ICollection<ServerSimulation> ServerSimulationsBackRef { get; set; }
+        internal ICollection<SimulationReference> SimulationReferencesBackRef { get; set; }
     }
 
     internal class SimulationReference

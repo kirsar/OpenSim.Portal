@@ -139,13 +139,13 @@ namespace OpenSim.Portal.Migrations
                         column: x => x.ReferenceId,
                         principalTable: "Simulations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SimulationReference_Simulations_SimulationId",
                         column: x => x.SimulationId,
                         principalTable: "Simulations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

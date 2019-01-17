@@ -6,7 +6,8 @@ namespace OpenSim.Portal.Model
 {
     public class UserDbContext : IdentityDbContext<User, IdentityRole<long>, long>
     {
-        public UserDbContext(DbContextOptions options) : base(options)
+        // ReSharper disable once SuggestBaseTypeForParameter
+        public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
         {
         }
     }

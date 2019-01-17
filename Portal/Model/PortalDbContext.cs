@@ -5,7 +5,8 @@ namespace OpenSim.Portal.Model
 {
     public class PortalDbContext : DbContext
     {
-        public PortalDbContext(DbContextOptions options) : base(options)
+        // ReSharper disable once SuggestBaseTypeForParameter
+        public PortalDbContext(DbContextOptions<PortalDbContext> options) : base(options)
         {
         }
 
@@ -22,6 +23,17 @@ namespace OpenSim.Portal.Model
 
             builder.Entity<SimulationReference>()
                 .HasKey(e => new { e.SimulationId, e.ReferenceId });
+            builder.Entity<SimulationReference>()
+                .HasOne(bc => bc.Simulation)
+                .WithMany(b => b.SimulationReferences)
+                .HasForeignKey(bc => bc.SimulationId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<SimulationReference>()
+                .HasOne(bc => bc.Reference)
+                .WithMany(c => c.SimulationReferencesBackRef)
+                .HasForeignKey(bc => bc.ReferenceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<SimulationPresentation>()
                 .HasKey(e => new { e.SimulationId, e.PresentationId });
         }

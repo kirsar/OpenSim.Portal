@@ -9,7 +9,7 @@ using OpenSim.Portal.Model;
 namespace OpenSim.Portal.Migrations
 {
     [DbContext(typeof(PortalDbContext))]
-    [Migration("20190117164817_Initial")]
+    [Migration("20190117171125_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,14 +165,14 @@ namespace OpenSim.Portal.Migrations
             modelBuilder.Entity("OpenSim.Portal.Model.SimulationReference", b =>
                 {
                     b.HasOne("OpenSim.Portal.Model.Simulation", "Reference")
-                        .WithMany()
+                        .WithMany("SimulationReferencesBackRef")
                         .HasForeignKey("ReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OpenSim.Portal.Model.Simulation", "Simulation")
-                        .WithMany()
+                        .WithMany("SimulationReferences")
                         .HasForeignKey("SimulationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

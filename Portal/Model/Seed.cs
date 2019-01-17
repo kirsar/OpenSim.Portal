@@ -160,22 +160,18 @@ namespace OpenSim.Portal.Model
 
                 server2.AddSimulation(experimentalBuoy);
 
-                var simulations = services.GetService<ISimulationRepository>();
-                var presentations = services.GetService<IPresentationRepository>();
-                var servers = services.GetService<IServerRepository>();
+                context.Simulations.Add(simpleShip);
+                context.Simulations.Add(seaCurrent);
+                context.Simulations.Add(experimentalBuoy);
+                context.Simulations.Add(dummy1);
+                context.Simulations.Add(dummy2);
+                context.Simulations.Add(dummy3);
 
-                simulations.Add(simpleShip);
-                simulations.Add(seaCurrent);
-                simulations.Add(experimentalBuoy);
-                simulations.Add(dummy1);
-                simulations.Add(dummy2);
-                simulations.Add(dummy3);
+                context.Presentations.Add(chart);
+                context.Presentations.Add(steeringPanel);
 
-                presentations.Add(chart);
-                presentations.Add(steeringPanel);
-
-                servers.Add(server1);
-                servers.Add(server2);
+                context.Servers.Add(server1);
+                context.Servers.Add(server2);
 
                 context.SaveChanges();
             }
