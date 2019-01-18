@@ -14,14 +14,15 @@ namespace OpenSim.Portal.Startup
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Env { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -41,12 +42,14 @@ namespace OpenSim.Portal.Startup
             //    options.Cookie.HttpOnly = false;
             //});
 
+            var host = Env.IsDevelopment() ? "Local" : "Docker";
+
             services.AddDbContext<PortalDbContext>(builder => 
-                builder.UseSqlServer(Configuration["Data:ConnectionString"]));
+                builder.UseSqlServer(Configuration[$"Data:{host}:ContentConnectionString"]));
 
             //services.AddDbContext<UserDbContext>(options => options.UseInMemoryDatabase("OpenSim.Portal"));
             services.AddDbContext<UserDbContext>(builder =>
-                builder.UseSqlServer(Configuration["Identity:ConnectionString"]));
+                builder.UseSqlServer(Configuration[$"Data:{host}:IdentityConnectionString"]));
             services.AddIdentity<User, IdentityRole<long>>()
                 .AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
@@ -66,9 +69,9 @@ namespace OpenSim.Portal.Startup
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (Env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions { HotModuleReplacement = true );
@@ -90,7 +93,7 @@ namespace OpenSim.Portal.Startup
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-                spa.UseAngularCliServer(env.IsDevelopment() ? "start-dev" : "start-prod");
+                spa.UseAngularCliServer(Env.IsDevelopment() ? "start-dev" : "start-prod");
             });
 
             app.Seed();

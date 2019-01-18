@@ -9,14 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DockerFile" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="DockerFile" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
