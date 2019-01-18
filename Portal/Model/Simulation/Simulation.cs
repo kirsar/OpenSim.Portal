@@ -1,26 +1,68 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace OpenSim.Portal.Model.Simulation
+namespace OpenSim.Portal.Model
 {
     public class Simulation
     {
-        public long Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public User.User Author { get; set; }
-        public IEnumerable<Simulation> References { get; set; } = new List<Simulation>();
+        public long AuthorId { get; set; }
 
-        public IList<Simulation> Consumers
+        internal ICollection<SimulationReference> SimulationReferences { get; } = new List<SimulationReference>();
+        [NotMapped] public IEnumerable<Simulation> References => SimulationReferences.Select(p => p.Reference);
+        public void AddReference(Simulation reference) => SimulationReferences.Add(new SimulationReference(this, reference));
+
+        internal ICollection<SimulationPresentation> SimulationPresentations { get; } = new List<SimulationPresentation>();
+        [NotMapped] public IEnumerable<Presentation> Presentations => SimulationPresentations.Select(p => p.Presentation);
+        public void AddPresentation(Presentation presentation) => SimulationPresentations.Add(new SimulationPresentation(this, presentation));
+
+        internal ICollection<ServerSimulation> ServerSimulationsBackRef { get; set; }
+        [NotMapped] public IEnumerable<Simulation> Consumers => SimulationReferencesBackRef.Select(p => p.Simulation);
+
+        internal ICollection<SimulationReference> SimulationReferencesBackRef { get; set; }
+    }
+
+    internal class SimulationReference
+    {
+        private SimulationReference()
         {
-            get => consumers;
-            set => consumers = value.ToList();
         }
 
-        public void AddConsumer(Simulation consumer) => consumers.Add(consumer);
+        public SimulationReference(Simulation simulation, Simulation reference)
+        {
+            Simulation = simulation;
+            Reference = reference;
+        }
 
-        public IEnumerable<Presentation.Presentation> Presentations { get; set; } = new List<Presentation.Presentation>();
+        public int SimulationId { get; set; }
+        public Simulation Simulation { get; set; }
 
-        private IList<Simulation> consumers = new List<Simulation>();
+
+        public int ReferenceId { get; set; }
+        public Simulation Reference { get; set; }
+    }
+
+    internal class SimulationPresentation
+    {
+        private SimulationPresentation()
+        {
+        }
+
+        public SimulationPresentation(Simulation simulation, Presentation presentation)
+        {
+            Simulation = simulation;
+            Presentation = presentation;
+        }
+
+        public int SimulationId { get; set; }
+        public Simulation Simulation { get; set; }
+
+
+        public int PresentationId { get; set; }
+        public Presentation Presentation { get; set; }
     }
 }

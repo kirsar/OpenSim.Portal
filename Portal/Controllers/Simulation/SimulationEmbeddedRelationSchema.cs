@@ -5,12 +5,12 @@ using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Simulation
 {
-    public class SimulationEmbeddedRelationSchema : ResourceEmbeddedRelationsSchema<SimulationResource, Model.Simulation.Simulation>
+    public class SimulationEmbeddedRelationSchema : ResourceEmbeddedRelationsSchema<SimulationResource, Model.Simulation>
     {
         public SimulationEmbeddedRelationSchema()
         {
-            RegisterEmbeddedRelation(LinkTemplates.Simulations.Author.Rel, (resource, model, relationName) => 
-                resource.Author = new UserInfoResource(model.Author, relationName));
+            RegisterEmbeddedRelation(LinkTemplates.Simulations.Author.Rel, (resource, model, relationName, userManager) => 
+                resource.Author = new UserInfoResource(userManager.Users.Single(u => u.Id == model.AuthorId), relationName));
 
             RegisterEmbeddedRelation(LinkTemplates.Simulations.GetReferences.Rel, (resource, model, relationName) => 
                 resource.References = new ResourceList<SimulationResource>(relationName, 

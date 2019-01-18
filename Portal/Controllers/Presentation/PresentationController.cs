@@ -1,6 +1,7 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using OpenSim.Portal.Model.Presentation;
+using OpenSim.Portal.Model;
 
 namespace OpenSim.Portal.Controllers.Presentation
 {
@@ -10,19 +11,24 @@ namespace OpenSim.Portal.Controllers.Presentation
     public class PresentationsController : Controller
     {
         private readonly IPresentationRepository repo;
+        private readonly UserManager<Model.User> userManager;
         private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
-        public PresentationsController(IPresentationRepository repo, IEmbeddedRelationsSchema embeddedRelationsSchema)
+        public PresentationsController(
+            IPresentationRepository repo,
+            UserManager<Model.User> userManager, 
+            IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.repo = repo;
+            this.userManager = userManager;
             this.embeddedRelationsSchema = embeddedRelationsSchema;
         }
 
         // GET: api/v1/presentations
         [HttpGet]
-        public PresentationCollection Get() => new PresentationCollection(LinkTemplates.Presentations.GetPresentations.Rel,
+        public PresentationCollection Get() => new PresentationCollection(LinkTemplates.Presentations.Get.Rel,
                 repo.GetAll().Select(presentation => new PresentationResource(presentation)))
-            .EmbedRelations(Request, embeddedRelationsSchema);
+            .EmbedRelations(Request, embeddedRelationsSchema, userManager);
 
         // GET: api/v1/presentations/5
         [HttpGet("{id}")]
@@ -33,7 +39,7 @@ namespace OpenSim.Portal.Controllers.Presentation
             if (presentation == null)
                 return NotFound();
 
-            return new PresentationResource(presentation).EmbedRelations(Request, embeddedRelationsSchema);
+            return new PresentationResource(presentation).EmbedRelations(Request, embeddedRelationsSchema, userManager);
         }
 
         // POST: api/v1/presentations/5
@@ -43,7 +49,7 @@ namespace OpenSim.Portal.Controllers.Presentation
             if (presentation == null)
                 return BadRequest();
 
-            repo.Add(new Model.Presentation.Presentation
+            repo.Add(new Model.Presentation
             {
                 Name = presentation.Name,
                 // TODO

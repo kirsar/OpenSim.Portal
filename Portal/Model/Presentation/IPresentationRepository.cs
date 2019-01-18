@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
-namespace OpenSim.Portal.Model.Presentation
+namespace OpenSim.Portal.Model
 {
     public interface IPresentationRepository
     {
-        void Add(Presentation simulation);
-        IEnumerable<Presentation> GetAll();
-        Presentation Get(long id);
-        Presentation Remove(long id);
+        IQueryable<Presentation> GetAll();
+        Presentation Get(int id);
+        void Add(Presentation presentation);
+        Presentation Remove(int id);
         void Update(Presentation simulation);
     }
 }

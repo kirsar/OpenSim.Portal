@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using OpenSim.Portal.Controllers;
 using OpenSim.Portal.Controllers.Server;
-using OpenSim.Portal.Model.Server;
-using OpenSim.Portal.Model.Simulation;
-using OpenSim.Portal.Model.User;
+using OpenSim.Portal.Model;
 using Xunit;
 
 namespace OpenSim.Portal.Test.Controllers

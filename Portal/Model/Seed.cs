@@ -1,169 +1,138 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using OpenSim.Portal.Model.Presentation;
-using OpenSim.Portal.Model.Server;
-using OpenSim.Portal.Model.Simulation;
 
 namespace OpenSim.Portal.Model
 {
     public static class Seed
     {
-        private const string User1 = "user";
-        private const string User1Password = "User123$";
-        private const string User1Description = "Regular user";
-
-        private const string User2 = "UmbrellaCorp";
-        private const string User2Password = "Umbrella123$";
-        private const string User2Description = "Huge vendor of maritime simulators";
-
-        private const string UserRole = "user";
-
-        public static async void SeedIdentity(this IApplicationBuilder app)
-        {
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var provider = scope.ServiceProvider;
-                
-                var userManager = provider.GetService<UserManager<User.User>>();
-                var roleManager = provider.GetService<RoleManager<IdentityRole<long>>>();
-
-                await roleManager.CreateAsync(new IdentityRole<long>(UserRole));
-
-                var user1 = new User.User(User1, User1Description);
-                ThrowIfError(await userManager.CreateAsync(user1, User1Password));
-                ThrowIfError(await userManager.AddToRoleAsync(user1, UserRole));
-
-                var user2 = new User.User(User2, User2Description);
-                ThrowIfError(await userManager.CreateAsync(user2, User2Password));
-                ThrowIfError(await userManager.AddToRoleAsync(user2, UserRole));
-            }
-        }
-
-        private static void ThrowIfError(IdentityResult identityResult)
-        {
-            if (!identityResult.Succeeded)
-                throw new InvalidOperationException(identityResult.Errors
-                    .Aggregate(string.Empty, (r, e) => r += $"{e.Description}. "));
-        }
-
         public static async void SeedContent(this IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
-                var userManager = services.GetService<UserManager<User.User>>();
+                var context = services.GetService<PortalDbContext>();
+                context.Database.Migrate();
 
-                var user = await userManager.FindByNameAsync(User1);
-                var corporation = await userManager.FindByNameAsync(User2);
+                if (context.Servers.Any())
+                    return;
 
-                var seaCurrent = new Simulation.Simulation
+                var userManager = services.GetService<UserManager<User>>();
+                var user = await userManager.FindByNameAsync(UserSeed.User1);
+                var corporation = await userManager.FindByNameAsync(UserSeed.User2);
+
+                // presentations
+                var chart = new Presentation
+                {
+                    Name = "Chart",
+                    Description = "Electronic chart in Mercator projection",
+                    AuthorId = corporation.Id,
+                };
+
+                var steeringPanel = new Presentation
+                {
+                    Name = "Steering Device",
+                    Description = "Basic steering panel with throttle and rudder control",
+                    AuthorId = user.Id,
+                };
+
+                // simulations
+                var seaCurrent = new Simulation
                 {
                     Name = "Sea Current",
                     Description = "Engine to provide sea current effects, applied to floating objects, " +
                                   "such as drifting or" + DummyText,
-                    Author = corporation,
+                    AuthorId = corporation.Id,
                 };
+                seaCurrent.AddPresentation(chart);
 
-                var simpleShip = new Simulation.Simulation
+                var simpleShip = new Simulation
                 {
                     Name = "Simple Ship",
                     Description = "Simulation of simple ship without any mechanics or hydrodynamics. " +
                                   "Can be used to emulate far distance traffic" + DummyText,
-                    Author = user,
-                    References = new[] {seaCurrent}
+                    AuthorId = user.Id,
                 };
 
-                seaCurrent.Consumers = new[] {simpleShip};
+                simpleShip.AddReference(seaCurrent);
+                
+                simpleShip.AddPresentation(chart);
+                simpleShip.AddPresentation(steeringPanel);
 
-                var dummy1 = new Simulation.Simulation
+                var dummy1 = new Simulation
                 {
                     Name = "Dummy Simulation 1",
                     Description = "Simulation of something without anything. " +
                                   "Can be used to emulate something" + DummyText,
-                    Author = user,
+                    AuthorId = user.Id,
                 };
 
-                var dummy2 = new Simulation.Simulation
+                var dummy2 = new Simulation
                 {
                     Name = "Dummy Simulation 2",
                     Description = "Simulation of something without anything. " +
                                   "Can be used to emulate something" + DummyText,
-                    Author = user,
+                    AuthorId = user.Id,
                 };
 
-                var dummy3 = new Simulation.Simulation
+                var dummy3 = new Simulation
                 {
                     Name = "Dummy Simulation 3",
                     Description = "Simulation of something without anything. " +
                                   "Can be used to emulate something" + DummyText,
-                    Author = user,
+                    AuthorId = user.Id,
                 };
 
-                var experimentalBuoy = new Simulation.Simulation
+                var experimentalBuoy = new Simulation
                 {
                     Name = "Hydrodynamic buoy",
                     Description = "Experimental model of buoy with full hydrodynamics",
-                    Author = user,
+                    AuthorId = user.Id,
                 };
 
-                var chart = new Presentation.Presentation
-                {
-                    Name = "Chart",
-                    Description = "Electronic chart in Mercator projection",
-                    Author = corporation,
-                    Simulations = new[] {simpleShip, seaCurrent}
-                };
-
-                var steeringPanel = new Presentation.Presentation
-                {
-                    Name = "Steering Device",
-                    Description = "Basic steering panel with throttle and rudder control",
-                    Author = user,
-                    Simulations = new[] {simpleShip}
-                };
-
-                simpleShip.Presentations = new[] {steeringPanel, chart};
-                seaCurrent.Presentations = new[] {chart};
-
-                var runningServer = new Server.Server
+                // servers
+                var server1 = new Server
                 {
                     Name = "Just some server",
                     Description = "Server to have some data available to test portal front-end",
-                    IsRunning = true,
-                    Author = corporation,
-                    Simulations = new[] {simpleShip, seaCurrent, dummy1, dummy2, dummy3},
-                    Presentations = new[] {steeringPanel, chart}
+                    AuthorId = corporation.Id,
                 };
 
-                var stoppedServer = new Server.Server
+                server1.AddSimulation(simpleShip);
+                server1.AddSimulation(seaCurrent);
+                server1.AddSimulation(dummy1);
+                server1.AddSimulation(dummy2);
+                server1.AddSimulation(dummy3);
+                        
+                server1.AddPresentation(chart);
+                server1.AddPresentation(steeringPanel);
+
+                var server2 = new Server
                 {
                     Name = "Another test server",
                     Description = "One more entry to test portal front-end",
-                    Author = user,
-                    IsRunning = false,
-                    Simulations = new[] {experimentalBuoy}
+                    AuthorId = user.Id,
                 };
 
-                var simulations = services.GetService<ISimulationRepository>();
-                var presentations = services.GetService<IPresentationRepository>();
-                var servers = services.GetService<IServerRepository>();
+                server2.AddSimulation(experimentalBuoy);
 
-                simulations.Add(simpleShip);
-                simulations.Add(seaCurrent);
-                simulations.Add(experimentalBuoy);
-                simulations.Add(dummy1);
-                simulations.Add(dummy2);
-                simulations.Add(dummy3);
+                context.Simulations.Add(simpleShip);
+                context.Simulations.Add(seaCurrent);
+                context.Simulations.Add(experimentalBuoy);
+                context.Simulations.Add(dummy1);
+                context.Simulations.Add(dummy2);
+                context.Simulations.Add(dummy3);
 
-                presentations.Add(chart);
-                presentations.Add(steeringPanel);
+                context.Presentations.Add(chart);
+                context.Presentations.Add(steeringPanel);
 
-                servers.Add(runningServer);
-                servers.Add(stoppedServer);
+                context.Servers.Add(server1);
+                context.Servers.Add(server2);
+
+                context.SaveChanges();
             }
         }
 

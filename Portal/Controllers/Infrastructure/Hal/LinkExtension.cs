@@ -5,7 +5,7 @@ namespace OpenSim.Portal.Controllers
 {
     public static class LinkExtension
     {
-        public static long GetId(this Link link) =>
-            long.Parse(link.Href.Substring(link.Rel.Length + 2), NumberStyles.Any, CultureInfo.InvariantCulture);
+        public static int GetId(this Link link) =>
+            int.Parse(link.Href.Substring(link.Rel.Length + 2), NumberStyles.Any, CultureInfo.InvariantCulture);
     }
 }

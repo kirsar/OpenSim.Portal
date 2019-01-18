@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using OpenSim.Portal.Controllers.Simulation;
 using OpenSim.Portal.Controllers.User;
 
 namespace OpenSim.Portal.Controllers.Presentation
 {
-    public sealed class PresentationResource : ResourceWithRelations<PresentationResource, Model.Presentation.Presentation>
+    public sealed class PresentationResource : ResourceWithRelations<PresentationResource, Model.Presentation>
     {
-        private readonly Model.Presentation.Presentation presentation;
+        private readonly Model.Presentation presentation;
 
-        public PresentationResource(Model.Presentation.Presentation presentation) : base(presentation)
+        public PresentationResource(Model.Presentation presentation) : base(presentation)
         {
             this.presentation = presentation;
         }
 
-        public PresentationResource(Model.Presentation.Presentation presentation, string relationName) : this(presentation)
+        public PresentationResource(Model.Presentation presentation, string relationName) : this(presentation)
         {
             Rel = relationName;
         }
@@ -25,26 +26,29 @@ namespace OpenSim.Portal.Controllers.Presentation
         public UserInfoResource Author { get; set; }
         public IEnumerable<SimulationResource> Simulations { get; set; }
 
-        public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
-            EmbedRelations(embeddedFieldNode, schema, schema.Presentation);
+        public override void EmbedRelations(
+            FieldsTreeNode embeddedFieldNode, 
+            IEmbeddedRelationsSchema schema,
+            UserManager<Model.User> userManager) =>
+            EmbedRelations(embeddedFieldNode, schema, schema.Presentation, userManager);
         
         #region HAL
 
         public override string Rel
         {
-            get => LinkTemplates.Presentations.GetPresentation.Rel;
+            get => LinkTemplates.Presentations.GetItem.Rel;
             set { }
         }
 
         public override string Href
         {
-            get => LinkTemplates.Presentations.GetPresentation.CreateLink(new { id = Id }).Href;
+            get => LinkTemplates.Presentations.GetItem.CreateLink(new { id = Id }).Href;
             set { }
         }
 
         protected override void CreateHypermedia()
         {
-            if (presentation.Simulations != null)
+            //if (presentation.Simulations != null)
                 Links.Add(LinkTemplates.Presentations.GetSimulations.CreateLink(new { id = Id }));
 
             //if (presentation.Simulations != null)

@@ -4,16 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenSim.Portal.Controllers;
 using OpenSim.Portal.Model;
-using OpenSim.Portal.Model.Presentation;
-using OpenSim.Portal.Model.Server;
-using OpenSim.Portal.Model.Simulation;
-using OpenSim.Portal.Model.User;
 
 namespace OpenSim.Portal.Startup
 {
@@ -46,14 +41,20 @@ namespace OpenSim.Portal.Startup
             //    options.Cookie.HttpOnly = false;
             //});
 
-            services.AddDbContext<UserDbContext>(options => options.UseInMemoryDatabase("OpenSim.Portal"));
+            services.AddDbContext<PortalDbContext>(builder => 
+                builder.UseSqlServer(Configuration["Data:ConnectionString"]));
 
+            //services.AddDbContext<UserDbContext>(options => options.UseInMemoryDatabase("OpenSim.Portal"));
+            services.AddDbContext<UserDbContext>(builder =>
+                builder.UseSqlServer(Configuration["Identity:ConnectionString"]));
             services.AddIdentity<User, IdentityRole<long>>()
-                .AddEntityFrameworkStores<UserDbContext>();
-            
-            services.AddSingleton<IServerRepository, ServerRepository>();
-            services.AddSingleton<ISimulationRepository, SimulationRepository>();
-            services.AddSingleton<IPresentationRepository, PresentationRepository>();
+                .AddEntityFrameworkStores<UserDbContext>()
+                .AddDefaultTokenProviders();
+
+
+            services.AddTransient<IServerRepository, ServerRepository>();
+            services.AddTransient<ISimulationRepository, SimulationRepository>();
+            services.AddTransient<IPresentationRepository, PresentationRepository>();
 
             services.AddSingleton<IEmbeddedRelationsSchema, EmbeddedRelationsSchema>();
 
@@ -92,7 +93,7 @@ namespace OpenSim.Portal.Startup
                 spa.UseAngularCliServer(env.IsDevelopment() ? "start-dev" : "start-prod");
             });
 
-            app.SeedIdentity();
+            app.Seed();
             app.SeedContent();
         }
     }

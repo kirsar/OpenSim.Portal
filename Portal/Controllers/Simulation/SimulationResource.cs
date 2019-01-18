@@ -1,19 +1,20 @@
-﻿using OpenSim.Portal.Controllers.Presentation;
+﻿using Microsoft.AspNetCore.Identity;
+using OpenSim.Portal.Controllers.Presentation;
 using OpenSim.Portal.Controllers.User;
 using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers.Simulation
 {
-    public sealed class SimulationResource : ResourceWithRelations<SimulationResource, Model.Simulation.Simulation>
+    public sealed class SimulationResource : ResourceWithRelations<SimulationResource, Model.Simulation>
     {
-        private readonly Model.Simulation.Simulation simulation;
+        private readonly Model.Simulation simulation;
 
-        public SimulationResource(Model.Simulation.Simulation simulation) : base(simulation)
+        public SimulationResource(Model.Simulation simulation) : base(simulation)
         {
             this.simulation = simulation;
         }
 
-        public SimulationResource(Model.Simulation.Simulation simulation, string relationName) : this(simulation)
+        public SimulationResource(Model.Simulation simulation, string relationName) : this(simulation)
         {
             Rel = relationName;
         }
@@ -27,16 +28,17 @@ namespace OpenSim.Portal.Controllers.Simulation
         public ResourceList<SimulationResource> Consumers { get; set; }
         public ResourceList<PresentationResource> Presentations { get; set; }
 
-        public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema) =>
-            EmbedRelations(embeddedFieldNode, schema, schema.Simulation);
+        public override void EmbedRelations(FieldsTreeNode embeddedFieldNode, IEmbeddedRelationsSchema schema,
+            UserManager<Model.User> userManager) =>
+            EmbedRelations(embeddedFieldNode, schema, schema.Simulation, userManager);
      
         #region HAL
 
-        public override string Rel { get; set; } = LinkTemplates.Simulations.GetSimulation.Rel;
+        public override string Rel { get; set; } = LinkTemplates.Simulations.GetItem.Rel;
         
         public override string Href
         {
-            get => LinkTemplates.Simulations.GetSimulation.CreateLink(new { id = Id }).Href;
+            get => LinkTemplates.Simulations.GetItem.CreateLink(new { id = Id }).Href;
             set { }
         }
 
@@ -46,14 +48,14 @@ namespace OpenSim.Portal.Controllers.Simulation
             //    foreach (var reference in simulation.References)
             //        Links.Add(LinkTemplates.Simulations.GetReference.CreateLink(new { id = reference.Id }));
 
-            if (simulation.References != null)
+            //if (simulation.References != null)
                 Links.Add(LinkTemplates.Simulations.GetReferences.CreateLink(new { id = Id }));
 
             //if (simulation.Consumers != null)
             //    foreach (var consumer in simulation.Consumers)
             //        Links.Add(LinkTemplates.Simulations.GetConsumer.CreateLink(new { id = consumer.Id }));
 
-            if (simulation.Consumers != null)
+            //if (simulation.Consumers != null)
                 Links.Add(LinkTemplates.Simulations.GetConsumers.CreateLink(new { id = Id }));
 
             //if (simulation.Presentations != null)

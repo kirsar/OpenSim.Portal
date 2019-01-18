@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenSim.Portal.Controllers.Presentation;
 using OpenSim.Portal.Controllers.Simulation;
-using OpenSim.Portal.Model.Presentation;
-using OpenSim.Portal.Model.Server;
-using OpenSim.Portal.Model.Simulation;
+using OpenSim.Portal.Model;
 
 namespace OpenSim.Portal.Controllers.Server
 {
@@ -18,14 +16,14 @@ namespace OpenSim.Portal.Controllers.Server
         private readonly IServerRepository serversRepo;
         private readonly ISimulationRepository simulationsRepo;
         private readonly IPresentationRepository presentationsRepo;
-        private readonly UserManager<Model.User.User> userManager;
+        private readonly UserManager<Model.User> userManager;
         private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
         public ServersController(
             IServerRepository serversRepo,
             ISimulationRepository simulationsRepo,
             IPresentationRepository presentationsRepo,
-            UserManager<Model.User.User> userManager,
+            UserManager<Model.User> userManager,
             IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.serversRepo = serversRepo;
@@ -38,25 +36,25 @@ namespace OpenSim.Portal.Controllers.Server
         // GET: api/v1/Servers
         [HttpGet]
         public ServerCollection Get() =>
-            new ServerCollection(LinkTemplates.Servers.GetServers.Rel,
+            new ServerCollection(LinkTemplates.Servers.Get.Rel,
                     serversRepo.GetAll().Select(server => new ServerResource(server)))
-                .EmbedRelations(Request, embeddedRelationsSchema);
+                .EmbedRelations(Request, embeddedRelationsSchema, userManager);
 
         // GET: api/v1/Servers/5
         [HttpGet("{id}")]
-        public ActionResult<ServerResource> Get(long id)
+        public ActionResult<ServerResource> Get(int id)
         {
             var server = serversRepo.Get(id);
 
             if (server == null)
                 return NotFound();
 
-            return new ServerResource(server).EmbedRelations(Request, embeddedRelationsSchema);
+            return new ServerResource(server).EmbedRelations(Request, embeddedRelationsSchema, userManager);
         }
 
         // GET: api/v1/Servers/5/simulations
         [HttpGet("{id}/simulations")]
-        public ActionResult<SimulationCollection> GetSimulations(long id)
+        public ActionResult<SimulationCollection> GetSimulations(int id)
         {
             var server = serversRepo.Get(id);
 
@@ -65,12 +63,12 @@ namespace OpenSim.Portal.Controllers.Server
 
             return new SimulationCollection(LinkTemplates.Servers.GetSimulations.Rel,
                     server.Simulations.Select(simulation => new SimulationResource(simulation)))
-                .EmbedRelations(Request, embeddedRelationsSchema);
+                .EmbedRelations(Request, embeddedRelationsSchema, userManager);
         }
 
         // GET: api/v1/Servers/5/presentations
         [HttpGet("{id}/presentations")]
-        public ActionResult<PresentationCollection> GetPresentations(long id)
+        public ActionResult<PresentationCollection> GetPresentations(int id)
         {
             var server = serversRepo.Get(id);
 
@@ -79,7 +77,7 @@ namespace OpenSim.Portal.Controllers.Server
 
             return new PresentationCollection(LinkTemplates.Servers.GetPresentations.Rel,
                     server.Presentations.Select(presentation => new PresentationResource(presentation)))
-                .EmbedRelations(Request, embeddedRelationsSchema);
+                .EmbedRelations(Request, embeddedRelationsSchema, userManager);
         }
 
         // POST: api/v1/Servers
@@ -89,13 +87,13 @@ namespace OpenSim.Portal.Controllers.Server
             serverResource != null ? Get(AddToRepo(serverResource)) : BadRequest();
 
         // TODO handle errors
-        private long AddToRepo(ServerResource serverResource)
+        private int AddToRepo(ServerResource serverResource)
         {
-            var server = new Model.Server.Server
+            var server = new Model.Server
             {
                 Name = serverResource.Name,
                 Description = serverResource.Description,
-                Author = userManager.Users.First() // TODO current user
+                AuthorId = userManager.Users.First().Id // TODO current user
             };
 
             foreach (var link in serverResource.Links.Where(l => l.Rel == LinkTemplates.Servers.GetSimulations.Rel))

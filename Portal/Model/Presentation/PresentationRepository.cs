@@ -1,36 +1,42 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
-namespace OpenSim.Portal.Model.Presentation
+namespace OpenSim.Portal.Model
 {
     public class PresentationRepository : IPresentationRepository
     {
-        private ConcurrentDictionary<long, Presentation> presentations = new ConcurrentDictionary<long, Presentation>();
-        private int currentId;
+        public PresentationRepository(PortalDbContext context) => this.context = context;
 
-        private int GetId() => currentId++;
+        private readonly PortalDbContext context;
+
+        public IQueryable<Presentation> GetAll() => context.Presentations
+            .WithSimulations();
+
+        public Presentation Get(int id) => context.Presentations.Where(s => s.Id == id)
+            .WithSimulations()
+            .SingleOrDefault();
 
         public void Add(Presentation presentation)
         {
-            var id = GetId();
-            presentation.Id = id;
-            presentations[id] = presentation;
+            context.Presentations.Add(presentation);
+            context.SaveChanges();
         }
-
-        public Presentation Get(long id)
+        
+        public Presentation Remove(int id)
         {
-            presentations.TryGetValue(id, out var presentation);
-            return presentation;
+            throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Presentation> GetAll() => presentations.Values;
-
-        public Presentation Remove(long id)
+        public void Update(Presentation simulation)
         {
-            presentations.TryRemove(id, out var presentation);
-            return presentation;
+            throw new System.NotImplementedException();
         }
+    }
 
-        public void Update(Presentation presentation) => presentations[presentation.Id] = presentation;
+    public static class PresentationRepositoryExtensions
+    {
+        public static IQueryable<Presentation> WithSimulations(this IQueryable<Presentation> presentations) => presentations
+            .Include(e => e.SimulationPresentationBackRef)
+            .ThenInclude(e => e.Simulation);
     }
 }

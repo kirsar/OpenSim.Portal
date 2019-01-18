@@ -4,14 +4,14 @@ namespace OpenSim.Portal.Controllers.User
 {
     public sealed class UserInfoResource : Representation
     {
-        private readonly Model.User.User user;
+        private readonly Model.User user;
 
-        public UserInfoResource(Model.User.User user)
+        public UserInfoResource(Model.User user)
         {
             this.user = user;
         }
 
-        public UserInfoResource(Model.User.User user, string relationName) : this(user)
+        public UserInfoResource(Model.User user, string relationName) : this(user)
         {
             Rel = relationName;
         }
@@ -22,11 +22,11 @@ namespace OpenSim.Portal.Controllers.User
 
         #region HAL
 
-        public override string Rel { get; set; } = LinkTemplates.Users.User.Rel;
+        public override string Rel { get; set; } = LinkTemplates.Users.GetItem.Rel;
 
         public override string Href
         {
-            get => LinkTemplates.Users.User.CreateLink(new { id = Id }).Href;
+            get => LinkTemplates.Users.GetItem.CreateLink(new { id = Id }).Href;
             set { }
         }
 

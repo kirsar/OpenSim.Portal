@@ -1,13 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
-namespace OpenSim.Portal.Model.Presentation
+namespace OpenSim.Portal.Model
 {
     public class Presentation
     {
-        public long Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public User.User Author { get; set; }
-        public IEnumerable<Simulation.Simulation> Simulations { get; set; } = new List<Simulation.Simulation>();
+        public long AuthorId { get; set; }
+
+        internal ICollection<ServerPresentation> ServerPresentationBackRef { get; set; }
+
+        internal ICollection<SimulationPresentation> SimulationPresentationBackRef { get; set; }
+        [NotMapped] public IEnumerable<Simulation> Simulations => SimulationPresentationBackRef.Select(s => s.Simulation);
     }
 }

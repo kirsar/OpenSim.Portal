@@ -1,36 +1,54 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
-namespace OpenSim.Portal.Model.Simulation
+namespace OpenSim.Portal.Model
 {
     public class SimulationRepository : ISimulationRepository
     {
-        private ConcurrentDictionary<long, Simulation> simulations = new ConcurrentDictionary<long, Simulation>();
-        private int currentId;
+        public SimulationRepository(PortalDbContext context) => this.context = context;
 
-        private int GetId() => currentId++;
+        public IQueryable<Simulation> GetAll() => context.Simulations
+            .WithReferences()
+            .WithConsumers()
+            .WithPresentations();
+
+        public Simulation Get(int id) => context.Simulations.Where(s => s.Id == id)
+            .WithReferences()
+            .WithConsumers()
+            .WithPresentations()
+            .SingleOrDefault();
 
         public void Add(Simulation simulation)
         {
-            var id = GetId();
-            simulation.Id = id;
-            simulations[id] = simulation;
+            context.Simulations.Add(simulation);
+            context.SaveChanges();
         }
 
-        public Simulation Get(long id)
+        public Simulation Remove(int id)
         {
-            simulations.TryGetValue(id, out var simulation);
-            return simulation;
+            throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Simulation> GetAll() => simulations.Values;
-
-        public Simulation Remove(long id)
+        public void Update(Simulation simulation)
         {
-            simulations.TryRemove(id, out var simulation);
-            return simulation;
+            throw new System.NotImplementedException();
         }
 
-        public void Update(Simulation simulation) => simulations[simulation.Id] = simulation;
+        private readonly PortalDbContext context;
+    }
+
+    public static class SimulationRepositoryExtensions
+    {
+        public static IQueryable<Simulation> WithReferences(this IQueryable<Simulation> simulations) => simulations
+            .Include(e => e.SimulationReferences)
+            .ThenInclude(e => e.Reference);
+         
+        public static IQueryable<Simulation> WithPresentations(this IQueryable<Simulation> simulations) => simulations
+            .Include(e => e.SimulationPresentations)
+            .ThenInclude(e => e.Presentation);
+
+        public static IQueryable<Simulation> WithConsumers(this IQueryable<Simulation> simulations) => simulations
+            .Include(e => e.SimulationReferencesBackRef)
+            .ThenInclude(e => e.Simulation);
     }
 }

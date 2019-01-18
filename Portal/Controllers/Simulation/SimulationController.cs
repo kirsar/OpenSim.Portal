@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using OpenSim.Portal.Controllers.Presentation;
-using OpenSim.Portal.Model.Simulation;
+using OpenSim.Portal.Model;
 
 namespace OpenSim.Portal.Controllers.Simulation
 {
@@ -13,12 +13,12 @@ namespace OpenSim.Portal.Controllers.Simulation
     public class SimulationsController : Controller
     {
         private readonly ISimulationRepository simulationRepo;
-        private readonly UserManager<Model.User.User> userManager;
+        private readonly UserManager<Model.User> userManager;
         private readonly IEmbeddedRelationsSchema embeddedRelationsSchema;
 
         public SimulationsController(
             ISimulationRepository simulationRepo, 
-            UserManager<Model.User.User> userManager, 
+            UserManager<Model.User> userManager, 
             IEmbeddedRelationsSchema embeddedRelationsSchema)
         {
             this.simulationRepo = simulationRepo;
@@ -29,25 +29,25 @@ namespace OpenSim.Portal.Controllers.Simulation
         // GET: api/v1/Simulations
         [HttpGet]
         public SimulationCollection Get() => 
-            new SimulationCollection(LinkTemplates.Simulations.GetSimulations.Rel,
+            new SimulationCollection(LinkTemplates.Simulations.Get.Rel,
                     simulationRepo.GetAll().Select(simulation => new SimulationResource(simulation)))
-            .EmbedRelations(Request, embeddedRelationsSchema);
+            .EmbedRelations(Request, embeddedRelationsSchema, userManager);
 
         // GET: api/v1/Simulations/5
         [HttpGet("{id}")]
-        public ActionResult<SimulationResource> Get(long id)
+        public ActionResult<SimulationResource> Get(int id)
         {
             var simulation = simulationRepo.Get(id);
 
             if (simulation == null)
                 return NotFound();
 
-            return new SimulationResource(simulation).EmbedRelations(Request, embeddedRelationsSchema);
+            return new SimulationResource(simulation).EmbedRelations(Request, embeddedRelationsSchema, userManager);
         }
 
         // GET: api/v1/Simulations/5/references
         [HttpGet("{id}/references")]
-        public ActionResult<SimulationCollection> GetReferences(long id)
+        public ActionResult<SimulationCollection> GetReferences(int id)
         {
             var simulation = simulationRepo.Get(id);
 
@@ -56,12 +56,12 @@ namespace OpenSim.Portal.Controllers.Simulation
 
             return new SimulationCollection(LinkTemplates.Simulations.GetReferences.Rel, 
                     simulation.References.Select(reference => new SimulationResource(reference, LinkTemplates.Simulations.GetReferences.Rel)))
-                .EmbedRelations(Request, embeddedRelationsSchema);
+                .EmbedRelations(Request, embeddedRelationsSchema, userManager);
         }
 
         // GET: api/v1/Simulations/5/presentations
         [HttpGet("{id}/presentations")]
-        public ActionResult<PresentationCollection> GetPresentations(long id)
+        public ActionResult<PresentationCollection> GetPresentations(int id)
         {
             var simulation = simulationRepo.Get(id);
 
@@ -70,7 +70,7 @@ namespace OpenSim.Portal.Controllers.Simulation
 
             return new PresentationCollection(LinkTemplates.Simulations.GetPresentations.Rel,
                     simulation.Presentations.Select(presentation => new PresentationResource(presentation, LinkTemplates.Simulations.GetPresentations.Rel)))
-                .EmbedRelations(Request, embeddedRelationsSchema);
+                .EmbedRelations(Request, embeddedRelationsSchema, userManager);
         }
 
         // POST: api/v1/Simulations
@@ -79,18 +79,17 @@ namespace OpenSim.Portal.Controllers.Simulation
         {
             var simulations = simulationRepo.GetAll();
 
-            var simulation = new Model.Simulation.Simulation
+            var simulation = new Model.Simulation
             {
                 Name = json["name"].Value<string>(),
                 Description = json["description"].Value<string>(),
-                Author = userManager.Users.First(),
-                References = json["references"].Select(token => simulations.Single(s => s.Name == token.Value<string>())).ToList()
+                AuthorId = userManager.Users.First().Id,
             };
 
-            simulationRepo.Add(simulation);
+            foreach (var reference in json["references"].Select(t => simulations.Single(s => s.Name == t.Value<string>())))
+                simulation.AddReference(reference);
 
-            foreach (var reference in simulation.References)
-               reference.AddConsumer(simulation);
+            simulationRepo.Add(simulation);
 
             return Get(simulation.Id);
         }
