@@ -12,11 +12,11 @@ namespace OpenSim.Portal.Model
         public string Description { get; set; }
         public long AuthorId { get; set; }
 
-        private ICollection<ServerSimulation> ServerSimulations { get; } = new List<ServerSimulation>();
+        internal ICollection<ServerSimulation> ServerSimulations { get; } = new List<ServerSimulation>();
         [NotMapped] public IEnumerable<Simulation> Simulations => ServerSimulations.Select(s => s.Simulation);
         public void AddSimulation(Simulation simulation) => ServerSimulations.Add(new ServerSimulation(this, simulation));
-        
-        private ICollection<ServerPresentation> ServerPresentations { get; } = new List<ServerPresentation>();
+
+        internal ICollection<ServerPresentation> ServerPresentations { get; } = new List<ServerPresentation>();
         [NotMapped] public IEnumerable<Presentation> Presentations => ServerPresentations.Select(s => s.Presentation);
         public void AddPresentation(Presentation presentation) => ServerPresentations.Add(new ServerPresentation(this, presentation));
     }

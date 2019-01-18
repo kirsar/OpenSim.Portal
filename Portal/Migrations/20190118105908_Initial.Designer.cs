@@ -9,7 +9,7 @@ using OpenSim.Portal.Model;
 namespace OpenSim.Portal.Migrations
 {
     [DbContext(typeof(PortalDbContext))]
-    [Migration("20190117171125_Initial")]
+    [Migration("20190118105908_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,40 +126,40 @@ namespace OpenSim.Portal.Migrations
             modelBuilder.Entity("OpenSim.Portal.Model.ServerPresentation", b =>
                 {
                     b.HasOne("OpenSim.Portal.Model.Presentation", "Presentation")
-                        .WithMany()
+                        .WithMany("ServerPresentationBackRef")
                         .HasForeignKey("PresentationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OpenSim.Portal.Model.Server", "Server")
-                        .WithMany()
+                        .WithMany("ServerPresentations")
                         .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("OpenSim.Portal.Model.ServerSimulation", b =>
                 {
                     b.HasOne("OpenSim.Portal.Model.Server", "Server")
-                        .WithMany()
+                        .WithMany("ServerSimulations")
                         .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OpenSim.Portal.Model.Simulation", "Simulation")
-                        .WithMany()
+                        .WithMany("ServerSimulationsBackRef")
                         .HasForeignKey("SimulationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("OpenSim.Portal.Model.SimulationPresentation", b =>
                 {
                     b.HasOne("OpenSim.Portal.Model.Presentation", "Presentation")
-                        .WithMany()
+                        .WithMany("SimulationPresentationBackRef")
                         .HasForeignKey("PresentationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OpenSim.Portal.Model.Simulation", "Simulation")
-                        .WithMany()
+                        .WithMany("SimulationPresentations")
                         .HasForeignKey("SimulationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("OpenSim.Portal.Model.SimulationReference", b =>

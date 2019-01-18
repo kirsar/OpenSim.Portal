@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using OpenSim.Portal.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace OpenSim.Portal.Model
 {
@@ -10,24 +10,9 @@ namespace OpenSim.Portal.Model
             this.context = context;
         }
 
-        public IQueryable<Simulation> GetAll()
-        {
-            var simulations = context.Simulations;
+        public IQueryable<Simulation> GetAll() => IncludeRelations(context.Simulations);
 
-            // for now fetching other way many to many relation always,
-            // but can improve and request only if embedded resource requested
-            foreach (var simulation in simulations)
-                QueryConsumers(simulation);
-
-            return simulations;
-        }
-
-        public Simulation Get(int id)
-        {
-            var simulation = context.Simulations.Find(id);
-            QueryConsumers(simulation);
-            return simulation;
-        }
+        public Simulation Get(int id) => IncludeRelations(context.Simulations).FirstOrDefault(s => s.Id == id);
 
         public void Add(Simulation simulation)
         {
@@ -45,8 +30,26 @@ namespace OpenSim.Portal.Model
             throw new System.NotImplementedException();
         }
 
-        private void QueryConsumers(Simulation simulation) => 
-            simulation.Consumers = context.Simulations.Where(s => s.References.Contains(s));
+        private IQueryable<Simulation> IncludeRelations(IQueryable<Simulation> simulations)
+        {
+            simulations
+                .Include(e => e.SimulationReferences)
+                .ThenInclude(e => e.Reference)
+                .Include(e => e.SimulationPresentations)
+                .ThenInclude(e => e.Presentation);
+
+            QueryConsumers(simulations);
+
+            return simulations;
+        }
+
+        private IQueryable<Simulation> QueryConsumers(IQueryable<Simulation> simulations)
+        {
+            foreach (var simulation in simulations)
+                simulation.Consumers = context.Simulations.Where(s => s.References.Contains(s));
+
+            return simulations;
+        }
 
         private readonly PortalDbContext context;
     }

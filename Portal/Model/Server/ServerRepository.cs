@@ -10,11 +10,9 @@ namespace OpenSim.Portal.Model
             this.context = context;
         }
 
-        public IQueryable<Server> GetAll() => context.Servers
-            .Include(e => e.Simulations)
-            .Include(e => e.Presentations);
+        public IQueryable<Server> GetAll() => IncludeRelations(context.Servers);
 
-        public Server Get(int id) => context.Servers.Find(id);
+        public Server Get(int id) => IncludeRelations(context.Servers).SingleOrDefault(s => s.Id == id);
 
         public void Add(Server server)
         {
@@ -31,6 +29,12 @@ namespace OpenSim.Portal.Model
         {
             throw new System.NotImplementedException();
         }
+
+        private static IQueryable<Server> IncludeRelations(IQueryable<Server> servers) => servers
+            .Include(e => e.ServerSimulations)
+            .ThenInclude(e => e.Simulation)
+            .Include(e => e.ServerPresentations)
+            .ThenInclude(e => e.Presentation);
 
         private readonly PortalDbContext context;
     }

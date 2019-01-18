@@ -97,7 +97,6 @@ namespace OpenSim.Portal.Model
                     AuthorId = user.Id,
                 };
 
-                simpleShip.AddReference(simpleShip);
                 simpleShip.AddReference(seaCurrent);
                 
                 simpleShip.AddPresentation(chart);
