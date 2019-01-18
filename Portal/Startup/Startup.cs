@@ -41,13 +41,16 @@ namespace OpenSim.Portal.Startup
             //    options.Cookie.HttpOnly = false;
             //});
 
-            services.AddDbContext<UserDbContext>(options => options.UseInMemoryDatabase("OpenSim.Portal"));
-
-            services.AddIdentity<User, IdentityRole<long>>()
-                .AddEntityFrameworkStores<UserDbContext>();
-
             services.AddDbContext<PortalDbContext>(builder => 
                 builder.UseSqlServer(Configuration["Data:ConnectionString"]));
+
+            //services.AddDbContext<UserDbContext>(options => options.UseInMemoryDatabase("OpenSim.Portal"));
+            services.AddDbContext<UserDbContext>(builder =>
+                builder.UseSqlServer(Configuration["Identity:ConnectionString"]));
+            services.AddIdentity<User, IdentityRole<long>>()
+                .AddEntityFrameworkStores<UserDbContext>()
+                .AddDefaultTokenProviders();
+
 
             services.AddTransient<IServerRepository, ServerRepository>();
             services.AddTransient<ISimulationRepository, SimulationRepository>();
@@ -90,7 +93,7 @@ namespace OpenSim.Portal.Startup
                 spa.UseAngularCliServer(env.IsDevelopment() ? "start-dev" : "start-prod");
             });
 
-            app.SeedIdentity();
+            app.Seed();
             app.SeedContent();
         }
     }
