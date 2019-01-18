@@ -1,18 +1,16 @@
 Portal Todo:
-    move data to postgres (or MS?)
     deploy in docker
     host on AWS / Azure
     OWIN / Katana / Kestrel / Selfhost 
     
-58  web api with pagination / curies
-
+58  propagate relations embeddment into db context queries to load data on demand
+    web api with pagination / curies
 	use some material. For login form, replace expander?,..
-	
 	back end L1 tests 
 
 15.11 refactor new-simulation with promises (exercise in rx)
 
-	remember logged in user in cookie
+	remember logged in user in cookie / session
 	use HTTP_INTERCEPTOR in angular for auth
 
 	front end unit tests
@@ -33,6 +31,7 @@ learning deeper:
     finalize error handling: by some reason, http error is report somewhere (in hal?) and it's too late to survive
 	inject Navigation Service with APP_INITIALIZER, learn how to use it and avoid circular dependencies
 	auth-form: fix 'Form submission canceled because the form is not connected'
+	try postgres
 
 Done:
       redo PR to hal-4-angular in original author (masvis) repo
@@ -64,6 +63,8 @@ Done:
 	  separate app / client / controllers parts into projects. Host pure angular - ready for separation, CORS enabled, but don't need it now
 	  fix exception in new server form
 	  fix identity problem in unit tests
+	  move data to postgres (or MS?) - moved to MS
+
 		
 Platform Todo:
 18  think about API point plugin entry
