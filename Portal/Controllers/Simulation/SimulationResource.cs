@@ -48,7 +48,7 @@ namespace OpenSim.Portal.Controllers.Simulation
             //    foreach (var reference in simulation.References)
             //        Links.Add(LinkTemplates.Simulations.GetReference.CreateLink(new { id = reference.Id }));
 
-            if (simulation.References != null)
+            //if (simulation.References != null)
                 Links.Add(LinkTemplates.Simulations.GetReferences.CreateLink(new { id = Id }));
 
             //if (simulation.Consumers != null)

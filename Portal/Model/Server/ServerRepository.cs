@@ -5,14 +5,16 @@ namespace OpenSim.Portal.Model
 {
     public class ServerRepository : IServerRepository
     {
-        public ServerRepository(PortalDbContext context)
-        {
-            this.context = context;
-        }
+        public ServerRepository(PortalDbContext context) => this.context = context;
 
-        public IQueryable<Server> GetAll() => IncludeRelations(context.Servers);
+        public IQueryable<Server> GetAll() => context.Servers
+            .WithSimulations()
+            .WithPresentations();
 
-        public Server Get(int id) => IncludeRelations(context.Servers).SingleOrDefault(s => s.Id == id);
+        public Server Get(int id) => context.Servers.Where(s => s.Id == id)
+            .WithSimulations()
+            .WithPresentations()
+            .SingleOrDefault();
 
         public void Add(Server server)
         {
@@ -30,12 +32,17 @@ namespace OpenSim.Portal.Model
             throw new System.NotImplementedException();
         }
 
-        private static IQueryable<Server> IncludeRelations(IQueryable<Server> servers) => servers
+        private readonly PortalDbContext context;
+    }
+
+    public static class ServerRepositoryExtensions
+    {
+        public static IQueryable<Server> WithSimulations(this IQueryable<Server> servers) => servers
             .Include(e => e.ServerSimulations)
-            .ThenInclude(e => e.Simulation)
+            .ThenInclude(e => e.Simulation);
+
+        public static IQueryable<Server> WithPresentations(this IQueryable<Server> servers) => servers
             .Include(e => e.ServerPresentations)
             .ThenInclude(e => e.Presentation);
-
-        private readonly PortalDbContext context;
     }
 }

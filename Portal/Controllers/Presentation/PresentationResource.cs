@@ -48,7 +48,7 @@ namespace OpenSim.Portal.Controllers.Presentation
 
         protected override void CreateHypermedia()
         {
-            if (presentation.Simulations != null)
+            //if (presentation.Simulations != null)
                 Links.Add(LinkTemplates.Presentations.GetSimulations.CreateLink(new { id = Id }));
 
             //if (presentation.Simulations != null)

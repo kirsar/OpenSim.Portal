@@ -1,35 +1,20 @@
 ﻿using System.Linq;
-using OpenSim.Portal.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace OpenSim.Portal.Model
 {
     public class PresentationRepository : IPresentationRepository
     {
-        public PresentationRepository(PortalDbContext context)
-        {
-            this.context = context;
-        }
+        public PresentationRepository(PortalDbContext context) => this.context = context;
 
         private readonly PortalDbContext context;
 
-        public IQueryable<Presentation> GetAll()
-        {
-            var presentations = context.Presentations;
+        public IQueryable<Presentation> GetAll() => context.Presentations
+            .WithSimulations();
 
-            // for now fetching other way many to many relation always,
-            // but can improve and request only if embedded resource requested
-            foreach (var presentation in presentations)
-                QuerySimulations(presentation);
-
-            return presentations;
-        }
-
-        public Presentation Get(int id)
-        {
-            var presentation = context.Presentations.Find(id);
-            QuerySimulations(presentation);
-            return presentation;
-        }
+        public Presentation Get(int id) => context.Presentations.Where(s => s.Id == id)
+            .WithSimulations()
+            .SingleOrDefault();
 
         public void Add(Presentation presentation)
         {
@@ -46,8 +31,12 @@ namespace OpenSim.Portal.Model
         {
             throw new System.NotImplementedException();
         }
+    }
 
-        private void QuerySimulations(Presentation presentation) =>
-            presentation.Simulations = context.Simulations.Where(s => s.Presentations.Contains(presentation));
+    public static class PresentationRepositoryExtensions
+    {
+        public static IQueryable<Presentation> WithSimulations(this IQueryable<Presentation> presentations) => presentations
+            .Include(e => e.SimulationPresentationBackRef)
+            .ThenInclude(e => e.Simulation);
     }
 }

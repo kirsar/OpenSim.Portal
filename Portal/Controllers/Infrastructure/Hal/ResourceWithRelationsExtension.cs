@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using OpenSim.Portal.Controllers.Presentation;
 using OpenSim.Portal.Controllers.Server;
 using OpenSim.Portal.Controllers.Simulation;
-using WebApi.Hal;
 
 namespace OpenSim.Portal.Controllers
 {

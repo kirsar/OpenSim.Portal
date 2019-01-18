@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using OpenSim.Portal.Model;
 
 namespace OpenSim.Portal.Model
 {
@@ -21,10 +20,9 @@ namespace OpenSim.Portal.Model
         [NotMapped] public IEnumerable<Presentation> Presentations => SimulationPresentations.Select(p => p.Presentation);
         public void AddPresentation(Presentation presentation) => SimulationPresentations.Add(new SimulationPresentation(this, presentation));
 
-        [NotMapped]
-        public IEnumerable<Simulation> Consumers { get; set; }
-
         internal ICollection<ServerSimulation> ServerSimulationsBackRef { get; set; }
+        [NotMapped] public IEnumerable<Simulation> Consumers => SimulationReferencesBackRef.Select(p => p.Simulation);
+
         internal ICollection<SimulationReference> SimulationReferencesBackRef { get; set; }
     }
 
