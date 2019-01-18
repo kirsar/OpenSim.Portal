@@ -7,6 +7,7 @@ Portal Todo:
     web api with pagination / curies
 	use some material. For login form, replace expander?,..
 	back end L1 tests 
+	restore unit test with identity
 
 15.11 refactor new-simulation with promises (exercise in rx)
 
