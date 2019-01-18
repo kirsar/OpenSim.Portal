@@ -5,7 +5,16 @@
     <AssemblyName>OpenSim.Portal</AssemblyName>
     <RootNamespace>OpenSim.Portal</RootNamespace>
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DockerFile" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DockerFile" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Migrations\" />
@@ -15,6 +24,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.2105168" />
     <PackageReference Include="PartialResponse.AspNetCore.Mvc.Formatters.Json" Version="4.0.0" />
     <PackageReference Include="WebApi.Hal" Version="3.1.0" />
   </ItemGroup>
