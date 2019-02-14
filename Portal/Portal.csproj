@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.2105168" />
     <PackageReference Include="PartialResponse.AspNetCore.Mvc.Formatters.Json" Version="4.0.0" />
-    <PackageReference Include="WebApi.Hal" Version="3.1.0" />
+    <PackageReference Include="WebApi.Hal.kirsar" Version="3.1.1" />
   </ItemGroup>
 
 </Project>
