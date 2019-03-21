@@ -68,11 +68,6 @@ namespace OpenSim.Portal.Startup
             {
                 //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions { HotModuleReplacement = true );
                 app.UseDeveloperExceptionPage();
-                app.UseSpa(spa =>
-                {
-                    spa.Options.SourcePath = "ClientApp";
-                    spa.UseAngularCliServer(Env.IsDevelopment() ? "start-dev" : "start-prod");
-                });
             }
             else
             {
@@ -88,6 +83,15 @@ namespace OpenSim.Portal.Startup
                 "http://localhost:5000")
                 .AllowAnyHeader());
             app.UseMvc();
+
+            if (Env.IsDevelopment()) // run BE and FE together in debug
+            {
+                app.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "ClientApp";
+                    spa.UseAngularCliServer(Env.IsDevelopment() ? "start-dev" : "start-prod");
+                });
+            }
 
             app.Seed();
             app.SeedContent(Env.IsDevelopment());

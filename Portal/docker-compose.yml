@@ -12,9 +12,6 @@ services:
       MSSQL_PID: "Enterprise"
     networks:
       - backend
-    ports:
-      - "1433:1433"
-         
   web:
     build: .
     depends_on:
@@ -22,5 +19,5 @@ services:
     networks:
       - backend
     ports:
-      - 8000:80
+      - 3000:80
     
