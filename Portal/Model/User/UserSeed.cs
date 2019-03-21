@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace OpenSim.Portal.Model
@@ -23,7 +24,10 @@ namespace OpenSim.Portal.Model
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var provider = scope.ServiceProvider;
-                
+
+                // TODO dangerous for prod, use dedicated utility for migration
+                provider.GetRequiredService<UserDbContext>().Database.Migrate();
+
                 var userManager = provider.GetService<UserManager<User>>();
                 var roleManager = provider.GetService<RoleManager<IdentityRole<long>>>();
 

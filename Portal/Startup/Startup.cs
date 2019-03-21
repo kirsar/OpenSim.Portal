@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +26,9 @@ namespace OpenSim.Portal.Startup
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var host = Env.IsDevelopment() ? "Local" : "Docker";
+            Console.WriteLine($"Application is starting for {host} host");
+
             services
                 .AddMvc(options => options.OutputFormatters.RemoveType<JsonOutputFormatter>())
                 .AddJsonHalFormatterServices();
@@ -41,8 +45,6 @@ namespace OpenSim.Portal.Startup
             //    options.Cookie.Expiration = TimeSpan.FromDays(7);
             //    options.Cookie.HttpOnly = false;
             //});
-
-            var host = Env.IsDevelopment() ? "Local" : "Docker";
 
             services.AddDbContext<PortalDbContext>(builder => 
                 builder.UseSqlServer(Configuration[$"Data:{host}:ContentConnectionString"]));
