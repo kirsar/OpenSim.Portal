@@ -8,7 +8,7 @@ namespace OpenSim.Portal.Model
 {
     public static class Seed
     {
-        public static async void SeedContent(this IApplicationBuilder app)
+        public static async void SeedContent(this IApplicationBuilder app, bool hasTestContent)
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
@@ -17,7 +17,7 @@ namespace OpenSim.Portal.Model
                 var context = services.GetService<PortalDbContext>();
                 context.Database.Migrate();
 
-                if (context.Servers.Any())
+                if (!hasTestContent || context.Servers.Any())
                     return;
 
                 var userManager = services.GetService<UserManager<User>>();

@@ -1,11 +1,9 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenSim.Portal.Controllers;
@@ -26,9 +24,6 @@ namespace OpenSim.Portal.Startup
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var host = Env.IsDevelopment() ? "Local" : "Docker";
-            Console.WriteLine($"Application is starting for {host} host");
-
             services
                 .AddMvc(options => options.OutputFormatters.RemoveType<JsonOutputFormatter>())
                 .AddJsonHalFormatterServices();
@@ -46,16 +41,12 @@ namespace OpenSim.Portal.Startup
             //    options.Cookie.HttpOnly = false;
             //});
 
-            services.AddDbContext<PortalDbContext>(builder => 
-                builder.UseSqlServer(Configuration[$"Data:{host}:ContentConnectionString"]));
+            services.AddContentDatabase(Configuration, Env);
+            services.AddIdentityDatabase(Configuration, Env);
 
-            //services.AddDbContext<UserDbContext>(options => options.UseInMemoryDatabase("OpenSim.Portal"));
-            services.AddDbContext<UserDbContext>(builder =>
-                builder.UseSqlServer(Configuration[$"Data:{host}:IdentityConnectionString"]));
             services.AddIdentity<User, IdentityRole<long>>()
                 .AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
-
 
             services.AddTransient<IServerRepository, ServerRepository>();
             services.AddTransient<ISimulationRepository, SimulationRepository>();
@@ -75,8 +66,13 @@ namespace OpenSim.Portal.Startup
         {
             if (Env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions { HotModuleReplacement = true );
+                app.UseDeveloperExceptionPage();
+                app.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "ClientApp";
+                    spa.UseAngularCliServer(Env.IsDevelopment() ? "start-dev" : "start-prod");
+                });
             }
             else
             {
@@ -92,14 +88,9 @@ namespace OpenSim.Portal.Startup
                 "http://localhost:5000")
                 .AllowAnyHeader());
             app.UseMvc();
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-                spa.UseAngularCliServer(Env.IsDevelopment() ? "start-dev" : "start-prod");
-            });
 
             app.Seed();
-            app.SeedContent();
+            app.SeedContent(Env.IsDevelopment());
         }
     }
 }
