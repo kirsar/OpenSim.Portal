@@ -59,6 +59,14 @@ namespace OpenSim.Portal.Startup
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
             });
+
+            services.AddCors(options => options.AddPolicy("CORS", builder => builder
+                .WithOrigins(
+                    "http://localhost:3000",
+                    "http://localhost:4200",
+                    "http://localhost:5000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,20 +87,17 @@ namespace OpenSim.Portal.Startup
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            // TODO CORS params should be passed from env after BE / FE separation in docker
-            app.UseCors(cors => cors.WithOrigins(
-                    "http://localhost:4200",
-                    "http://localhost:5000")
-                .AllowAnyHeader()); 
-
+            app.UseCors("CORS"); 
             app.UseMvc();
 
-            // TODO disable for prod. after BE / FE separartion in docker
-            app.UseSpa(spa =>
+            if (Env.IsDevelopment())
             {
-                spa.Options.SourcePath = "ClientApp";
-                spa.UseAngularCliServer(Env.IsDevelopment() ? "start-dev" : "start-prod");
-            });
+                app.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "ClientApp";
+                    spa.UseAngularCliServer("start-dev");
+                });
+            }
 
             app.Seed();
             app.SeedContent(true);
