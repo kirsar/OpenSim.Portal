@@ -9,7 +9,7 @@ function getBaseUrlFromAsp() {
 }
 
 function getBaseUrlStandAlone() {
-    return 'http://api:3000/';
+    return 'http://localhost:3000/';
 }
 
 export function getBaseUrl() {

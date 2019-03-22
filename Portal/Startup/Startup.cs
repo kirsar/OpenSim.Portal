@@ -95,7 +95,7 @@ namespace OpenSim.Portal.Startup
             });
 
             app.Seed();
-            app.SeedContent(Env.IsDevelopment());
+            app.SeedContent(true);
         }
     }
 }
