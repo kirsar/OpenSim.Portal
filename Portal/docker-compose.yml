@@ -12,12 +12,34 @@ services:
       MSSQL_PID: "Enterprise"
     networks:
       - backend
-  web:
-    build: .
+
+  api_with_app:
+    build: 
+      context: .
+      dockerfile: Dockerfile.api
     depends_on:
       - db
     networks:
       - backend
     ports:
       - 3000:80
+
+#  enable after FE / BE separation
+#  api:
+#    build: 
+#      context: .
+#      dockerfile: Dockerfile.Api
+#    depends_on:
+#      - db
+#    networks:
+#      - backend
+#    ports:
+#      - 3000:80
+
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.App
+#    ports:
+#      - 4200:4200
     

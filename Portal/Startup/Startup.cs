@@ -78,20 +78,21 @@ namespace OpenSim.Portal.Startup
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            // TODO CORS params should be passed from env after BE / FE separation in docker
             app.UseCors(cors => cors.WithOrigins(
-                "http://localhost:4200",
-                "http://localhost:5000")
-                .AllowAnyHeader());
+                    "http://localhost:4200",
+                    "http://localhost:5000")
+                .AllowAnyHeader()); 
+
             app.UseMvc();
 
-            if (Env.IsDevelopment()) // run BE and FE together in debug
+            // TODO disable for prod. after BE / FE separartion in docker
+            app.UseSpa(spa =>
             {
-                app.UseSpa(spa =>
-                {
-                    spa.Options.SourcePath = "ClientApp";
-                    spa.UseAngularCliServer(Env.IsDevelopment() ? "start-dev" : "start-prod");
-                });
-            }
+                spa.Options.SourcePath = "ClientApp";
+                spa.UseAngularCliServer(Env.IsDevelopment() ? "start-dev" : "start-prod");
+            });
 
             app.Seed();
             app.SeedContent(Env.IsDevelopment());
