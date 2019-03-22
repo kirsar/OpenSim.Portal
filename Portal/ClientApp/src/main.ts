@@ -4,12 +4,20 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-export function getBaseUrl() {
+function getBaseUrlFromAsp() {
   return document.getElementsByTagName('base')[0].href;
 }
 
-export function getBaseUrlStandAlone() {
-    return 'http://localhost:5000/';
+function getBaseUrlStandAlone() {
+    return 'http://api:3000/';
+}
+
+export function getBaseUrl() {
+    const baseUrl = environment.production ? getBaseUrlStandAlone() : getBaseUrlFromAsp();
+
+    console.log(`base url for api: ${baseUrl}`);
+
+    return baseUrl;
 }
 
 const providers = [

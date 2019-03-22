@@ -2,6 +2,7 @@
 
 networks:
   backend:
+  frontend:
 
 services:
   db:
@@ -13,22 +14,10 @@ services:
     networks:
       - backend
 
-  api_with_app:
-    build: 
-      context: .
-      dockerfile: Dockerfile.api
-    depends_on:
-      - db
-    networks:
-      - backend
-    ports:
-      - 3000:80
-
-#  enable after FE / BE separation
-#  api:
+#  api_with_app:
 #    build: 
 #      context: .
-#      dockerfile: Dockerfile.Api
+#      dockerfile: Dockerfile
 #    depends_on:
 #      - db
 #    networks:
@@ -36,10 +25,26 @@ services:
 #    ports:
 #      - 3000:80
 
-#  app:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.App
-#    ports:
-#      - 4200:4200
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    networks:
+      - backend
+      - frontend
+ #   ports:
+ #     - 3000:80
+
+  app:
+    build:
+      context: ./ClientApp
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    networks:
+      - frontend
+    ports:
+      - 4200:80
     
