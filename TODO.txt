@@ -1,7 +1,7 @@
 Portal Todo:
-    deploy in docker
     host on AWS / Azure
-    OWIN / Katana / Kestrel / Selfhost 
+    fix strange http://localhost:3000/Account/Login?ReturnUrl=%2Fapi%2Fv1%2Fservers request
+	OWIN / Katana / Kestrel / Selfhost 
     
 58  propagate relations embeddment into db context queries to load data on demand
     web api with pagination / curies
@@ -65,7 +65,8 @@ Done:
 	  fix exception in new server form
 	  fix identity problem in unit tests
 	  move data to postgres (or MS?) - moved to MS
-
+	  deploy in docker
+    
 		
 Platform Todo:
 18  think about API point plugin entry
