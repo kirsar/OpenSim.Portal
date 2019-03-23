@@ -19,7 +19,6 @@ services:
       - sqldata:/var/opt/mssql
 
   api:
-    build: . 
     image: kirsar/portal_api:latest
     depends_on:
       - db
@@ -29,12 +28,9 @@ services:
       - 3000:80
 
   app:
-    build:
-      context: ./ClientApp
-      dockerfile: Dockerfile
     image: kirsar/portal_app:latest
     depends_on:
       - api
     ports:
-      - 4200:80
+      - 80:80
     

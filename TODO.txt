@@ -1,7 +1,6 @@
 Portal Todo:
-    host on AWS / Azure
-    fix strange http://localhost:3000/Account/Login?ReturnUrl=%2Fapi%2Fv1%2Fservers request
-	OWIN / Katana / Kestrel / Selfhost 
+   
+    OWIN / Katana / Kestrel / Selfhost 
     
 58  propagate relations embeddment into db context queries to load data on demand
     web api with pagination / curies
@@ -11,7 +10,9 @@ Portal Todo:
 
 15.11 refactor new-simulation with promises (exercise in rx)
 
+    token auth for app
 	remember logged in user in cookie / session
+	use https to encrypt password
 	use HTTP_INTERCEPTOR in angular for auth
 
 	front end unit tests
@@ -20,7 +21,7 @@ Portal Todo:
 16  home page
 110 how I can use html <map>
 
-	use https to encrypt password
+    solid dev/stage/prod procedure for db and api hosts. Pass host names as params from docker-compose
 
 57  rename servers into server config, introduce runnable instance of server as separate portal entity
 57.1 allow to click play / stop (servers/server) for own server and put (or use SignalR)
@@ -66,6 +67,7 @@ Done:
 	  fix identity problem in unit tests
 	  move data to postgres (or MS?) - moved to MS
 	  deploy in docker
+	  host on AWS / Azure - hosted on azure
     
 		
 Platform Todo:

@@ -82,7 +82,8 @@ namespace OpenSim.Portal.Controllers.Server
 
         // POST: api/v1/Servers
         [HttpPost]
-        [Authorize]
+        // TODO auth is disabled until token auth is implemented for separated FE / BE
+        //[Authorize]
         public ActionResult<ServerResource> Post([FromBody] ServerResource serverResource) =>
             serverResource != null ? Get(AddToRepo(serverResource)) : BadRequest();
 

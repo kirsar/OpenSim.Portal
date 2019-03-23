@@ -64,7 +64,8 @@ namespace OpenSim.Portal.Startup
                 .WithOrigins(
                     "http://localhost:3000",
                     "http://localhost:4200",
-                    "http://localhost:5000")
+                    "http://localhost:5000",
+                    "http://opensim-portal.westeurope.cloudapp.azure.com")
                 .AllowAnyHeader()
                 .AllowAnyMethod()));
         }
