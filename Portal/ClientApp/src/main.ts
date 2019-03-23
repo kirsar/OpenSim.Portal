@@ -8,8 +8,12 @@ function getBaseUrlFromAsp() {
   return document.getElementsByTagName('base')[0].href;
 }
 
+function getBaseUrlStandAlone() {
+    return 'http://localhost:3000/';
+}
+
 export function getBaseUrl() {
-    const baseUrl = environment.production ? environment.apiHost : getBaseUrlFromAsp();
+    const baseUrl = environment.production ? getBaseUrlStandAlone() : getBaseUrlFromAsp();
 
     console.log(`base url for api: ${baseUrl}`);
 
