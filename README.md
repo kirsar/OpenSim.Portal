@@ -1,6 +1,6 @@
 # OpenSim.Web
 
-A pet project for more intensive learning of latest web technology
+A pet project for more intensive learning of latest web technology (ASP.Net Core, EF Core, REST, Angular 2+, Webpack, Docker, Azure Cloud)
 
 The project represents prototype of a web portal to configure simulated worlds for extensible simulation platform 
 
