@@ -1,31 +1,13 @@
-<div class='main-nav'>
-    <div class='navbar navbar-inverse navbar-custom'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' [routerLink]="['/home']">Open Sim</a>
-        </div>
-        <div class='clearfix'></div>
+<div class='navbar-custom'>
+    <nav class='navbar navbar-expand navbar-light'>
+        <a class='navbar-brand' [routerLink]="['/home']">Open Sim</a>
         <div class='navbar-collapse collapse'>
-            <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
+            <ul class='navbar-nav'>
+                <li class='nav-item' [routerLinkActive]="['link-active']">
+                    <a class='nav-link' [routerLink]="['/servers']">Servers</a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/servers']">
-                        <span class='glyphicon glyphicon-play'></span> Servers
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/simulations']">
-                        <span class='glyphicon glyphicon-cog'></span> Simulations
-                    </a>
+                <li class='nav-item' [routerLinkActive]="['link-active']">
+                    <a class='nav-link' [routerLink]="['/simulations']">Simulations</a>
                 </li>
                 <!--<li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/upload']">
@@ -34,5 +16,5 @@
                 </li>-->
             </ul>
         </div>
-    </div>
+    </nav>
 </div>
