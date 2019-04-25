@@ -1,16 +1,17 @@
 /* @import url(../../theme/opensim-theme.css); */
 /* TODO resolve webpack post css issue with some postcss library to enable :root css varables*/
 
-/* Customizing default bootstrap colors*/
-.navbar-custom {
-    background-color: #0d0846;
+#brand {
+    color: lightskyblue
 }
 
-/* Highlighting rules for nav menu items */
+li.nav-item a {
+    color: lightgray
+}
+
 li.link-active a,
 li.link-active a:hover,
 li.link-active a:focus {
-    background-color: rgba(169, 201, 241, 0.14);
     color: white;
 }
 

@@ -1,4 +1,4 @@
-<div id="grid" *ngIf="servers">
+<div class="row mt-4 ml-1 mr-1" *ngIf="servers">
     <div id="server-list">
         <div class="server-item" *ngFor="let server of servers">
             <expandable-list>
@@ -21,7 +21,12 @@
             </expandable-list>
         </div>
     </div>
-    
-    <new-server-form id="new-server-form" (serverCreated)="onServerCreated($event)"></new-server-form>
-</div>
+
+    <div class="col"></div>
+
+
+    <div class="col-4" id="new-server-form">
+        <new-server-form (serverCreated)="onServerCreated($event)"></new-server-form>
+    </div>
+
 

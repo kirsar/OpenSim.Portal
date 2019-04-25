@@ -1,23 +1,23 @@
-#grid {
-    display: grid;
-    grid-template-columns: 60% 40%;
-}
-
 #server-list {
-    width: 70%;
+    width: 40%;
     min-width: 300px;
-    margin-top: 20px;
-    grid-column: 1/1;
 }
 
-#new-server-form {
-    grid-column: 2/2;
-    margin-top: 20px;
+@media only screen and (max-width: 992px) {
+    #server-list {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    #new-server-form {
+        display: none;
+    }
 }
 
 #server-list expandable-list-item {
     background-color: rgba(71, 183, 32, 0.13);
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 /* some durty magic override default expander style */
