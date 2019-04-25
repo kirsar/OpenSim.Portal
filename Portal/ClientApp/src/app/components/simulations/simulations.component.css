@@ -1,5 +1,11 @@
-#new-simulation {
-    margin: 1em;
+#new-simulation-form {
+    margin: 1rem;
+}
+
+@media only screen and (max-width: 992px) {
+    #new-simulation-form {
+        display: none;
+    }
 }
 
 .item-container {
@@ -14,10 +20,17 @@
     height: 95%;
     display: block;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 4px;
     overflow: hidden;
     padding: 5%;
     background-color: rgba(81, 143, 183, 0.69);
+}
+
+/* why 546? */
+@media only screen and (max-width: 546px) {
+    .item {
+        width: 100%;
+    }
 }
 
 .presentations {
@@ -26,7 +39,7 @@
 
 .presentations expandable-list-item {
     background-color: rgba(230, 189, 53, 0.70);
-    border-radius: 6px;
+    border-radius: 4px;
     margin-bottom: 1em;
 }
 

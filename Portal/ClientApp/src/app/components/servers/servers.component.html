@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 
-                    <p class="description" item>{{ server.description }}</p>
+                    <div class="description" item>{{ server.description }}</div>
                     <a class="simulation referenced-item" item *ngFor="let simulation of server.simulations" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
                     <a class="presentation referenced-item" item *ngFor="let presentation of server.presentations" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
                 </expandable-list-item>

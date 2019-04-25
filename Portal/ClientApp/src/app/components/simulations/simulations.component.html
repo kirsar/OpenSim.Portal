@@ -1,5 +1,5 @@
 <div *ngIf="simulations">
-    <new-simulation-form id="new-simulation" (simulationCreated)="onSimulationCreated($event)"></new-simulation-form>
+    <new-simulation-form id="new-simulation-form" (simulationCreated)="onSimulationCreated($event)"></new-simulation-form>
     
     <section class="item-container">
         <figure class="item" *ngFor="let simulation of simulations">

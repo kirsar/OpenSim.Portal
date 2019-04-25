@@ -20,11 +20,6 @@
     border-radius: 4px;
 }
 
-/* some durty magic override default expander style */
-.server-item /deep/ .expandable-list-item__dropdown {
-    flex: 0 !important;
-}
-
 .server-item {
     margin-bottom: 12px;
 }
@@ -55,7 +50,8 @@
 
 .description {
     font-size: 70%;
-    margin: -24px 0 0 4%;
+    line-height: 1rem !important;
+    margin: -1rem 1rem 0 1rem  
 }
 
 .referenced-item {
