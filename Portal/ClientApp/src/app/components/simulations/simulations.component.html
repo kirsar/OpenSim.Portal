@@ -1,25 +1,23 @@
 <div *ngIf="simulations">
     <new-simulation-form id="new-simulation-form" (simulationCreated)="onSimulationCreated($event)"></new-simulation-form>
     
-    <section class="item-container">
-        <figure class="item" *ngFor="let simulation of simulations">
+    <div class="item-container">
+        <figure class="card" *ngFor="let simulation of simulations">
             <a class="link" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
 
-            <div class="presentations">
-                <expandable-list>
-                    <expandable-list-item>
-                        <span title>Presentations</span>
+            <expandable-list class="presentations" *ngIf="simulation.presentations?.length > 0">
+                <expandable-list-item>
+                    <span title>Presentations</span>
 
-                        <div class="negative-margin" item></div>
+                    <div class="negative-margin" item></div>
 
-                        <div class="presentation-item" item *ngFor="let presentation of simulation.presentations">
-                            <a class="presentation-link" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
-                        </div>
-                    </expandable-list-item>
-                </expandable-list>
-            </div>
-
+                    <div class="presentation-item" item *ngFor="let presentation of simulation.presentations">
+                        <a class="presentation-link" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
+                    </div>
+                </expandable-list-item>
+            </expandable-list>
+         
             <p class="description">{{ simulation.description }}</p>
         </figure>
-    </section>
+    </div>
 </div>
