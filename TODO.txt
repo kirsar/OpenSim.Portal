@@ -1,5 +1,7 @@
 Portal Todo:
    
+16  home page
+
     OWIN / Katana / Kestrel / Selfhost 
     
 58  propagate relations embeddment into db context queries to load data on demand
@@ -18,15 +20,11 @@ Portal Todo:
 	front end unit tests
 	front end e2e tests (selenium?)
 
-16  home page
-110 how I can use html <map>
-
     solid dev/stage/prod procedure for db and api hosts. Pass host names as params from docker-compose
 
 57  rename servers into server config, introduce runnable instance of server as separate portal entity
 57.1 allow to click play / stop (servers/server) for own server and put (or use SignalR)
 
-70  mobile adaptive ui for server list
 100 post css for webpack
 
 learning deeper:
@@ -68,7 +66,8 @@ Done:
 	  move data to postgres (or MS?) - moved to MS
 	  deploy in docker
 	  host on AWS / Azure - hosted on azure
-    
+70  mobile adaptive ui for server list
+   
 		
 Platform Todo:
 18  think about API point plugin entry
