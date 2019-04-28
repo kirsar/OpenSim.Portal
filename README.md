@@ -4,7 +4,7 @@ A pet project for more intensive learning of latest web technology (ASP.Net Core
 
 The project represents prototype of a web portal to configure simulated worlds for extensible simulation platform 
 
-The project is hosted on http://opensim-portal.westeurope.cloudapp.azure.com
+(temporary unavailable) The project is hosted on http://opensim-portal.westeurope.cloudapp.azure.com
 
 Please use following credentials to create new Server Configuration (Login: "user", Password: "User123$")
 
