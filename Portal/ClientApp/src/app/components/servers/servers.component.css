@@ -8,10 +8,13 @@
 }
 
 
-/*.column-run-status {
-    width: auto;
-    margin: 0 2%;
-}*/
+.column-author {
+    margin: 0 1rem;
+}
+
+.column-run-status {
+    margin-right: .5rem;
+}
 
 .column-run-status-running {
     color: #317a13;
@@ -21,9 +24,6 @@
     color: #ef4e38;
 }
 
-.column-author {
-    margin: 0 1rem;
-}
 
 .description {
     font-size: 70%;

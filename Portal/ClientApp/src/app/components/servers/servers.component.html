@@ -2,13 +2,13 @@
     <div class="col-12 col-lg-6" id="server-list">
         <div class="server-item card" *ngFor="let server of servers; index as i">
             <div class="pl-3 d-flex align-items-center">
-                <div class="column-run-status">
-                    <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
-                    <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
-                </div>
                 <a class="mr-auto column-name h6" [routerLink]="['/servers', server.id]">{{ server.name }}</a>
                 <div class="column-author">
                     <span class="h6">{{ server.author?.name }}</span>
+                </div>
+                <div class="column-run-status">
+                    <span *ngIf="server.isRunning" class="column-run-status-running fa fa-play"></span>
+                    <span *ngIf="!server.isRunning" class="column-run-status-stopped fa fa-stop"></span>
                 </div>
                 <button class="btn bg-transparent border-0 shadow-none" data-toggle="collapse" attr.data-target="#collapsible{{i}}">V</button>
             </div>
