@@ -1,10 +1,7 @@
 Portal Todo:
    
-16  home page
-
 58  propagate relations embeddment into db context queries to load data on demand
     web api with pagination / curies
-	use some material. For login form, replace expander?,..
 	back end L1 tests 
 	restore unit test with identity
 
@@ -22,6 +19,9 @@ Portal Todo:
 
 57  rename servers into server config, introduce runnable instance of server as separate portal entity
 57.1 allow to click play / stop (servers/server) for own server and put (or use SignalR)
+
+    clean-up bootstrap vs css or move to angular material
+	introduce 'projects' menu item
 
 100 post css for webpack
 
@@ -66,6 +66,7 @@ Done:
 	  host on AWS / Azure - hosted on azure
 70    mobile adaptive ui for server list
       OWIN / Katana / Kestrel / Selfhost 
+	  home page
 		
 Platform Todo:
 18  think about API point plugin entry
