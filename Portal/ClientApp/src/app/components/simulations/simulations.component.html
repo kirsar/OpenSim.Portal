@@ -1,22 +1,23 @@
 <div class="px-lg-3" *ngIf="simulations">
-    <new-simulation-form id="new-simulation-form" (simulationCreated)="onSimulationCreated($event)"></new-simulation-form>
+    <new-simulation-form class="d-none d-lg-block" id="new-simulation-form" (simulationCreated)="onSimulationCreated($event)"></new-simulation-form>
     
     <div class="item-container">
-        <figure class="card" *ngFor="let simulation of simulations">
+        <figure class="card" *ngFor="let simulation of simulations; index as i">
             <a class="link" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
 
-            <expandable-list class="presentations" *ngIf="simulation.presentations?.length > 0">
-                <expandable-list-item>
-                    <span title>Presentations</span>
+            <div class="presentations">
+                <div class="pl-3 d-flex align-items-center" *ngIf="simulation.presentations?.length > 0">
+                    <span class="mr-auto">Presentations</span>
+                    <button class="btn bg-transparent border-0 shadow-none" data-toggle="collapse" attr.data-target="#collapsible{{i}}">V</button>
+                </div>
 
-                    <div class="negative-margin" item></div>
-
-                    <div class="presentation-item" item *ngFor="let presentation of simulation.presentations">
+                <div class="collapse pb-1" id="collapsible{{i}}">
+                    <div class="presentation-item ml-3" item *ngFor="let presentation of simulation.presentations">
                         <a class="presentation-link" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
                     </div>
-                </expandable-list-item>
-            </expandable-list>
-         
+                </div>
+            </div>
+
             <p class="description">{{ simulation.description }}</p>
         </figure>
     </div>

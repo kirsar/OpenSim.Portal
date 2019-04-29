@@ -2,12 +2,6 @@
     margin: 1rem;
 }
 
-@media only screen and (max-width: 992px) {
-    #new-simulation-form {
-        display: none;
-    }
-}
-
 .item-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -24,19 +18,12 @@
 
 .presentations {
     margin: .2rem 0 .3rem 0;
-}
-
-.presentations expandable-list-item {
     background-color: rgba(230, 189, 53, 0.70);
     border-radius: 4px;
 }
 
 .negative-margin {
     margin-top: -1.8rem;
-}
-
-.presentation-item {
-    margin: -.75em 0 -.75em 1em;
 }
 
 .presentation-link {

@@ -2,7 +2,7 @@
 /* TODO resolve webpack post css issue with some postcss library to enable :root css varables*/
 
 #brand {
-    color: lightskyblue
+    color: #82aff5;
 }
 
 li.nav-item a {
