@@ -2,8 +2,6 @@ Portal Todo:
    
 16  home page
 
-    OWIN / Katana / Kestrel / Selfhost 
-    
 58  propagate relations embeddment into db context queries to load data on demand
     web api with pagination / curies
 	use some material. For login form, replace expander?,..
@@ -66,8 +64,8 @@ Done:
 	  move data to postgres (or MS?) - moved to MS
 	  deploy in docker
 	  host on AWS / Azure - hosted on azure
-70  mobile adaptive ui for server list
-   
+70    mobile adaptive ui for server list
+      OWIN / Katana / Kestrel / Selfhost 
 		
 Platform Todo:
 18  think about API point plugin entry

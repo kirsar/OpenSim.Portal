@@ -1,32 +1,32 @@
 <div class="row mt-4 ml-1 mr-1" *ngIf="servers">
     <div id="server-list">
-        <div class="server-item" *ngFor="let server of servers">
-            <expandable-list>
-                <expandable-list-item>
-                    <div title>
-                        <div class="column-run-status">
-                            <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
-                            <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
-                        </div>
-                        <a class="column-name" [routerLink]="['/servers', server.id]">{{ server.name }}</a>
-                        <div class="column-author">
-                            <span>{{ server.author?.name }}</span>
-                        </div>
-                    </div>
-                
-                    <div class="description" item>{{ server.description }}</div>
+        <div class="server-item" *ngFor="let server of servers; index as i">
+            <div class="d-flex justify-content-between">
+                <div class="column-run-status">
+                    <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
+                    <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
+                </div>
+                <a class="column-name" [routerLink]="['/servers', server.id]">{{ server.name }}</a>
+                <div class="column-author">
+                    <span>{{ server.author?.name }}</span>
+                </div>
+                <button class="bg-transparent border-0" type="button" data-toggle="collapse" attr.data-target="#collapsible{{i}}">V</button>
+            </div>
+
+            <div class="collapse" id="collapsible{{i}}">
+                <div class="description" item>{{ server.description }}</div>
+                <div class="d-flex flex-column">
                     <a class="simulation referenced-item" item *ngFor="let simulation of server.simulations" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
                     <a class="presentation referenced-item" item *ngFor="let presentation of server.presentations" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
-                </expandable-list-item>
-            </expandable-list>
+                </div>
         </div>
     </div>
 
     <div class="col"></div>
-
-
+    
     <div class="col-4" id="new-server-form">
         <new-server-form (serverCreated)="onServerCreated($event)"></new-server-form>
     </div>
+</div>
 
 

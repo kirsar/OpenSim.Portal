@@ -15,25 +15,25 @@
     }
 }
 
-#server-list expandable-list-item {
+#server-list div.server-item {
     background-color: rgba(71, 183, 32, 0.13);
     border-radius: 4px;
 }
 
 .server-item {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
-.column-name {
+/*.column-name {
     float: left;
     text-decoration: none;
-}
+}*/
 
-.column-run-status {
+/*.column-run-status {
     float: left;
     width: auto;
     margin: 0 2%;
-}
+}*/
 
 .column-run-status-running {
     color: #317a13;
@@ -50,8 +50,6 @@
 
 .description {
     font-size: 70%;
-    line-height: 1rem !important;
-    margin: -1rem 1rem 0 1rem  
 }
 
 .referenced-item {
@@ -59,7 +57,7 @@
     margin-bottom: 4px;
     margin-left: 20px;
     margin-right: 20px;
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 .simulation {
