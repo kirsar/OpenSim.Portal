@@ -23,6 +23,7 @@
 
 .cards {
     padding-top: 2rem;
+    padding-bottom: 2em;
 }
 
 @media (min-width: 992px) {
