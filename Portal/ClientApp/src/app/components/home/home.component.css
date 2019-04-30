@@ -1,5 +1,5 @@
 .masterhead {
-    background: url("/assets/images/training_center.jpg");
+    background: url("/assets/images/splash.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -39,4 +39,5 @@
     padding-left: 2rem;
     padding-right: 2rem;
 }
+
 
