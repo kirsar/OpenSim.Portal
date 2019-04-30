@@ -1,0 +1,42 @@
+.masterhead {
+    background: url("/assets/images/training_center.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+
+/*@include media-breakpoint-up(lg) {*/
+    height: 100vh;
+    padding-bottom: 0;
+}
+
+#heading {
+    margin-bottom: 12rem;
+}
+
+@media (min-width: 992px) {
+    #heading {
+        font-weight: 400;
+    }
+}
+
+
+.cards {
+    padding-top: 2rem;
+}
+
+@media (min-width: 992px) {
+    .cards {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+.card-holder {
+    padding-top: 2em;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+

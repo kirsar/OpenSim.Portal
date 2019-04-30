@@ -21,7 +21,6 @@ Portal Todo:
 57.1 allow to click play / stop (servers/server) for own server and put (or use SignalR)
 
     clean-up bootstrap vs css or move to angular material
-	introduce 'projects' menu item
 
 100 post css for webpack
 
