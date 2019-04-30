@@ -11,6 +11,10 @@
         "e2e": "ng e2e"
     },
     "private": true,
+    "dependenciesComments": {
+        "jquery": "is needed for bootstrap 4 only",
+        "popper.js": "is needed for bootstrap 4 only"
+    },
     "dependencies": {
         "@angular/animations": "~7.1.0",
         "@angular/common": "~7.1.0",
@@ -20,11 +24,14 @@
         "@angular/platform-browser": "~7.1.0",
         "@angular/platform-browser-dynamic": "~7.1.0",
         "@angular/router": "~7.1.0",
-        "angular2-expandable-list": "^0.5.0",
+        "angular-font-awesome": "^3.1.2",
         "angular4-hal": "~7.5.0",
-        "bootstrap": "^3.0.0",
+        "bootstrap": "^4.0.0",
         "core-js": "^2.5.4",
+        "font-awesome": "^4.7.0",
+        "jquery": "~1.9.1",
         "ngx-file-drop": "^5.0.0",
+        "popper.js": "~1.14.7",
         "rxjs": "~6.3.3",
         "tslib": "^1.9.0",
         "zone.js": "~0.8.26"

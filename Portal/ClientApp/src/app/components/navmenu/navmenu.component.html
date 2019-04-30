@@ -1,38 +1,16 @@
-<div class='main-nav'>
-    <div class='navbar navbar-inverse navbar-custom'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' [routerLink]="['/home']">Open Sim</a>
-        </div>
-        <div class='clearfix'></div>
-        <div class='navbar-collapse collapse'>
-            <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/servers']">
-                        <span class='glyphicon glyphicon-play'></span> Servers
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/simulations']">
-                        <span class='glyphicon glyphicon-cog'></span> Simulations
-                    </a>
-                </li>
-                <!--<li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/upload']">
-                        <span class='glyphicon glyphicon-upload'></span> Craft Your Sim
-                    </a>
-                </li>-->
-            </ul>
-        </div>
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+    <a class="nav-link" id="brand" [routerLink]="['/home']">Open Sim</a>
+    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav collapsed">
+            <li class="nav-item ml-3 ml-lg-0" data-toggle="collapse" data-target=".navbar-collapse.show" [routerLinkActive]="['link-active']">
+                <a class="nav-link" [routerLink]="['/servers']">Servers</a>
+            </li>
+            <li class="nav-item ml-3 ml-lg-0" data-toggle="collapse" data-target=".navbar-collapse.show" [routerLinkActive]="['link-active']">
+                <a class="nav-link" [routerLink]="['/simulations']">Simulations</a>
+            </li>
+        </ul>
     </div>
-</div>
+</nav>

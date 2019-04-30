@@ -1,3 +1,7 @@
+#name {
+    margin-top: 1rem;
+}
+
 .items-container {
     display: grid;
     grid-template-columns: 40% auto;
@@ -15,4 +19,3 @@
 .group-header {
     margin-top: 2em;
 }
-    

@@ -1,13 +1,15 @@
-<div class='container-fluid'>
-    <div class='row'>
-        <div class='col-sm-3'>
-            <nav-menu></nav-menu>
-        </div>
-        <div class='col-sm-9 body-content'>
-            <div class="bg-danger text-white text-center p-2 m-2">
+<div class="row">
+    <div class="col no-gutters">
+        <nav-menu></nav-menu>
+    </div>
+</div>
+<div class="container-fluid body-content">
+    <div class="row">
+        <div class="col px-0">
+            <div *ngIf="errors" class="bg-danger text-white text-center p-2 m-2">
                 <h6 *ngFor="let error of errors">{{error}}</h6>
             </div>
-            
+
             <router-outlet></router-outlet>
         </div>
     </div>

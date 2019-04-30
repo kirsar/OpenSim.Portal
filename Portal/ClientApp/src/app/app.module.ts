@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { ExpandableListModule } from 'angular2-expandable-list';
 import { FileDropModule } from 'ngx-file-drop';
 import { AngularHalModule } from 'angular4-hal';
 
@@ -56,7 +55,6 @@ import { PresentationComponent } from './components/presentation/presentation.co
         CommonModule,
         HttpClientModule,
         FormsModule,
-        ExpandableListModule,
         FileDropModule,
         AngularHalModule.forRoot(),
         RouterModule.forRoot([

@@ -1,27 +1,33 @@
-<div id="grid" *ngIf="servers">
-    <div id="server-list">
-        <div class="server-item" *ngFor="let server of servers">
-            <expandable-list>
-                <expandable-list-item>
-                    <div title>
-                        <div class="column-run-status">
-                            <span *ngIf="server.isRunning" class="column-run-status-running glyphicon glyphicon-play"></span>
-                            <span *ngIf="!server.isRunning" class="column-run-status-stopped glyphicon glyphicon-stop"></span>
-                        </div>
-                        <a class="column-name" [routerLink]="['/servers', server.id]">{{ server.name }}</a>
-                        <div class="column-author">
-                            <span>{{ server.author?.name }}</span>
-                        </div>
-                    </div>
-                
-                    <p class="description" item>{{ server.description }}</p>
-                    <a class="simulation referenced-item" item *ngFor="let simulation of server.simulations" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
-                    <a class="presentation referenced-item" item *ngFor="let presentation of server.presentations" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
-                </expandable-list-item>
-            </expandable-list>
+<div class="row no-gutters p-2 p-lg-4 mt-4" *ngIf="servers">
+    <div class="col-12 col-lg-6" id="server-list">
+        <div class="server-item card" *ngFor="let server of servers; index as i">
+            <div class="pl-3 d-flex align-items-center">
+                <a class="mr-auto column-name h6" [routerLink]="['/servers', server.id]">{{ server.name }}</a>
+                <div class="column-author">
+                    <span class="h6">{{ server.author?.name }}</span>
+                </div>
+                <div class="column-run-status">
+                    <span *ngIf="server.isRunning" class="column-run-status-running fa fa-play"></span>
+                    <span *ngIf="!server.isRunning" class="column-run-status-stopped fa fa-stop"></span>
+                </div>
+                <button class="btn bg-transparent border-0 shadow-none" data-toggle="collapse" attr.data-target="#collapsible{{i}}">V</button>
+            </div>
+
+            <div class="collapse pb-1" id="collapsible{{i}}">
+                <div class="px-4 description" item>{{ server.description }}</div>
+                <div class="d-flex flex-column">
+                    <a class="p-1 simulation referenced-item" item *ngFor="let simulation of server.simulations" [routerLink]="['/simulations/' + simulation.id]">{{ simulation.name }}</a>
+                    <a class="p-1 presentation referenced-item" item *ngFor="let presentation of server.presentations" [routerLink]="['/presentations/' + presentation.id]">{{ presentation.name }}</a>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <new-server-form id="new-server-form" (serverCreated)="onServerCreated($event)"></new-server-form>
+
+    <div class="col"></div>
+
+    <div class="col-5 d-none d-lg-block" id="new-server-form">
+        <new-server-form (serverCreated)="onServerCreated($event)"></new-server-form>
+    </div>
 </div>
+
 

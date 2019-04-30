@@ -1,41 +1,29 @@
-#new-simulation {
-    margin: 1em;
+#new-simulation-form {
+    margin: 1rem;
 }
 
 .item-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(320px, 1fr));
     margin-top: 1em;
 }
 
-.item {
-    width: 95%;
-    height: 95%;
-    display: block;
-    object-fit: cover;
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 5%;
+.card {
+    border-radius: 4px;
     background-color: rgba(81, 143, 183, 0.69);
+    margin: .3rem;
+    padding: 1rem;
 }
 
 .presentations {
-    margin: .5em 0;
-}
-
-.presentations expandable-list-item {
+    margin: .2rem 0 .3rem 0;
     background-color: rgba(230, 189, 53, 0.70);
-    border-radius: 6px;
-    margin-bottom: 1em;
+    border-radius: 4px;
 }
 
 .negative-margin {
-    margin-top: -24px;
-}
-
-.presentation-item {
-    margin: -.75em 0 -.75em 1em;
+    margin-top: -1.8rem;
 }
 
 .presentation-link {
