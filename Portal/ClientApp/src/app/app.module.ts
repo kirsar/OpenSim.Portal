@@ -5,6 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+
+import {FlexLayoutModule, FlexAlignDirective} from "@angular/flex-layout";
+
 import { FileDropModule } from 'ngx-file-drop';
 import { AngularHalModule } from 'angular4-hal';
 
@@ -55,6 +61,14 @@ import { PresentationComponent } from './components/presentation/presentation.co
         CommonModule,
         HttpClientModule,
         FormsModule,
+        BrowserAnimationsModule,
+        LayoutModule,
+        MatToolbarModule, 
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        FlexLayoutModule,
         FileDropModule,
         AngularHalModule.forRoot(),
         RouterModule.forRoot([

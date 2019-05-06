@@ -5,13 +5,13 @@
     color: #82aff5;
 }
 
-li.nav-item a {
-    color: lightgray
+mat-toolbar a {
+    color: lightgray;
+    margin: 0 1rem;
+    text-decoration: none;
 }
 
-li.link-active a,
-li.link-active a:hover,
-li.link-active a:focus {
+mat-toolbar a.link-active  {
     color: white;
 }
 
