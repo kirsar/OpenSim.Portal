@@ -1,4 +1,4 @@
-<mat-toolbar>
+<!-- <mat-toolbar>
     <mat-toolbar-row>
         <a id="brand" [routerLink]="['/home']">Open Sim</a>
 
@@ -7,6 +7,27 @@
             <a [routerLink]="['/simulations']" [routerLinkActive]="['link-active']">Simulations</a>  
         </div>
     </mat-toolbar-row>
+</mat-toolbar> -->
+
+<mat-toolbar>
+    <button fxHide.gt-sm mat-icon-button 
+        [matMenuTriggerFor]="menu" (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <a id="brand" [routerLink]="['/home']">Open Sim</a>
+   
+    <div fxHide.lt-md>
+        <a [routerLink]="['/servers']" [routerLinkActive]="['link-active']">Servers</a>
+        <a [routerLink]="['/simulations']" [routerLinkActive]="['link-active']">Simulations</a>  
+    </div>
+
+    <mat-menu #menu="matMenu">
+        <a mat-menu-item [routerLink]="['/servers']" [routerLinkActive]="['link-active']">Servers</a>
+        <a mat-menu-item [routerLink]="['/simulations']" [routerLinkActive]="['link-active']">Simulations</a>
+    </mat-menu>
+
+   
 </mat-toolbar>
 
 <!-- <mat-sidenav-container class="sidenav-container">

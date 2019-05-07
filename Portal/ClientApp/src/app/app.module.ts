@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { MatToolbarModule, MatMenuModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 
 import {FlexLayoutModule, FlexAlignDirective} from "@angular/flex-layout";
 
@@ -64,6 +64,7 @@ import { PresentationComponent } from './components/presentation/presentation.co
         BrowserAnimationsModule,
         LayoutModule,
         MatToolbarModule, 
+        MatMenuModule,
         MatButtonModule,
         MatSidenavModule,
         MatIconModule,
