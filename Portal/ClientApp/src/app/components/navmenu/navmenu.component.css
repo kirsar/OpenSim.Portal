@@ -5,6 +5,12 @@
     color: #82aff5;
 }
 
+mat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
 mat-toolbar a {
     color: lightgray;
     margin: 0 1rem;

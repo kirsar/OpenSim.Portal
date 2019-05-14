@@ -1,17 +1,21 @@
-.masterhead {
+#masterhead {
     background: url("/assets/images/splash.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-size: cover;
-
-/*@include media-breakpoint-up(lg) {*/
-    height: 100vh;
-    padding-bottom: 0;
+    /* why needed? */
+    padding-top: 1rem; 
+    height: calc(100vh - 64px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 #heading {
     margin-bottom: 12rem;
+    text-transform: uppercase;
+    font-size: 3rem;
 }
 
 @media (min-width: 992px) {
@@ -19,7 +23,6 @@
         font-weight: 400;
     }
 }
-
 
 .cards {
     padding-top: 2rem;
@@ -35,10 +38,10 @@
     }
 }
 
-.card-holder {
-    padding-top: 2em;
-    padding-left: 2rem;
-    padding-right: 2rem;
+.card {
+    /* padding-top: 2em; */
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
 
 
